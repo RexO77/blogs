@@ -142,6 +142,73 @@
         }
     }
     
+    // Performance: Theme management
+    function initThemeManager() {
+        const html = document.documentElement;
+        
+        // Get saved theme or system preference
+        function getInitialTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                return savedTheme;
+            }
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        
+        // Update theme text immediately
+        function updateThemeText(theme) {
+            const themeText = document.querySelector('.theme-text');
+            if (themeText) {
+                themeText.textContent = theme === 'dark' ? 'Dark' : 'Light';
+            }
+        }
+        
+        // Ensure text is updated with multiple attempts
+        function ensureTextUpdate(theme) {
+            updateThemeText(theme);
+            // Try again after a micro-task delay
+            setTimeout(() => updateThemeText(theme), 0);
+            // Try again after DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => updateThemeText(theme), { once: true });
+            }
+        }
+        
+        // Apply theme with instant text update
+        function setTheme(theme) {
+            html.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            ensureTextUpdate(theme);
+        }
+        
+        // Toggle theme with instant text update
+        function toggleTheme() {
+            const currentTheme = html.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+        }
+        
+        // Initialize theme immediately
+        const initialTheme = getInitialTheme();
+        setTheme(initialTheme);
+        
+        // Add event listener when DOM is ready
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', toggleTheme);
+        }
+        
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                const newTheme = e.matches ? 'dark' : 'light';
+                setTheme(newTheme);
+            }
+        });
+        
+
+    }
+    
     // Performance: Analytics optimization
     function optimizeAnalytics() {
         // Defer analytics loading
@@ -207,6 +274,9 @@
             document.documentElement.classList.add('page-loaded');
         });
     }
+    
+    // Initialize theme manager immediately (don't wait for DOM)
+    initThemeManager();
     
     // Performance: Use DOMContentLoaded for faster initialization
     if (document.readyState === 'loading') {
