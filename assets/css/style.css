@@ -1,17 +1,36 @@
 /* --- Global Styles & Variables --- */
+/* --- Local Font Declarations --- */
+@font-face {
+    font-family: 'Satoshi';
+    src: url('/fonts/Satoshi-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Unbounded';
+    src: url('/fonts/Unbounded-VariableFont_wght.ttf') format('truetype-variations');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --background-color: #F8F7F3;
     --text-color: #1a1a1a;
     --accent-color-yellow: #FFD700;
     --accent-color-blue: #0099FF;
+    --font-body: 'Satoshi', sans-serif;
+    --font-heading: 'Unbounded', sans-serif;
 }
 
 body {
     background-color: var(--background-color);
     color: var(--text-color);
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     margin: 0;
-    padding: 0;
+    padding-top: 80px; /* Account for fixed header */
 }
 
 .container {
@@ -30,8 +49,24 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 30px 0;
-    position: relative; /* Needed for absolute positioning of nav */
+    padding: 20px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(248, 247, 243, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1000;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Header scroll effect */
+.site-header.scrolled {
+    background: rgba(248, 247, 243, 0.98);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
 }
 
 .logo {
@@ -140,4 +175,5 @@ a {
 .post-content .content {
     font-size: 1.1rem;
     line-height: 1.7;
+    font-family: var(--font-body);
 } 

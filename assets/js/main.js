@@ -159,6 +159,20 @@
         });
     }
     
+    // Performance: Sticky header scroll effect
+    function initStickyHeader() {
+        const header = document.querySelector('.site-header');
+        if (header) {
+            window.addEventListener('scroll', throttle(() => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            }, 10));
+        }
+    }
+    
     // Performance: Initialize everything when DOM is ready
     function init() {
         // Preload critical resources
@@ -172,6 +186,9 @@
         
         // Initialize loading states
         initLoadingStates();
+        
+        // Initialize sticky header
+        initStickyHeader();
         
         // Optimize images
         optimizeImages();

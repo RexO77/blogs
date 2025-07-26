@@ -1,0 +1,44 @@
+{
+  "htmlElements": {
+    "tags": [
+      "a",
+      "article",
+      "body",
+      "br",
+      "div",
+      "h1",
+      "h2",
+      "head",
+      "header",
+      "html",
+      "li",
+      "link",
+      "main",
+      "meta",
+      "nav",
+      "p",
+      "script",
+      "span",
+      "style",
+      "time",
+      "title",
+      "ul"
+    ],
+    "classes": [
+      "container",
+      "content",
+      "glass-button",
+      "hero-headline",
+      "hero-section",
+      "interactive-arrow",
+      "interactive-o",
+      "logo",
+      "post-content",
+      "post-item",
+      "post-list",
+      "post-meta",
+      "site-header"
+    ],
+    "ids": null
+  }
+}
