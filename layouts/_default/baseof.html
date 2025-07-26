@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+    
+    <!-- Link to your custom CSS file -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Fonts from Google to match the style -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="site-header">
+            <a class="logo" href="{{ .Site.Home.Permalink }}">IDEA LAB</a>
+            <nav>
+                <a href="https://www.nischalskanda.tech/" target="_blank" rel="noopener noreferrer" class="glass-button">Main Site</a>
+            </nav>
+        </header>
+        
+        <main>
+            <!-- Page content will be injected here -->
+            {{ block "main" . }}{{ end }}
+        </main>
+    </div>
+    
+    {{ $js := resources.Get "js/main.jsx" | js.Build (dict "format" "iife") }}
+    <script src="{{ $js.RelPermalink }}" defer></script>
+
+    <!-- Vercel Analytics -->
+    <script defer src="https://vercel.com/analytics/script.js"></script>
+</body>
+</html>

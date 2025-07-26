@@ -1,0 +1,10 @@
+baseURL = "https://blog.nischalskanda.tech/"
+languageCode = "en-us"
+title = "IDEA LAB"
+theme = ""
+
+[pagination]
+  pagerSize = 5
+
+[params]
+  description = "A space for ideas, design, and technology."
