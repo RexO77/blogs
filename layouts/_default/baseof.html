@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
     
-    <!-- Link to your custom CSS file -->
-    <link rel="stylesheet" href="/css/style.css">
+    <!-- Optimized & fingerprinted CSS -->
+    {{ $style := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
     
     <!-- Fonts from Google to match the style -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,8 +29,8 @@
         </main>
     </div>
     
-    {{ $js := resources.Get "js/main.jsx" | js.Build (dict "format" "iife") }}
-    <script src="{{ $js.RelPermalink }}" defer></script>
+    {{ $js := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint }}
+    <script src="{{ $js.RelPermalink }}" defer integrity="{{ $js.Data.Integrity }}"></script>
 
     <!-- Vercel Analytics -->
     <script defer src="https://vercel.com/analytics/script.js"></script>
