@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>IDEA LAB</title>
-    <link>http://localhost:1313/</link>
+    <link>https://blog.nischalskanda.tech/</link>
     <description>Recent content on IDEA LAB</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 25 Jul 2025 21:00:00 +0530</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://blog.nischalskanda.tech/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>My First Post on This Awesome New Blog</title>
-      <link>http://localhost:1313/posts/my-first-post/</link>
+      <link>https://blog.nischalskanda.tech/posts/my-first-post/</link>
       <pubDate>Fri, 25 Jul 2025 21:00:00 +0530</pubDate>
-      <guid>http://localhost:1313/posts/my-first-post/</guid>
+      <guid>https://blog.nischalskanda.tech/posts/my-first-post/</guid>
       <description>&lt;p&gt;This is the beginning of my new blog. The design is inspired by a clean, modern aesthetic with interactive elements.&lt;/p&gt;&#xA;&lt;p&gt;Here, I&amp;rsquo;ll write about:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Web Design&lt;/li&gt;&#xA;&lt;li&gt;Technology&lt;/li&gt;&#xA;&lt;li&gt;Creative Ideas&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Stay tuned for more!&lt;/p&gt;</description>
     </item>
   </channel>

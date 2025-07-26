@@ -45,7 +45,7 @@ cd blog.nischalskanda.tech
 ```
 hugo server
 ```
-Visit [http://localhost:1313/](http://localhost:1313/) in your browser.
+Visit [https://blog.nischalskanda.tech/](https://blog.nischalskanda.tech/) in your browser.
 
 ### 4. Add Your First Post
 ```
