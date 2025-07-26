@@ -23,9 +23,9 @@ blog.nischalskanda.tech/
 │       ├── baseof.html    # Main HTML skeleton
 │       ├── list.html      # Homepage/blog list template
 │       └── single.html    # Single post template
-├── static/
+├── assets/
 │   └── css/
-│       └── style.css      # Custom CSS
+│       └── style.css      # Custom CSS (processed via Hugo Pipes)
 ├── hugo.toml              # Main site configuration
 └── ... (other Hugo folders)
 ```
@@ -71,7 +71,7 @@ title = "IDEA LAB"
 ## Customization
 - **Homepage Headline**: Edit `layouts/_default/list.html` for the hero section.
 - **Navigation**: Change links in `layouts/_default/baseof.html`.
-- **Styles**: Tweak `static/css/style.css` for colors, fonts, and layout.
+- **Styles**: Tweak `assets/css/style.css` for colors, fonts, and layout.
 - **Fonts**: Google Fonts are loaded in `baseof.html`.
 - **Interactive Elements**: The `.interactive-o` and `.interactive-arrow` spans in the hero headline are styled with CSS. Replace with SVG or 3D embeds as desired.
 
@@ -79,7 +79,7 @@ title = "IDEA LAB"
 - `archetypes/default.md`: Template for new posts (auto-filled front matter).
 - `content/posts/`: Your blog posts in Markdown.
 - `layouts/_default/`: Main HTML templates (base, list, single).
-- `static/css/style.css`: All custom styles.
+- `assets/css/style.css`: All custom styles.
 - `hugo.toml`: Site config.
 
 ## Deployment
