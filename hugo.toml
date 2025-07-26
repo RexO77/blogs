@@ -8,3 +8,4 @@ theme = ""
 
 [params]
   description = "A space for ideas, design, and technology."
+  mainSiteURL = "https://www.nischalskanda.tech/"

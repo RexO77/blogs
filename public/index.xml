@@ -1,8 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IDEA LABS</title><link>https://blog.nischalskanda.tech/</link><description>Recent content on IDEA LABS</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 25 Jul 2025 21:00:00 +0530</lastBuildDate><atom:link href="https://blog.nischalskanda.tech/index.xml" rel="self" type="application/rss+xml"/><item><title>My First Post on This Awesome New Blog</title><link>https://blog.nischalskanda.tech/posts/my-first-post/</link><pubDate>Fri, 25 Jul 2025 21:00:00 +0530</pubDate><guid>https://blog.nischalskanda.tech/posts/my-first-post/</guid><description>&lt;p>This is the beginning of my new blog. The design is inspired by a clean, modern aesthetic with interactive elements.&lt;/p>
-&lt;p>Here, I&amp;rsquo;ll write about:&lt;/p>
-&lt;ul>
-&lt;li>Web Design&lt;/li>
-&lt;li>Technology&lt;/li>
-&lt;li>Creative Ideas&lt;/li>
-&lt;/ul>
-&lt;p>Stay tuned for more!&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>IDEA LABS</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on IDEA LABS</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 25 Jul 2025 21:00:00 +0530</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My First Post on This Awesome New Blog</title>
+      <link>http://localhost:1313/posts/my-first-post/</link>
+      <pubDate>Fri, 25 Jul 2025 21:00:00 +0530</pubDate>
+      <guid>http://localhost:1313/posts/my-first-post/</guid>
+      <description>&lt;p&gt;This is the beginning of my new blog. The design is inspired by a clean, modern aesthetic with interactive elements.&lt;/p&gt;&#xA;&lt;p&gt;Here, I&amp;rsquo;ll write about:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Web Design&lt;/li&gt;&#xA;&lt;li&gt;Technology&lt;/li&gt;&#xA;&lt;li&gt;Creative Ideas&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Stay tuned for more!&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -7,22 +7,32 @@
     
     
     
-    <link rel="stylesheet" href="/css/style.min.22acc40c0c23198bbb9f870f1c2b59b86b86c1b2a607bf17dd1a1cc7406fbbe7.css" integrity="sha256-IqzEDAwjGYu7n4cPHCtZuGuGwbKmB78X3Rocx0Bvu&#43;c=">
+    <link rel="stylesheet" href="/css/style.min.4726934928e94bdf2f29795b668b3b5c76912acba0a2f6a0bd7a90d704712c50.css" integrity="sha256-RyaTSSjpS98vKXlbZos7XHaRKsugovagvXqQ1wRxLFA=">
     
     
     <link rel="preload" href="/fonts/Satoshi-Regular.otf" as="font" type="font/otf" crossorigin>
     <link rel="preload" href="/fonts/Unbounded-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+    
+    
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 
+                         (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
 </head>
 <body>
     <div class="container">
         <header class="site-header">
+            
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                <span class="theme-text-light">Light</span>
+                <span class="theme-text-dark">Dark</span>
+            </button>
+            
+            
             <a class="logo" href="http://localhost:1313/">IDEA LABS</a>
-            <nav>
-                <button id="theme-toggle" class="theme-toggle-text" aria-label="Toggle dark mode">
-                    <span class="theme-text">Light</span>
-                </button>
-                <a href="https://www.nischalskanda.tech/" target="_blank" rel="noopener noreferrer" class="glass-button">Main Site</a>
-            </nav>
         </header>
         
         <main>
@@ -50,7 +60,7 @@
     </div>
     
     
-    <script src="/js/main.min.3f30955ebfeb2ecdf8ba8e7f59ef64070352218ab753760b697ac8f17b9c33d3.js" defer integrity="sha256-PzCVXr/rLs34uo5/We9kBwNSIYq3U3YLaXrI8XucM9M="></script>
+    <script src="/js/main.min.e5722761d4c194aff5c34498114ac6c2acf9c622433fe314a3377204e67f3ff5.js" defer integrity="sha256-5XInYdTBlK/1w0SYEUrGwqz5xiJDP&#43;MUozdyBOZ/P/U="></script>
 
     
     <script defer src="https://vercel.com/analytics/script.js"></script>

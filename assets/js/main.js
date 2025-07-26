@@ -142,71 +142,42 @@
         }
     }
     
-    // Performance: Theme management
+        // Performance: Theme management - CSS-controlled text display
     function initThemeManager() {
         const html = document.documentElement;
         
-        // Get saved theme or system preference
-        function getInitialTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                return savedTheme;
+        // Get current theme immediately
+        let currentTheme = localStorage.getItem('theme') || 
+                          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        
+        // Theme toggle click handler - no text manipulation needed
+        function setupThemeToggle() {
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function() {
+                    // Toggle theme
+                    currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    
+                    // Apply theme change - CSS handles text display automatically
+                    html.setAttribute('data-theme', currentTheme);
+                    localStorage.setItem('theme', currentTheme);
+                });
             }
-            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
-        
-        // Update theme text immediately
-        function updateThemeText(theme) {
-            const themeText = document.querySelector('.theme-text');
-            if (themeText) {
-                themeText.textContent = theme === 'dark' ? 'Dark' : 'Light';
-            }
-        }
-        
-        // Ensure text is updated with multiple attempts
-        function ensureTextUpdate(theme) {
-            updateThemeText(theme);
-            // Try again after a micro-task delay
-            setTimeout(() => updateThemeText(theme), 0);
-            // Try again after DOM is ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', () => updateThemeText(theme), { once: true });
-            }
-        }
-        
-        // Apply theme with instant text update
-        function setTheme(theme) {
-            html.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-            ensureTextUpdate(theme);
-        }
-        
-        // Toggle theme with instant text update
-        function toggleTheme() {
-            const currentTheme = html.getAttribute('data-theme') || 'light';
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            setTheme(newTheme);
-        }
-        
-        // Initialize theme immediately
-        const initialTheme = getInitialTheme();
-        setTheme(initialTheme);
-        
-        // Add event listener when DOM is ready
-        const themeToggle = document.getElementById('theme-toggle');
-        if (themeToggle) {
-            themeToggle.addEventListener('click', toggleTheme);
         }
         
         // Listen for system theme changes
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
             if (!localStorage.getItem('theme')) {
-                const newTheme = e.matches ? 'dark' : 'light';
-                setTheme(newTheme);
+                currentTheme = e.matches ? 'dark' : 'light';
+                html.setAttribute('data-theme', currentTheme);
             }
         });
         
-
+        // Setup toggle when DOM is ready, but also try immediately
+        setupThemeToggle();
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupThemeToggle);
+        }
     }
     
     // Performance: Analytics optimization
