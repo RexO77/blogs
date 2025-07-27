@@ -1,7 +1,6 @@
 baseURL = "https://blog.nischalskanda.tech/"
 languageCode = "en-us"
 title = "IDEA LABS - Nischal Skanda's Tech Blog"
-theme = ""
 enableRobotsTXT = true
 enableGitInfo = true
 canonifyURLs = true
