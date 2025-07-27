@@ -92,9 +92,19 @@ I’m not ready to let my brain turn into a sad pudding cup. Science has a game 
 - **Why It Saves Me**: A 2023 study says daily exercise pumps up memory and attention, maybe even stopping 3% of dementia cases [7]. Screw you, AI!
 - **How-To**: Hit the park, try yoga, or dance like I’m in a bad rom-com. My brain’s doing high-fives already.
 
+## The Tech Designer's Perspective
+
+As someone who designs digital experiences, I see this cognitive crisis from both sides. We're creating tools that make life easier but potentially making our minds weaker. The challenge isn't to reject AI—it's to design better relationships with it.
+
+In my work designing user interfaces and digital products, I've learned that the best technology amplifies human capability rather than replacing it. We need the same approach with AI: tools that enhance our thinking, not eliminate it.
+
+**Want to see how thoughtful design can create better human-tech relationships?** [Check out my portfolio](https://www.nischalskanda.tech) to see examples of technology that empowers rather than diminishes human potential.
+
 ## Conclusion
 
-Holy crap, we’re idiots. AI’s got us wrapped around its digital finger, turning our brains into sad, lumpy goo while we’re too busy swiping to care. MIT’s 55% neural crash and 83% memory wipeout, plus 75% of students losing their thinking chops, hit harder than my last bar fight. But I’m not done yet! By keeping AI as my wingman, calling out its bullshit, working my brain, unplugging, setting rules, and getting my ass moving, I can keep my mind kicking. Let’s not let AI drag us to Dumbassville—our brains deserve a fighting chance, dammit.
+Holy crap, we're idiots. AI's got us wrapped around its digital finger, turning our brains into sad, lumpy goo while we're too busy swiping to care. MIT's 55% neural crash and 83% memory wipeout, plus 75% of students losing their thinking chops, hit harder than my last bar fight. But I'm not done yet! By keeping AI as my wingman, calling out its bullshit, working my brain, unplugging, setting rules, and getting my ass moving, I can keep my mind kicking. Let's not let AI drag us to Dumbassville—our brains deserve a fighting chance, dammit.
+
+The future of human-AI interaction depends on thoughtful design and conscious choices. As designers and technologists, we have a responsibility to create tools that enhance rather than diminish human intelligence.
 
 ## References
 

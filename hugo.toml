@@ -1,23 +1,90 @@
 baseURL = "https://blog.nischalskanda.tech/"
 languageCode = "en-us"
-title = "IDEA LABS"
+title = "IDEA LABS - Nischal Skanda's Tech Blog"
+theme = ""
+enableRobotsTXT = true
+enableGitInfo = true
+canonifyURLs = true
+
+# SEO and Performance
+[sitemap]
+  changefreq = "weekly"
+  priority = 0.5
+  filename = "sitemap.xml"
 
 [pagination]
   pagerSize = 5
 
 [params]
-  description = "A space for ideas, design, and technology."
+  # Basic Info
+  description = "Explore cutting-edge ideas in AI, technology, and design. Nischal Skanda shares insights on cognitive science, brain health, and the future of human-AI interaction."
+  keywords = ["AI", "Technology", "Cognitive Science", "Brain Health", "Design", "Innovation", "Nischal Skanda", "Portfolio", "Tech Blog"]
+  author = "Nischal Skanda"
   mainSiteURL = "https://www.nischalskanda.tech/"
-
+  
+  # SEO
+  metaTitle = "IDEA LABS - Tech Insights by Nischal Skanda"
+  metaDescription = "Discover innovative perspectives on AI, technology, and design from Nischal Skanda. Expert insights on cognitive science, brain health, and human-computer interaction."
+  
+  # Social Media
+  twitter = "@nischalskanda"  # Add your Twitter handle
+  linkedin = "nischalskanda"  # Add your LinkedIn username
+  github = "RexO77"          # Your GitHub username
+  
+  # Open Graph / Social Media
+  ogImage = "/images/og-image.jpg"  # We'll create this
+  twitterCard = "summary_large_image"
+  
+  # Schema.org
+  schemaType = "Blog"
+  schemaAuthor = "Nischal Skanda"
+  schemaPublisher = "IDEA LABS"
+  
+  # Analytics (add your tracking IDs)
+  googleAnalytics = ""  # Add your GA4 tracking ID
+  
+  # Performance
+  lazyLoading = true
+  
 [imaging]
-  # Default image processing quality (0-100)
+  # Optimized image settings for performance
   quality = 85
-  # Resample filter used for resizing (Box, NearestNeighbor, Linear, MitchellNetravali, CatmullRom, BSpline, Gaussian, Lanczos, Hann, Hamming, Blackman, Bartlett, Welch, Cosine)
   resampleFilter = "Lanczos"
-  # Default JPEG or WebP quality setting (0-100)
   hint = "photo"
+  anchor = "Smart"
+  
+  # Generate WebP versions for better performance
+  [imaging.webp]
+    quality = 85
 
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+  [markup.highlight]
+    style = "github"
+    lineNos = true
+    codeFences = true
+
+# Menu configuration for better navigation
+[menu]
+  [[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 10
+  [[menu.main]]
+    name = "Posts"
+    url = "/posts/"
+    weight = 20
+  [[menu.main]]
+    name = "Portfolio"
+    url = "https://www.nischalskanda.tech/"
+    weight = 30
+    [menu.main.params]
+      external = true
+
+# Taxonomies for better content organization
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+  series = "series"

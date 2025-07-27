@@ -1,0 +1,45 @@
+{{- $src := .Get "src" -}}
+{{- $alt := .Get "alt" | default "Image" -}}
+{{- $caption := .Get "caption" -}}
+{{- $class := .Get "class" | default "responsive-image" -}}
+{{- $width := .Get "width" | default "800" -}}
+{{- $height := .Get "height" -}}
+{{- $loading := .Get "loading" | default "lazy" -}}
+
+{{- with .Page.Resources.GetMatch $src -}}
+  {{- $small := .Resize "600x" -}}
+  {{- $medium := .Resize "900x" -}}
+  {{- $large := .Resize (printf "%sx" $width) -}}
+  
+  <figure class="{{ $class }}" style="margin: 2rem 0; text-align: center;">
+    <picture>
+      <source media="(max-width: 600px)" srcset="{{ $small.RelPermalink }}" type="image/{{ $small.MediaType.SubType }}">
+      <source media="(max-width: 900px)" srcset="{{ $medium.RelPermalink }}" type="image/{{ $medium.MediaType.SubType }}">
+      <img src="{{ $large.RelPermalink }}" 
+           alt="{{ $alt }}" 
+           {{- if $height }} height="{{ $height }}"{{ end }}
+           width="{{ $large.Width }}"
+           height="{{ $large.Height }}"
+           loading="{{ $loading }}"
+           decoding="async"
+           style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    </picture>
+    {{- if $caption -}}
+      <figcaption style="margin-top: 1rem; font-style: italic; color: #666; font-size: 0.9rem;">{{ $caption | markdownify }}</figcaption>
+    {{- end -}}
+  </figure>
+{{- else -}}
+  {{- /* Fallback for external images or missing resources */ -}}
+  <figure class="{{ $class }}" style="margin: 2rem 0; text-align: center;">
+    <img src="{{ $src }}" 
+         alt="{{ $alt }}" 
+         {{- if $width }} width="{{ $width }}"{{ end }}
+         {{- if $height }} height="{{ $height }}"{{ end }}
+         loading="{{ $loading }}"
+         decoding="async"
+         style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    {{- if $caption -}}
+      <figcaption style="margin-top: 1rem; font-style: italic; color: #666; font-size: 0.9rem;">{{ $caption | markdownify }}</figcaption>
+    {{- end -}}
+  </figure>
+{{- end -}}

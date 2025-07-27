@@ -1,0 +1,46 @@
+<section class="author-bio" style="margin: 3rem 0; padding: 2rem; background: var(--surface-color); border-radius: 12px; border: 1px solid var(--border-color);">
+    <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+        <div style="min-width: 80px;">
+            <img src="/images/nischal-avatar.jpg" 
+                 alt="Nischal Skanda" 
+                 style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-color-blue);"
+                 loading="lazy">
+        </div>
+        <div style="flex: 1; min-width: 250px;">
+            <h3 style="margin: 0 0 0.5rem 0; font-family: var(--font-heading); font-size: 1.3rem; color: var(--text-color);">
+                About Nischal Skanda
+            </h3>
+            <p style="margin: 0 0 1rem 0; color: var(--text-color); line-height: 1.6; font-size: 0.95rem;">
+                Nischal is a technology enthusiast and designer passionate about the intersection of AI, cognitive science, and human-computer interaction. He explores how emerging technologies impact our daily lives and shares insights on building better digital experiences.
+            </p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                <a href="{{ .Site.Params.mainSiteURL }}" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   style="display: inline-block; background: var(--accent-color-blue); color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: background-color 0.2s ease;">
+                    View Portfolio
+                </a>
+                {{- if .Site.Params.twitter -}}
+                <a href="https://twitter.com/{{ .Site.Params.twitter | strings.TrimPrefix "@" }}" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   style="color: var(--text-color); text-decoration: none; font-size: 0.9rem; opacity: 0.8; transition: opacity 0.2s ease;"
+                   onmouseover="this.style.opacity='1'"
+                   onmouseout="this.style.opacity='0.8'">
+                    Follow on Twitter
+                </a>
+                {{- end -}}
+                {{- if .Site.Params.linkedin -}}
+                <a href="https://linkedin.com/in/{{ .Site.Params.linkedin }}" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   style="color: var(--text-color); text-decoration: none; font-size: 0.9rem; opacity: 0.8; transition: opacity 0.2s ease;"
+                   onmouseover="this.style.opacity='1'"
+                   onmouseout="this.style.opacity='0.8'">
+                    Connect on LinkedIn
+                </a>
+                {{- end -}}
+            </div>
+        </div>
+    </div>
+</section>
