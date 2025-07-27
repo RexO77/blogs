@@ -1,0 +1,27 @@
+{{- $src := .Get "src" -}}
+{{- $alt := .Get "alt" -}}
+{{- $caption := .Get "caption" -}}
+{{- $class := .Get "class" | default "responsive-image" -}}
+{{- $width := .Get "width" | default "800" -}}
+
+{{- with .Page.Resources.GetMatch $src -}}
+  {{- $small := .Resize "600x" -}}
+  {{- $medium := .Resize "900x" -}}
+  {{- $large := .Resize (printf "%sx" $width) -}}
+  
+  <figure class="{{ $class }}" style="margin: 2rem 0; text-align: center;">
+    <picture>
+      <source media="(max-width: 600px)" srcset="{{ $small.RelPermalink }}">
+      <source media="(max-width: 900px)" srcset="{{ $medium.RelPermalink }}">
+      <img src="{{ $large.RelPermalink }}" 
+           alt="{{ $alt }}" 
+           loading="lazy"
+           style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    </picture>
+    {{- if $caption -}}
+      <figcaption style="margin-top: 1rem; font-style: italic; color: #666; font-size: 0.9rem;">{{ $caption | markdownify }}</figcaption>
+    {{- end -}}
+  </figure>
+{{- else -}}
+  <p style="color: red; font-weight: bold;"><em>Image not found: {{ $src }}</em></p>
+{{- end -}}

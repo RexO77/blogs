@@ -1,0 +1,16 @@
+{{- $src := .Get "src" -}}
+{{- $alt := .Get "alt" -}}
+{{- $width := .Get "width" | default "800" -}}
+{{- $class := .Get "class" | default "simple-image" -}}
+
+{{- with .Page.Resources.GetMatch $src -}}
+  {{- $resized := .Resize (printf "%sx" $width) -}}
+  <div class="{{ $class }}" style="margin: 1.5rem 0; text-align: center;">
+    <img src="{{ $resized.RelPermalink }}" 
+         alt="{{ $alt }}" 
+         loading="lazy" 
+         style="max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+  </div>
+{{- else -}}
+  <p style="color: red; font-weight: bold;"><em>Image not found: {{ $src }}</em></p>
+{{- end -}}

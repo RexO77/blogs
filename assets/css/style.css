@@ -360,4 +360,160 @@ a {
     .post-content h1 {
         font-size: 1.8rem;
     }
+}
+
+/* --- Image Styles --- */
+.responsive-image, .simple-image {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.responsive-image img, .simple-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.responsive-image:hover img {
+    transform: scale(1.02);
+}
+
+/* Ensure images don't break layout */
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 1rem 0;
+}
+
+/* Figure styles for better image presentation */
+.post-content figure {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.post-content figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    font-style: italic;
+}
+
+/* Dark theme adjustments for images */
+[data-theme="dark"] .post-content img {
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive image sizes */
+@media (max-width: 768px) {
+    .responsive-image, .simple-image {
+        margin: 1rem -1rem; /* Extend to screen edges on mobile */
+    }
+    
+    .responsive-image img, .simple-image img {
+        border-radius: 0; /* Remove border radius on mobile for full-width effect */
+    }
+}
+
+/* --- Table Styles --- */
+.table-container {
+    margin: 2rem 0;
+    overflow-x: auto;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.post-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    background-color: var(--surface-color);
+    font-size: 0.95rem;
+    min-width: 600px; /* Ensures table doesn't get too cramped */
+}
+
+.post-content thead {
+    background-color: var(--surface-color);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.post-content th {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    border-right: 1px solid var(--border-color);
+    border: none;
+}
+
+.post-content th:last-child {
+    border-right: none;
+}
+
+.post-content td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    vertical-align: top;
+    line-height: 1.5;
+    color: var(--text-color);
+}
+
+.post-content td:last-child {
+    border-right: none;
+}
+
+.post-content tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.post-content tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.post-content tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Clean alternating rows */
+.post-content tbody tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.01);
+}
+
+[data-theme="dark"] .post-content tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.01);
+}
+
+[data-theme="dark"] .post-content tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Remove special styling for first column */
+.post-content td:first-child {
+    font-weight: 500;
+}
+
+/* Mobile responsive tables */
+@media (max-width: 768px) {
+    .post-content table {
+        font-size: 0.85rem;
+    }
+    
+    .post-content th,
+    .post-content td {
+        padding: 0.8rem 1rem;
+    }
+    
+    .post-content th {
+        font-size: 0.8rem;
+    }
+}
+
+/* Dark theme table adjustments */
+[data-theme="dark"] .table-container {
+    border-color: rgba(255, 255, 255, 0.1);
 } 

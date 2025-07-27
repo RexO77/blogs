@@ -8,3 +8,16 @@ title = "IDEA LABS"
 [params]
   description = "A space for ideas, design, and technology."
   mainSiteURL = "https://www.nischalskanda.tech/"
+
+[imaging]
+  # Default image processing quality (0-100)
+  quality = 85
+  # Resample filter used for resizing (Box, NearestNeighbor, Linear, MitchellNetravali, CatmullRom, BSpline, Gaussian, Lanczos, Hann, Hamming, Blackman, Bartlett, Welch, Cosine)
+  resampleFilter = "Lanczos"
+  # Default JPEG or WebP quality setting (0-100)
+  hint = "photo"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
