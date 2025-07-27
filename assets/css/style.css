@@ -226,6 +226,43 @@ a {
     outline-color: var(--accent-color-yellow);
 }
 
+/* Main site link styling */
+.main-site-link {
+    font-family: var(--font-heading);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color);
+    text-decoration: none;
+    position: absolute;
+    right: 20px; /* Position on the right side */
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: color 0.1s ease, background-color 0.1s ease;
+    z-index: 1001;
+}
+
+.main-site-link:hover {
+    color: var(--accent-color-blue);
+    background-color: rgba(0, 153, 255, 0.1);
+}
+
+[data-theme="dark"] .main-site-link:hover {
+    color: var(--accent-color-yellow);
+    background-color: rgba(255, 215, 0, 0.1);
+}
+
+/* Focus states for accessibility */
+.main-site-link:focus {
+    outline: 2px solid var(--accent-color-blue);
+    outline-offset: 2px;
+}
+
+[data-theme="dark"] .main-site-link:focus {
+    outline-color: var(--accent-color-yellow);
+}
+
 /* Center the logo */
 .logo {
     font-weight: 700;
@@ -338,6 +375,12 @@ html, body {
         transform: translateY(-50%);
     }
     
+    .main-site-link {
+        right: 15px; /* Position on the right side for mobile */
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+    
     .logo {
         font-size: 1.3rem;
         position: relative;
@@ -382,6 +425,12 @@ html, body {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
+    }
+    
+    .main-site-link {
+        right: 10px; /* Position on the right side for small mobile */
+        font-size: 11px;
+        padding: 5px 8px;
     }
     
     .logo {
