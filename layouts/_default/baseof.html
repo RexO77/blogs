@@ -4,9 +4,10 @@
     <!-- SEO Meta Tags -->
     {{ partial "head-seo.html" . }}
     
-    <!-- Optimized & fingerprinted CSS -->
+    <!-- Optimized & fingerprinted CSS with preload -->
     {{ $style := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}
-    <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
+    <link rel="preload" href="{{ $style.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="{{ $style.Data.Integrity }}">
+    <noscript><link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}"></noscript>
     
     <!-- Local fonts for better performance -->
     <link rel="preload" href="/fonts/Satoshi-Regular.otf" as="font" type="font/otf" crossorigin>
@@ -58,7 +59,14 @@
     {{ $js := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint }}
     <script src="{{ $js.RelPermalink }}" defer integrity="{{ $js.Data.Integrity }}"></script>
 
-    <!-- Vercel Analytics -->
-    <script defer src="https://vercel.com/analytics/script.js"></script>
+    <!-- Vercel Analytics - deferred for performance -->
+    <script>
+    window.addEventListener('load', function() {
+      var script = document.createElement('script');
+      script.src = 'https://vercel.com/analytics/script.js';
+      script.async = true;
+      document.body.appendChild(script);
+    });
+    </script>
 </body>
 </html>

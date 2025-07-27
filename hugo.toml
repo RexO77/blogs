@@ -42,8 +42,30 @@ canonifyURLs = true
   # Analytics (add your tracking IDs)
   googleAnalytics = ""  # Add your GA4 tracking ID
   
-  # Performance
+# Performance
   lazyLoading = true
+  
+# Build performance
+[build]
+  writeStats = true
+  
+[minify]
+  disableCSS = false
+  disableHTML = false
+  disableJS = false
+  disableJSON = false
+  disableSVG = false
+  disableXML = false
+  
+[caches]
+  [caches.getjson]
+    maxAge = "10m"
+  [caches.getcsv]
+    maxAge = "10m"
+  [caches.images]
+    maxAge = "8760h"  # 1 year
+  [caches.assets]
+    maxAge = "8760h"  # 1 year
   
 [imaging]
   # Optimized image settings for performance

@@ -125,9 +125,24 @@
 </script>
 
 <!-- Performance Hints -->
+<link rel="dns-prefetch" href="//vercel.com">
 <link rel="dns-prefetch" href="//fonts.googleapis.com">
 <link rel="dns-prefetch" href="//www.google-analytics.com">
 <link rel="preconnect" href="{{ .Site.Params.mainSiteURL }}">
+<link rel="preconnect" href="https://vercel.com" crossorigin>
+
+<!-- Critical CSS inlining hint -->
+<style>
+  /* Critical above-the-fold styles */
+  body { margin: 0; padding-top: 80px; }
+  .site-header { 
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(248, 247, 243, 0.95); backdrop-filter: blur(10px);
+    display: flex; justify-content: center; align-items: center; padding: 20px 40px;
+  }
+  .logo { font-weight: 700; font-size: 1.5rem; position: absolute; left: 50%; transform: translateX(-50%); }
+  .hero-headline { font-size: 5rem; line-height: 1.1; text-transform: uppercase; font-weight: 700; }
+</style>
 
 <!-- Favicon and Icons -->
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
