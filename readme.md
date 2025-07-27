@@ -7,7 +7,7 @@ A modern, minimal, and customizable blog built with [Hugo](https://gohugo.io/). 
 - **Modern, bold homepage**: Custom hero headline with interactive elements (CSS-based, easily swappable for 3D/SVG).
 - **Pagination**: Configurable via `hugo.toml`.
 - **Easy content management**: Write posts in Markdown under `content/posts/`.
-- **Google Fonts**: Uses Unbounded and Inter for a unique look.
+- **Custom Fonts**: Uses Satoshi and Unbounded for a unique, modern look.
 
 ## Project Structure
 
@@ -42,10 +42,20 @@ cd blog.nischalskanda.tech
 ```
 
 ### 3. Run the Development Server
+
+**Option 1: Use the development script (Recommended)**
+```bash
+./dev.sh
 ```
-hugo server
+
+**Option 2: Manual command**
+```bash
+hugo server --buildDrafts --buildFuture --baseURL="http://localhost:1313"
 ```
-Visit [https://blog.nischalskanda.tech/](https://blog.nischalskanda.tech/) in your browser.
+
+Visit [http://localhost:1313](http://localhost:1313) in your browser.
+
+**Note:** The development script ensures all links point to localhost instead of the production URL for proper local development and navigation.
 
 ### 4. Add Your First Post
 ```
@@ -72,7 +82,7 @@ title = "IDEA LAB"
 - **Homepage Headline**: Edit `layouts/_default/list.html` for the hero section.
 - **Navigation**: Change links in `layouts/_default/baseof.html`.
 - **Styles**: Tweak `assets/css/style.css` for colors, fonts, and layout.
-- **Fonts**: Google Fonts are loaded in `baseof.html`.
+- **Fonts**: Satoshi and Unbounded fonts are loaded in `baseof.html` and defined via `@font-face` in CSS.
 - **Interactive Elements**: The `.interactive-o` and `.interactive-arrow` spans in the hero headline are styled with CSS. Replace with SVG or 3D embeds as desired.
 
 ## Directory Details
@@ -83,12 +93,35 @@ title = "IDEA LAB"
 - `hugo.toml`: Site config.
 
 ## Deployment
-1. Build the static site:
+1. Build the static site for production:
+   ```bash
+   ./build.sh
    ```
-   hugo
+   Or manually:
+   ```bash
+   hugo --cleanDestinationDir --minify
    ```
-   The output will be in the `public/` directory.
-2. Deploy `public/` to your static host (Netlify, Vercel, GitHub Pages, etc).
+   
+2. (Optional) Verify URLs are correct:
+   ```bash
+   ./verify-urls.sh
+   ```
+   
+3. Deploy the `public/` directory to your static host (Netlify, Vercel, GitHub Pages, etc).
+
+**Important:** Always use the build script or manual `hugo` command for production builds. Never deploy files generated with the development server as they contain localhost URLs.
+
+## Development vs Production Workflow
+
+### For Local Development
+- Use: `./dev.sh` or `hugo server --baseURL="http://localhost:1313"`
+- Result: All links point to localhost for local testing
+- Files: Development files in memory (not for deployment)
+
+### For Production Deployment  
+- Use: `./build.sh` or `hugo --cleanDestinationDir --minify`
+- Result: All links point to production domain
+- Files: Production-ready files in `./public/` directory
 
 ## Troubleshooting
 - If you see errors about `paginate` or themes, ensure your `hugo.toml` matches the config above and does **not** include a `theme` line.

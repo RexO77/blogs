@@ -1,0 +1,41 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        fetch-depth: 0
+    
+    - name: Setup Hugo
+      uses: peaceiris/actions-hugo@v2
+      with:
+        hugo-version: '0.148.1'
+        extended: true
+    
+    - name: Build site
+      run: hugo --cleanDestinationDir --minify --baseURL="https://blog.nischalskanda.tech/"
+    
+    - name: Verify production URLs
+      run: |
+        echo "🔍 Verifying no localhost URLs in production build..."
+        if grep -r "localhost" public/ 2>/dev/null; then
+          echo "❌ ERROR: Found localhost URLs in production build!"
+          exit 1
+        else
+          echo "✅ All URLs are correct for production"
+        fi
+        
+    - name: Check for broken links (optional)
+      run: |
+        echo "📋 Sample URLs found:"
+        grep -r "blog.nischalskanda.tech" public/ | head -3 | sed 's/.*href="//g' | sed 's/".*//g' || echo "No URLs found"

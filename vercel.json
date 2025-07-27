@@ -1,0 +1,12 @@
+{
+  "build": {
+    "env": {
+      "HUGO_VERSION": "0.148.1"
+    }
+  },
+  "buildCommand": "hugo --cleanDestinationDir --minify --baseURL=\"https://blog.nischalskanda.tech/\"",
+  "outputDirectory": "public",
+  "installCommand": "",
+  "devCommand": "hugo server --buildDrafts --buildFuture --baseURL=\"http://localhost:1313\"",
+  "framework": null
+}
