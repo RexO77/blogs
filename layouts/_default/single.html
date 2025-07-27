@@ -2,21 +2,17 @@
 <article class="post-content" itemscope itemtype="https://schema.org/BlogPosting">
     <header class="post-header" style="margin-bottom: 2rem; text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 2rem;">
         <h1 itemprop="headline" style="margin-bottom: 1rem;">{{ .Title }}</h1>
-        <div class="post-meta" style="color: var(--text-color); opacity: 0.7; font-size: 0.9rem; margin-bottom: 1rem;">
+        <div class="post-meta" style="color: var(--text-color); opacity: 0.7; font-size: 0.85rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap;">
             <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}" itemprop="datePublished">
-                {{ .Date.Format "January 2, 2006" }}
+                {{ .Date.Format "Jan 2, 2006" }}
             </time>
-            {{- if .Lastmod }}
-            • Updated on <time datetime="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}" itemprop="dateModified">
-                {{ .Lastmod.Format "January 2, 2006" }}
-            </time>
-            {{- end }}
-            • {{ .ReadingTime }} min read
+            <span style="opacity: 0.5;">•</span>
+            <span>{{ .ReadingTime }} min read</span>
             {{- if .Params.categories }}
-            • Filed under: 
+            <span style="opacity: 0.5;">•</span>
             {{- range $index, $category := .Params.categories }}
                 {{- if $index }}, {{ end }}
-                <a href="{{ "/categories/" | relURL }}{{ $category | urlize }}" style="color: var(--accent-color-blue); text-decoration: none;">{{ $category }}</a>
+                <a href="{{ "/categories/" | relURL }}{{ $category | urlize }}" style="color: var(--accent-color-blue); text-decoration: none; font-weight: 500;">{{ $category }}</a>
             {{- end }}
             {{- end }}
         </div>
