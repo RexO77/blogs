@@ -1,7 +1,6 @@
 baseURL = "https://blog.nischalskanda.tech/"
 languageCode = "en-us"
 title = "IDEA LABS"
-theme = ""
 
 [pagination]
   pagerSize = 5
