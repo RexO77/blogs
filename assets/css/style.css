@@ -64,27 +64,23 @@
     }
 }
 
-/* Smooth transitions for theme switching */
-*:not(.theme-text) {
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+/* Optimized transitions for theme switching - only apply to specific properties */
+body, .site-header, .container {
+    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* Theme text should have instant updates */
-.theme-text {
+/* NO transitions for text content and theme-sensitive elements */
+.theme-text, .logo, .hero-headline, h1, h2, h3, h4, h5, h6, p, a, .post-item {
     transition: none !important;
 }
 
-/* Enhanced transitions during theme switching */
-.theme-transitioning * {
-    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* Fast transitions for interactive elements only */
+.theme-toggle {
+    transition: color 0.1s ease;
 }
 
-.theme-transitioning .theme-toggle-thumb {
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.theme-toggle:hover {
+    transition: color 0.1s ease;
 }
 
 body {
@@ -167,9 +163,9 @@ a {
     font-size: 14px;
     font-weight: 500;
     color: var(--text-color);
-    transition: all 0.2s ease;
     position: absolute;
     left: 40px;
+    transition: none !important; /* No transitions on the button itself */
 }
 
 .theme-toggle:hover {
@@ -180,7 +176,11 @@ a {
     color: var(--accent-color-yellow);
 }
 
-/* CSS-controlled theme text visibility - works like logo/headlines */
+/* CSS-controlled theme text visibility - instant switching like logo */
+.theme-text {
+    transition: none !important; /* Force no transitions */
+}
+
 .theme-text-light {
     display: none;
 }

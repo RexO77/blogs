@@ -142,7 +142,7 @@
         }
     }
     
-        // Performance: Theme management - CSS-controlled text display
+    // Optimized theme management - instant switching
     function initThemeManager() {
         const html = document.documentElement;
         
@@ -150,17 +150,20 @@
         let currentTheme = localStorage.getItem('theme') || 
                           (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         
-        // Theme toggle click handler - no text manipulation needed
+        // Theme toggle click handler - optimized for instant switching
         function setupThemeToggle() {
             const themeToggle = document.getElementById('theme-toggle');
             if (themeToggle) {
                 themeToggle.addEventListener('click', function() {
-                    // Toggle theme
+                    // Toggle theme instantly
                     currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
                     
-                    // Apply theme change - CSS handles text display automatically
+                    // Apply theme change immediately - no delays or transitions
                     html.setAttribute('data-theme', currentTheme);
                     localStorage.setItem('theme', currentTheme);
+                    
+                    // Force repaint for instant visual change
+                    html.offsetHeight;
                 });
             }
         }
@@ -170,10 +173,11 @@
             if (!localStorage.getItem('theme')) {
                 currentTheme = e.matches ? 'dark' : 'light';
                 html.setAttribute('data-theme', currentTheme);
+                html.offsetHeight; // Force repaint
             }
         });
         
-        // Setup toggle when DOM is ready, but also try immediately
+        // Setup toggle immediately and on DOM ready
         setupThemeToggle();
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', setupThemeToggle);
