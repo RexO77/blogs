@@ -11,13 +11,13 @@ categories: ["Technology", "Health"]
 
 ## Introduction
 
-Hey peeps!, So picture this: I’m a 21-year-old B.Tech grad, fresh out of a Tier-2 college nobody cares about, and I basically owe my degree to ChatGPT for saving my ass on coding assignments and vivas. But, like, *yawn*, my brain’s turning into soggy sambar, and I’m too busy scrolling Reels to notice. Absolutely insaneeee, right? MIT’s Media Lab and other nerdy studies are yelling that AI’s torching our thinking, memory, and hustle. I’m not about to let my brain become a dead WhatsApp group, though. This blog, backed by research up to July 21, 2025, is my unfiltered Gen Z rant about our brain-drain drama and some lit fixes to keep our minds from crashing. Grab some filter coffee, vibe with our stupidity, and let’s save our brains, bruh.
+Hey peeps!, So picture this: I’m a 21-year-old B.Tech grad, fresh out of a Tier-2 college nobody cares about, and I basically owe my degree to ChatGPT for saving my ass on coding assignments and vivas. But, my brain’s turning into soggy sambar, and I’m too busy scrolling Reels to notice. Absolutely insaneeee, right? MIT’s Media Lab and other nerdy studies are yelling that AI’s torching our thinking, memory, and hustle. I’m not about to let my brain become a dead WhatsApp group, though. This blog, backed by research up to July 21, 2025, is my unfiltered Gen Z rant about our brain-drain drama and some lit fixes to keep our minds from crashing. So let's vibe with our stupidity, and let’s save our brains, bruv.
 
 ## The Sad, Funny Tale of Our Brain’s Demise
 
 ### The MIT Study: ChatGPT’s Lowkey Brain Robbery
 
-So picture this: my brain’s like a JEE prep class on steroids, neurons grinding through algorithms and cramming formulas. Then ChatGPT rolls up like a wannabe Bollywood star, all “Chill, bro, I got your back.” A June 2025 MIT Media Lab study, “Your Brain on ChatGPT,” by Nataliya Kosmyna and her squad, threw 54 Boston bigshots (MIT, Harvard, you know the drill) into an essay-writing showdown: ChatGPT users (LLM group), Google Searchers (Search Engine group), and the OG Brain-Only crew, hustling with no tech.
+So picture this: my brain’s like a JEE prep class on steroids, neurons grinding through algorithms and cramming formulas. Then ChatGPT rolls up like a wannabe Bollywood star, all “Chill, bro, I got your back.” A June 2025 MIT Media Lab study, “Your Brain on ChatGPT,” by Nataliya Kosmyna(apparently she's very good at what she does..) and her squad, threw 54 Boston bigshots (MIT, Harvard, you know the drill) into an essay-writing showdown: ChatGPT users (LLM group), Google Searchers (Search Engine group), and the OG Brain-Only crew, hustling with no tech.
 
 Here’s the tea, and it’s *spicy*:
 - **Brain’s AFK**: The LLM group’s brain activity yeeted 55% (some fancy Dynamic Directed Transfer Function stuff) compared to the Brain-Only champs, who had 79 alpha and 65 theta connections—basically the vibe for creativity and memory. LLM users? A sad 42 alpha and 29 theta connections. My brain’s legit taking a nap during a Mumbai local rush.
@@ -25,7 +25,7 @@ Here’s the tea, and it’s *spicy*:
 - **Essays with No Soul**: LLM essays were slick but boring, like a Rohit Shetty movie with no explosions. Brain-Only essays had that street chaat energy—messy but lit.
 - **Mental Debt Vibes**: Over four months, LLM users turned into copy-paste bots, stacking “cognitive debt” like my Zomato orders during finals. We’re lowkey selling our brains, and the bill’s dropping soon.
 
-And the worst? Young brains like ours, still soft like fresh gulab jamun, are getting wrecked hardest, doomed to be AI’s hype squad forever. Bruh, I’m shook.
+And the worst? Young brains like ours, still soft like frikin gulab jamun, are getting wrecked hardest, doomed to be AI’s hype squad forever. Like wth!
 
 ### The Wider Tragedy: We’re All in This Mess
 
@@ -57,7 +57,7 @@ I’m not about to let my brain turn into a sad rasgulla, fam. Science has a dop
 ### 1. Don’t Let AI Steal Your Vibe
 
 - **The Fix**: Treat AI like your fest wingman, not the main act. Jot your ideas first, then let AI sprinkle some spice.
-- **Why It Saves Me**: MIT says starting with my own hustle keeps my brain lit like a Diwali sparkler [6].
+- **Why It Saves Me**: MIT says starting with my own hustle keeps my brain clear [6].
 - **How-To**: Grab a pen (I know, boomer vibes) and brainstorm before AI butts in. It’s like making Maggi yourself instead of ordering Swiggy.
 
 ### 2. Get Wise to AI’s Clownery
