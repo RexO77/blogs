@@ -11,7 +11,7 @@ categories: ["Technology", "Health"]
 
 ## Introduction
 
-Yo, fam, what’s good? So picture this: I’m a 22-year-old B.Tech grad, fresh out of a Tier-2 college nobody cares about, and I basically owe my degree to ChatGPT for saving my ass on coding assignments and vivas. But, like, *yawn*, my brain’s turning into soggy sambar, and I’m too busy scrolling Reels to notice. Absolutely insaneeee, right? MIT’s Media Lab and other nerdy studies are yelling that AI’s torching our thinking, memory, and hustle. I’m not about to let my brain become a dead WhatsApp group, though. This blog, backed by research up to July 21, 2025, is my unfiltered Gen Z rant about our brain-drain drama and some lit fixes to keep our minds from crashing. Grab some filter coffee, vibe with our stupidity, and let’s save our brains, bruh.
+Hey peeps!, So picture this: I’m a 21-year-old B.Tech grad, fresh out of a Tier-2 college nobody cares about, and I basically owe my degree to ChatGPT for saving my ass on coding assignments and vivas. But, like, *yawn*, my brain’s turning into soggy sambar, and I’m too busy scrolling Reels to notice. Absolutely insaneeee, right? MIT’s Media Lab and other nerdy studies are yelling that AI’s torching our thinking, memory, and hustle. I’m not about to let my brain become a dead WhatsApp group, though. This blog, backed by research up to July 21, 2025, is my unfiltered Gen Z rant about our brain-drain drama and some lit fixes to keep our minds from crashing. Grab some filter coffee, vibe with our stupidity, and let’s save our brains, bruh.
 
 ## The Sad, Funny Tale of Our Brain’s Demise
 
