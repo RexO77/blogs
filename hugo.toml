@@ -41,6 +41,7 @@ canonifyURLs = true
   
   # Analytics (add your tracking IDs)
   googleAnalytics = ""  # Add your GA4 tracking ID
+  vercelAnalytics = true  # Enable Vercel Analytics
   
 # Performance
   lazyLoading = true

@@ -25,7 +25,7 @@ Here’s the tea, and it’s *spicy*:
 - **Essays with No Soul**: LLM essays were slick but boring, like a Rohit Shetty movie with no explosions. Brain-Only essays had that street chaat energy—messy but lit.
 - **Mental Debt Vibes**: Over four months, LLM users turned into copy-paste bots, stacking “cognitive debt” like my Zomato orders during finals. We’re lowkey selling our brains, and the bill’s dropping soon.
 
-And the worst? Young brains like mine, still soft like fresh gulab jamun, are getting wrecked hardest, doomed to be AI’s hype squad forever. Bruh, I’m shook.
+And the worst? Young brains like ours, still soft like fresh gulab jamun, are getting wrecked hardest, doomed to be AI’s hype squad forever. Bruh, I’m shook.
 
 ### The Wider Tragedy: We’re All in This Mess
 
