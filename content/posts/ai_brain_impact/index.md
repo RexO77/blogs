@@ -1,37 +1,39 @@
 ---
-title: "Help! AI's Turning Our Brains to Goo, and We're Too Busy Swiping to Notice"
+title: "Help! AI’s Turning Our Brains to Goo, and We’re Too Busy Swiping to Notice"
 date: 2025-07-27T08:30:00+05:30
 draft: false
 description: "A deep dive into how AI overreliance is affecting our cognitive abilities, backed by MIT research and practical solutions to save our brains."
 tags: ["AI", "Cognitive Science", "Technology", "Brain Health", "Research"]
 categories: ["Technology", "Health"]
 ---
-{{< img src="images/thumbnail.jpg" alt="A cartoon brain melting into a puddle with a smartphone glowing nearby" caption="My brain’s turning to goo while I swipe away, oblivious" >}}
+
+{{< img src="images/thumbnail.jpg" alt="A cartoon brain melting into a puddle with a smartphone glowing nearby" caption="My brain’s legit goo while I’m vibing on Reels, bruh" >}}
+
 ## Introduction
 
-Man, what the hell are we doing to ourselves? We’re living in a sci-fi flick, letting AI like ChatGPT write our essays, crunch our numbers, and probably pick our Spotify playlists, while our brains turn into sad, gloopy oatmeal. It’s pathetic—I’m practically handing my soul to a bot, too busy scrolling X to notice my mind’s melting. Research, including a kick-in-the-gut study from MIT’s Media Lab, is yelling that AI’s frying our critical thinking, memory, and grit. But I’m not ready to wave the white flag! This rant, backed by studies up to July 21, 2025, spills the beans on our brain-drain mess and throws out some real talk to save our skulls. Grab a beer, laugh at our stupidity, and let’s fix this.
+Yo, fam, what’s good? So picture this: I’m a 22-year-old B.Tech grad, fresh out of a Tier-2 college nobody cares about, and I basically owe my degree to ChatGPT for saving my ass on coding assignments and vivas. But, like, *yawn*, my brain’s turning into soggy sambar, and I’m too busy scrolling Reels to notice. Absolutely insaneeee, right? MIT’s Media Lab and other nerdy studies are yelling that AI’s torching our thinking, memory, and hustle. I’m not about to let my brain become a dead WhatsApp group, though. This blog, backed by research up to July 21, 2025, is my unfiltered Gen Z rant about our brain-drain drama and some lit fixes to keep our minds from crashing. Grab some filter coffee, vibe with our stupidity, and let’s save our brains, bruh.
 
 ## The Sad, Funny Tale of Our Brain’s Demise
 
-### The MIT Study: ChatGPT’s Sneaky Brain Heist
+### The MIT Study: ChatGPT’s Lowkey Brain Robbery
 
-Picture my brain as a sweaty gym, neurons bench-pressing ideas and sprinting through memories. Then ChatGPT rolls up in a Tesla, all smug, whispering, “Chill, bro, I got this.” A June 2025 MIT Media Lab study, “Your Brain on ChatGPT,” by Nataliya Kosmyna and her crew, threw 54 Boston-area folks (MIT, Harvard, you name it) into a test: write essays using ChatGPT (LLM group), Google Search (Search Engine group), or just their own damn brains (Brain-Only group). The results? A tragic comedy.
+So picture this: my brain’s like a JEE prep class on steroids, neurons grinding through algorithms and cramming formulas. Then ChatGPT rolls up like a wannabe Bollywood star, all “Chill, bro, I got your back.” A June 2025 MIT Media Lab study, “Your Brain on ChatGPT,” by Nataliya Kosmyna and her squad, threw 54 Boston bigshots (MIT, Harvard, you know the drill) into an essay-writing showdown: ChatGPT users (LLM group), Google Searchers (Search Engine group), and the OG Brain-Only crew, hustling with no tech.
 
-Here’s the gut-punch:
-- **Brain’s Clocked Out**: The LLM group’s brain activity tanked 55% (Dynamic Directed Transfer Function signals, whatever those are) compared to the Brain-Only champs, whose minds were buzzing with 79 alpha and 65 theta connections—fancy for creativity and memory. LLM users? A sad 42 alpha and 29 theta connections. My brain’s basically passed out on the couch.
-- **Memory’s a Ghost**: 83% of LLM users couldn’t recall their own essays minutes later, compared to 11.1% of the Brain-Only and Search Engine folks. It’s like confessing my love in a text and forgetting who I sent it to.
-- **Essays with No Soul**: LLM essays were slick but boring, like a cover band butchering Springsteen. Brain-Only essays had heart, grit, and quirks.
-- **Mental Overdraft**: Over four months, LLM users became copy-paste robots, piling up “cognitive debt” like I do with late-night pizza orders. We’re outsourcing our brains, and the repo man’s coming.
+Here’s the tea, and it’s *spicy*:
+- **Brain’s AFK**: The LLM group’s brain activity yeeted 55% (some fancy Dynamic Directed Transfer Function stuff) compared to the Brain-Only champs, who had 79 alpha and 65 theta connections—basically the vibe for creativity and memory. LLM users? A sad 42 alpha and 29 theta connections. My brain’s legit taking a nap during a Mumbai local rush.
+- **Memory’s Ghosted**: 83% of LLM users couldn’t remember their essays five minutes later, compared to 11.1% of the Brain-Only and Search Engine folks. It’s like posting a fire Instagram story and forgetting what it was about.
+- **Essays with No Soul**: LLM essays were slick but boring, like a Rohit Shetty movie with no explosions. Brain-Only essays had that street chaat energy—messy but lit.
+- **Mental Debt Vibes**: Over four months, LLM users turned into copy-paste bots, stacking “cognitive debt” like my Zomato orders during finals. We’re lowkey selling our brains, and the bill’s dropping soon.
 
-The real tragedy? Kids’ brains, still soft like cookie dough, are getting crushed hardest, doomed to lean on AI forever. I need a hug.
+And the worst? Young brains like mine, still soft like fresh gulab jamun, are getting wrecked hardest, doomed to be AI’s hype squad forever. Bruh, I’m shook.
 
 ### The Wider Tragedy: We’re All in This Mess
 
-MIT’s just the start. Other studies are piling on like a bad group project:
-- **Critical Thinking’s Dead**: A review of 14 studies says 75% of 245 undergrads had their brainpower squashed by AI, with 73% addicted like it’s free tacos [1]. I’m trading my inner detective for a bot that solves the case.
-- **Laziness Is My New BFF**: A 2023 study of 285 students found 68.9% got so lazy they might as well be snoozing through life (beta = 0.689, p = 0.000), and 27.7% saw their decision-making skills crash (beta = 0.277, p = 0.000) [3]. AI’s like a La-Z-Boy I can’t escape.
-- **Kids Are Hosed**: A study of 666 people showed young folks cling to AI like it’s their security blanket, their critical thinking tanking faster than my old Nokia’s battery [4].
-- **Motivation’s in the Trash**: A May 2025 Harvard study says AI makes us productive but leaves us feeling like a half-eaten burrito [5]. We’re fast but empty.
+MIT’s just the appetizer. Other studies are piling on like aunties at a buffet:
+- **Critical Thinking’s Donezo**: A review of 14 studies says 75% of 245 undergrads had their brainpower squashed by AI, with 73% hooked like it’s free momos at a fest [1]. I’m trading my inner CID vibes for a bot that does the thinking.
+- **Laziness Is My BFF**: A 2023 study of 285 students found 68.9% got so lazy they’d rather sleep through classes (beta = 0.689, p = 0.000), and 27.7% saw their decision-making skills crash (beta = 0.277, p = 0.000) [3]. AI’s that comfy hostel bed I’m glued to.
+- **Gen Z Is Screwed**: A study of 666 people showed youngsters like us lean on AI like it’s mom’s filter coffee, with critical thinking tanking faster than my phone on 2G [4].
+- **Motivation’s MIA**: A May 2025 Harvard study says AI makes us productive but leaves us feeling as empty as a dry pav bhaji [5]. We’re fast but basically zombies, lol.
 
 ### The Numbers That Make You Wince
 
@@ -48,63 +50,55 @@ MIT’s just the start. Other studies are piling on like a bad group project:
 
 </div>
 
-<!-- Example of how to add images (uncomment when you have real images):
-{{< img src="images/brain-activity-chart.jpg" alt="Chart showing declining brain activity with AI use" caption="The dramatic decline in neural activity when relying on AI assistance" >}}
--->
-
 ## Saving Our Brains Before They’re Toast
 
-I’m not ready to let my brain turn into a sad pudding cup. Science has a game plan to pull us out of this AI swamp, and I’m begging you to listen before we’re all drooling on our phones.
+I’m not about to let my brain turn into a sad rasgulla, fam. Science has a dope playbook to yank us out of this AI mess, and I’m begging you to listen before we’re all brain-dead TikTokers.
 
-### 1. Don’t Let AI Steal Your Spotlight
+### 1. Don’t Let AI Steal Your Vibe
 
-- **The Fix**: Treat AI like my buddy who’s good for a ride, not the one driving my life. Scratch out ideas first, then let AI add some polish.
-- **Why It Saves Me**: MIT says starting with my own sweat keeps my brain humming like a dive bar jukebox [6].
-- **How-To**: Grab a pencil (I know, caveman style) and brainstorm before AI touches it. It’s like brewing coffee instead of hitting Starbucks.
+- **The Fix**: Treat AI like your fest wingman, not the main act. Jot your ideas first, then let AI sprinkle some spice.
+- **Why It Saves Me**: MIT says starting with my own hustle keeps my brain lit like a Diwali sparkler [6].
+- **How-To**: Grab a pen (I know, boomer vibes) and brainstorm before AI butts in. It’s like making Maggi yourself instead of ordering Swiggy.
 
-### 2. Get Wise to AI’s Tricks
+### 2. Get Wise to AI’s Clownery
 
-- **The Fix**: Learn AI’s shady side—its biases, its screw-ups—so I don’t fall for its smooth talk.
-- **Why It Saves Me**: Blind trust in AI makes me its bitch [1]. Knowing its flaws keeps me in the driver’s seat.
-- **How-To**: Schools, teach us to question AI like it’s a used-car salesman. Check its facts against books, not just X posts.
+- **The Fix**: Learn AI’s shady side—its biases, its flops—so I don’t fall for its fake guru act.
+- **Why It Saves Me**: Blind trust in AI makes me its fanboy [1]. Knowing its limits keeps me in the driver’s seat.
+- **How-To**: Colleges, teach us to roast AI like it’s a sketchy auto driver. Check its facts with books, not just Reddit threads.
 
 ### 3. Pump Up Your Brain
 
-- **The Fix**: Dive into puzzles, bar fights over the best beer, or a beat-up paperback to keep my neurons from bailing.
-- **Why It Saves Me**: Mental reps build a brain that laughs at AI’s shortcuts [7].
-- **How-To**: Tackle a crossword, argue about IPAs, or read a book without AI spoiling the twist. My brain needs a workout, not a nap.
+- **The Fix**: Dive into sudoku, argue over the best biryani spot, or read a beat-up Amish Tripathi book to keep my neurons from dipping.
+- **Why It Saves Me**: Mental workouts build a brain that yeets AI’s shortcuts [7].
+- **How-To**: Solve a puzzle, debate Ranbir vs. Ranveer, or read without AI spoiling the climax. My brain needs a gym sesh, not a nap.
 
-### 4. Unplug Before You Short-Circuit
+### 4. Unplug Before You Crash
 
-- **The Fix**: Ditch AI and screens for a bit to let my brain catch its breath.
-- **Why It Saves Me**: Digital breaks cut stress and make me feel alive [7].
-- **How-To**: Ban tech at dinner or track AI use with an app. It’s like telling my brain, “Go outside and play, you lazy bastard.”
+- **The Fix**: Ditch AI and screens for a bit to let my brain chill.
+- **Why It Saves Me**: Digital detoxes cut stress and make me feel alive [7].
+- **How-To**: No tech during mom’s dosa nights or use an app to track AI use. It’s like telling my brain, “Go vibe outside, you lazy legend.”
 
 ### 5. Make Rules to Keep AI in Check
 
-- **The Fix**: Set boundaries so AI doesn’t turn into my brain’s evil stepmom.
-- **Why It Saves Me**: The World Economic Forum’s seven principles say I gotta stay the boss [8].
-- **How-To**: Schools, make us show our work, not AI’s. Use it for feedback, not to write my whole damn diary.
+- **The Fix**: Set boundaries so AI doesn’t become my brain’s annoying tuition sir.
+- **Why It Saves Me**: The World Economic Forum’s seven principles say I’m the boss, not AI [8].
+- **How-To**: Colleges, make us show our logic, not AI’s copy-paste. Use it for feedback, not my whole project report.
 
 ### 6. Move Your Butt to Save Your Brain
 
-- **The Fix**: Run, dance, or chase my neighbor’s cat to juice up my noggin.
-- **Why It Saves Me**: A 2023 study says daily exercise pumps up memory and attention, maybe even stopping 3% of dementia cases [7]. Screw you, AI!
-- **How-To**: Hit the park, try yoga, or dance like I’m in a bad rom-com. My brain’s doing high-fives already.
+- **The Fix**: Run, dance, or play gully cricket to juice up my noggin.
+- **Why It Saves Me**: A 2023 study says daily exercise boosts memory and focus, maybe even stopping 3% of dementia cases [7]. AI can suck it!
+- **How-To**: Hit the park, vibe to AP Dhillon, or sprint like you’re dodging a Bangalore auto. My brain’s throwing hands already.
 
-## The Tech Designer's Perspective
+## The Tech Designer’s Perspective
 
-As someone who designs digital experiences, I see this cognitive crisis from both sides. We're creating tools that make life easier but potentially making our minds weaker. The challenge isn't to reject AI—it's to design better relationships with it.
+As a Gen Z grad messing with UI/UX, I’m stuck in this AI dumpster fire. I used ChatGPT to crank out code and reports, but I also pulled all-nighters debugging manually to prove I’m not a total noob. We’re building apps that make life lit but might turn our brains into sambar. The goal isn’t to ghost AI—it’s to design tools that make us think, not snooze.
 
-In my work designing user interfaces and digital products, I've learned that the best technology amplifies human capability rather than replacing it. We need the same approach with AI: tools that enhance our thinking, not eliminate it.
-
-**Want to see how thoughtful design can create better human-tech relationships?** [Check out my portfolio](https://www.nischalskanda.tech) to see examples of technology that empowers rather than diminishes human potential.
+My projects are about interfaces that spark brain vibes, not kill them. We need AI that’s like a chill TA, not a prof handing out free answers. **Want to see my take on non-zombie tech?** [Check out my portfolio](https://www.nischalskanda.tech) for designs that don’t make you brain-dead.
 
 ## Conclusion
 
-Holy crap, we're idiots. AI's got us wrapped around its digital finger, turning our brains into sad, lumpy goo while we're too busy swiping to care. MIT's 55% neural crash and 83% memory wipeout, plus 75% of students losing their thinking chops, hit harder than my last bar fight. But I'm not done yet! By keeping AI as my wingman, calling out its bullshit, working my brain, unplugging, setting rules, and getting my ass moving, I can keep my mind kicking. Let's not let AI drag us to Dumbassville—our brains deserve a fighting chance, dammit.
-
-The future of human-AI interaction depends on thoughtful design and conscious choices. As designers and technologists, we have a responsibility to create tools that enhance rather than diminish human intelligence.
+Lmao, we’re such clowns, fam. AI’s got us wrapped around its digital finger, turning our brains into sad, lumpy kheer while we’re vibing on Reels. MIT’s 55% neural crash and 83% memory wipeout, plus 75% of students losing their thinking game, hit harder than bombing a JEE mock test. But I’m not here to be AI’s hype man! By keeping AI as my sidekick, roasting its BS, flexing my brain, unplugging, setting rules, and getting my ass moving, I can keep my mind from yeeting itself. Let’s not let AI drag us to Noobtown—our brains deserve better than this cringe fest.
 
 ## References
 
