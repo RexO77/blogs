@@ -1,1 +1,26 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Categories on IDEA LABS</title><link>https://blog.nischalskanda.tech/categories/</link><description>Recent content in Categories on IDEA LABS</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Sun, 27 Jul 2025 12:38:37 +0530</lastBuildDate><atom:link href="https://blog.nischalskanda.tech/categories/index.xml" rel="self" type="application/rss+xml"/><item><title>Health</title><link>https://blog.nischalskanda.tech/categories/health/</link><pubDate>Sun, 27 Jul 2025 08:30:00 +0530</pubDate><guid>https://blog.nischalskanda.tech/categories/health/</guid><description/></item><item><title>Technology</title><link>https://blog.nischalskanda.tech/categories/technology/</link><pubDate>Sun, 27 Jul 2025 08:30:00 +0530</pubDate><guid>https://blog.nischalskanda.tech/categories/technology/</guid><description/></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on IDEA LABS</title>
+    <link>https://blog.nischalskanda.tech/categories/</link>
+    <description>Recent content in Categories on IDEA LABS</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 28 Jul 2025 20:30:07 +0530</lastBuildDate>
+    <atom:link href="https://blog.nischalskanda.tech/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Health</title>
+      <link>https://blog.nischalskanda.tech/categories/health/</link>
+      <pubDate>Sun, 27 Jul 2025 08:30:00 +0530</pubDate>
+      <guid>https://blog.nischalskanda.tech/categories/health/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Technology</title>
+      <link>https://blog.nischalskanda.tech/categories/technology/</link>
+      <pubDate>Sun, 27 Jul 2025 08:30:00 +0530</pubDate>
+      <guid>https://blog.nischalskanda.tech/categories/technology/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>
