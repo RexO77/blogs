@@ -60,6 +60,7 @@
       "post-meta",
       "post-navigation",
       "post-tags",
+      "proof-image",
       "responsive-image",
       "site-header",
       "social-sharing",
@@ -77,15 +78,21 @@
       "5-make-rules-to-keep-ai-in-check",
       "6-move-your-butt-to-save-your-brain",
       "conclusion",
+      "designer-perspective-design-the-privacy",
+      "how-to-protect-yourself-yes-theres-hope",
       "introduction",
+      "legend-of-the-three-chat-accounts",
       "references",
       "saving-our-brains-before-theyre-toast",
       "the-mit-study-chatgpts-lowkey-brain-robbery",
       "the-numbers-that-make-you-wince",
+      "the-real-problem-vastly-overshared-data",
+      "the-risks-get-real",
       "the-sad-funny-tale-of-our-brains-demise",
       "the-tech-designers-perspective",
       "the-wider-tragedy-were-all-in-this-mess",
-      "theme-toggle"
+      "theme-toggle",
+      "what-happens-to-your-sauce"
     ]
   }
 }
