@@ -20,7 +20,7 @@ I’m serious. All those convos you thought were private? Many were indexed by G
 
 And before you act smart—“Ahhh Nischal, we’re not dumb like you to share things online”—cool, me neither. I only had *exam notes* in there… (don’t fact check that). But the thing is, **OpenAI gave us the perfect trap**:  
 - Share your chat → tick the little “Make Discoverable” box (because it looked required) → boom, it’s public.  
-- Now anyone with `site:chatgpt.com/share` could find your stuff faster than your mom finding your hidden Maggi stash in home.
+- Now anyone with `site:chatgpt.com inurl:/share` could find your stuff faster than your mom finding your hidden Maggi stash in home.
 
 ---
 
