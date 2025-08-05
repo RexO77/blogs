@@ -1,26 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- CRITICAL: Theme detection script - must be first to prevent FOUC -->
+    <script>
+        (function() {
+            try {
+                const theme = localStorage.getItem('theme') || 
+                             (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+    
     <!-- SEO Meta Tags -->
     {{ partial "head-seo.html" . }}
     
-    <!-- Optimized & fingerprinted CSS with preload -->
+    <!-- Optimized CSS loading - simplified for better performance -->
     {{ $style := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}
-    <link rel="preload" href="{{ $style.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="{{ $style.Data.Integrity }}">
-    <noscript><link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}"></noscript>
+    <link rel="preload" href="{{ $style.RelPermalink }}" as="style">
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
     
     <!-- Local fonts for better performance -->
     <link rel="preload" href="/fonts/Satoshi-Regular.otf" as="font" type="font/otf" crossorigin>
     <link rel="preload" href="/fonts/Unbounded-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
-    
-    <!-- Immediate theme script to prevent FOUC -->
-    <script>
-        (function() {
-            const theme = localStorage.getItem('theme') || 
-                         (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-            document.documentElement.setAttribute('data-theme', theme);
-        })();
-    </script>
     
     <!-- Google Analytics -->
     {{ if .Site.Params.googleAnalytics }}
@@ -56,16 +60,19 @@
         </main>
     </div>
     
+    <!-- Optimized Script Loading -->
     {{ $js := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint }}
     <script src="{{ $js.RelPermalink }}" defer integrity="{{ $js.Data.Integrity }}"></script>
     
-    <!-- Analytics Test Script (remove in production) -->
-    {{ $analyticsTest := resources.Get "js/analytics-test.js" | resources.Minify }}
-    <script src="{{ $analyticsTest.RelPermalink }}" defer></script>
-
-    <!-- Vercel Analytics -->
+    <!-- Analytics Scripts - Loaded with low priority -->
     {{ if .Site.Params.vercelAnalytics }}
     <script defer src="/_vercel/insights/script.js"></script>
+    {{ end }}
+    
+    <!-- Development Analytics Test Script (remove in production) -->
+    {{ if hugo.IsServer }}
+    {{ $analyticsTest := resources.Get "js/analytics-test.js" | resources.Minify }}
+    <script src="{{ $analyticsTest.RelPermalink }}" defer></script>
     {{ end }}
 </body>
 </html>

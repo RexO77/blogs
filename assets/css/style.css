@@ -1,11 +1,13 @@
 /* --- Global Styles & Variables --- */
-/* --- Local Font Declarations --- */
+/* --- Optimized Font Declarations --- */
 @font-face {
     font-family: 'Satoshi';
     src: url('/fonts/Satoshi-Regular.otf') format('opentype');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
+    font-preload: true;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -14,6 +16,40 @@
     font-weight: 100 900;
     font-style: normal;
     font-display: swap;
+    font-preload: true;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Font loading optimization */
+.fonts-loaded body {
+    font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.fonts-loaded .hero-headline,
+.fonts-loaded .logo {
+    font-family: 'Unbounded', sans-serif;
+}
+
+/* Loading state management */
+body.loading {
+    opacity: 0.99;
+}
+
+body.loaded {
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+/* Prevent layout shifts during loading */
+.loading .hero-headline,
+.loading .post-item {
+    opacity: 0.8;
+}
+
+.loaded .hero-headline,
+.loaded .post-item {
+    opacity: 1;
+    transition: opacity 0.3s ease;
 }
 
 :root {
@@ -283,9 +319,16 @@ a {
     padding: 80px 0;
 }
 
+.hero-arrow {
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+
 .hero-headline {
     font-family: 'Unbounded', sans-serif;
-    font-size: 5rem; /* Adjust as needed */
+    font-size: 4.2rem; /* Adjusted for 2-line layout */
     line-height: 1.1;
     text-transform: uppercase;
     margin: 0;
@@ -295,8 +338,8 @@ a {
 /* --- Interactive Elements (CSS Version) --- */
 .interactive-o {
     display: inline-block;
-    width: 1em;
-    height: 0.4em;
+    width: 1.5em;
+    height: 0.6em;
     background: linear-gradient(120deg, var(--accent-color-yellow), var(--accent-color-blue));
     border-radius: 50px;
     vertical-align: middle;
@@ -306,15 +349,15 @@ a {
 }
 
 .interactive-arrow {
-    display: inline-block;
-    width: 0.8em;
-    height: 0.8em;
-    background: linear-gradient(160deg, var(--accent-color-blue), #6DD5FA);
-    clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 50% 100%, 0% 50%);
-    vertical-align: middle;
-    position: relative;
-    top: 0.1em;
-    margin-left: -0.2em;
+    display: inline-block !important;
+    width: 2.5em !important;
+    height: 2.5em !important;
+    background: linear-gradient(160deg, var(--accent-color-blue), #6DD5FA) !important;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 50% 100%, 0% 50%) !important;
+    vertical-align: middle !important;
+    position: relative !important;
+    top: 0.1em !important;
+    margin-left: -0.2em !important;
 }
 
 /* --- Post List (For later) --- */
