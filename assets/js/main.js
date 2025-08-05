@@ -60,11 +60,21 @@
     function optimizeFontLoading() {
         if ('fonts' in document) {
             Promise.all([
-                document.fonts.load('400 1em Inter'),
-                document.fonts.load('700 1em Unbounded')
+                document.fonts.load('400 1em Satoshi'),
+                document.fonts.load('700 1em Unbounded'),
+                document.fonts.load('400 1em "Unbounded"'),
+                document.fonts.load('700 1em "Unbounded"')
             ]).then(() => {
                 document.documentElement.classList.add('fonts-loaded');
+            }).catch(() => {
+                // Fallback if font loading fails
+                document.documentElement.classList.add('fonts-loaded');
             });
+        } else {
+            // Fallback for browsers without Font Loading API
+            setTimeout(() => {
+                document.documentElement.classList.add('fonts-loaded');
+            }, 100);
         }
     }
     
@@ -88,8 +98,27 @@
         });
     }
     
-    // Performance: Add loading states
+    // Performance: Add loading states and prevent layout shifts
     function initLoadingStates() {
+        // Add loading class to body initially
+        document.body.classList.add('loading');
+        
+        // Remove loading class after critical resources are loaded
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.body.classList.remove('loading');
+                document.body.classList.add('loaded');
+            }, 100);
+        });
+        
+        // Fallback if load event doesn't fire
+        setTimeout(() => {
+            if (document.body.classList.contains('loading')) {
+                document.body.classList.remove('loading');
+                document.body.classList.add('loaded');
+            }
+        }, 3000);
+        
         const elements = document.querySelectorAll('.hero-headline, .post-item');
         elements.forEach(element => {
             element.classList.add('loading');
