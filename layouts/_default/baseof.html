@@ -17,6 +17,11 @@
     <!-- Local fonts for better performance -->
     <link rel="preload" href="/fonts/Satoshi-Regular.otf" as="font" type="font/otf" crossorigin>
     <link rel="preload" href="/fonts/Unbounded-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+    <style>
+      /* Ensure heading uses Unbounded immediately */
+      h1, .hero-headline, .logo { font-family: 'Unbounded', system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+      body { font-family: 'Satoshi', system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    </style>
     
     <!-- Immediate theme script to prevent FOUC -->
     <script>

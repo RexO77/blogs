@@ -1,9 +1,13 @@
 {{ define "main" }}
 <section class="hero-section" aria-label="Blog introduction">
     <h1 class="hero-headline">
-        THE ONLY BLOGS <span class="interactive-o" aria-hidden="true"></span> YOU<br>
-        WOULD LOVE TO READ <span class="interactive-arrow" aria-hidden="true"></span>
+        THE ONLY BLOGS YOU<br>
+        WOULD LOVE TO READ
     </h1>
+    <div class="hero-interactive" aria-hidden="true">
+        <span class="interactive-o"></span>
+        <span class="interactive-arrow"></span>
+    </div>
 </section>
 
 <section class="post-list" aria-label="Blog posts">
@@ -13,7 +17,7 @@
             <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
             <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
             {{- if .Summary }}
-            <p class="post-summary">{{ .Summary | truncate 120 }}</p>
+            <p class="post-summary">{{ .Summary | plainify | truncate 160 }}</p>
             {{- end }}
         </article>
     {{ end }}

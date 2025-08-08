@@ -294,10 +294,26 @@ a {
 .hero-headline {
     font-family: 'Unbounded', sans-serif;
     font-size: 5rem; /* Adjust as needed */
-    line-height: 1.1;
+    line-height: 1.05; /* tighter to fit two lines nicely */
     text-transform: uppercase;
     margin: 0;
     font-weight: 700;
+}
+
+/* Ensure the hero headline breaks into exactly two lines on large screens */
+.hero-headline { 
+    display: inline-block;
+    max-width: 16ch; /* tune to force two lines */
+    word-break: keep-all;
+}
+
+.hero-interactive {
+    margin-top: 18px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    min-height: 20px; /* reserve space */
 }
 
 /* --- Interactive Elements (CSS Version) --- */
@@ -333,6 +349,7 @@ a {
     padding: 20px 0;
     border-bottom: 1px solid var(--post-border);
 }
+.post-item img, .post-item figure { display: none !important; }
 .post-item h2 a {
     font-family: 'Unbounded', sans-serif;
 }
