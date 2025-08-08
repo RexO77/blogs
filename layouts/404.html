@@ -1,0 +1,29 @@
+{{ define "main" }}
+<section class="error-page" style="text-align: center; padding: 4rem 2rem; max-width: 600px; margin: 0 auto;">
+    <h1 style="font-size: 8rem; margin: 0; color: var(--accent-color-blue); font-family: var(--font-heading);">404</h1>
+    <h2 style="font-size: 2rem; margin: 1rem 0; color: var(--text-color);">Page Not Found</h2>
+    <p style="font-size: 1.1rem; color: var(--text-color); opacity: 0.8; margin: 2rem 0;">
+        The page you're looking for doesn't exist. It might have been moved, deleted, or you entered the wrong URL.
+    </p>
+    
+    <div style="margin: 3rem 0;">
+        <a href="{{ .Site.Home.Permalink }}" 
+           style="display: inline-block; background: var(--accent-color-blue); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; margin: 0 0.5rem; transition: transform 0.2s ease;">
+            Go Home
+        </a>
+        <a href="/posts/" 
+           style="display: inline-block; background: transparent; color: var(--accent-color-blue); border: 2px solid var(--accent-color-blue); padding: 10px 22px; border-radius: 8px; text-decoration: none; font-weight: 600; margin: 0 0.5rem; transition: all 0.2s ease;">
+            Browse Posts
+        </a>
+    </div>
+    
+    <!-- Search suggestion -->
+    <div style="margin: 3rem 0;">
+        <p style="color: var(--text-color); opacity: 0.7; margin-bottom: 1rem;">Looking for something specific?</p>
+        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+            <a href="/categories/" style="color: var(--accent-color-blue); text-decoration: none;">Browse Categories</a>
+            <a href="/tags/" style="color: var(--accent-color-blue); text-decoration: none;">Browse Tags</a>
+        </div>
+    </div>
+</section>
+{{ end }}

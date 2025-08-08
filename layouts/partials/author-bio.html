@@ -24,9 +24,8 @@
                 <a href="https://twitter.com/{{ .Site.Params.twitter | strings.TrimPrefix "@" }}" 
                    target="_blank" 
                    rel="noopener noreferrer"
-                   style="color: var(--text-color); text-decoration: none; font-size: 0.9rem; opacity: 0.8; transition: opacity 0.2s ease;"
-                   onmouseover="this.style.opacity='1'"
-                   onmouseout="this.style.opacity='0.8'">
+                   class="author-social-link twitter-link"
+                   style="color: var(--text-color); text-decoration: none; font-size: 0.9rem; opacity: 0.8; transition: opacity 0.2s ease;">
                     Follow on Twitter
                 </a>
                 {{- end -}}
@@ -34,9 +33,8 @@
                 <a href="https://linkedin.com/in/{{ .Site.Params.linkedin }}" 
                    target="_blank" 
                    rel="noopener noreferrer"
-                   style="color: var(--text-color); text-decoration: none; font-size: 0.9rem; opacity: 0.8; transition: opacity 0.2s ease;"
-                   onmouseover="this.style.opacity='1'"
-                   onmouseout="this.style.opacity='0.8'">
+                   class="author-social-link linkedin-link"
+                   style="color: var(--text-color); text-decoration: none; font-size: 0.9rem; opacity: 0.8; transition: opacity 0.2s ease;">
                     Connect on LinkedIn
                 </a>
                 {{- end -}}

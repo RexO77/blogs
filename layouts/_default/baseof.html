@@ -9,6 +9,11 @@
     <link rel="preload" href="{{ $style.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="{{ $style.Data.Integrity }}">
     <noscript><link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}"></noscript>
     
+    <!-- Critical resource hints -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//www.google-analytics.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    
     <!-- Local fonts for better performance -->
     <link rel="preload" href="/fonts/Satoshi-Regular.otf" as="font" type="font/otf" crossorigin>
     <link rel="preload" href="/fonts/Unbounded-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
@@ -36,21 +41,25 @@
 </head>
 <body>
     <div class="container">
-        <header class="site-header">
-            <!-- Theme toggle with CSS-controlled text -->
-            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-                <span class="theme-text theme-text-light">Light</span>
-                <span class="theme-text theme-text-dark">Dark</span>
+        <header class="site-header" role="banner">
+            <!-- Skip to main content for accessibility -->
+            <a class="skip-link" href="#main-content">Skip to main content</a>
+            
+            <!-- Theme toggle with proper accessibility -->
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle between light and dark themes" aria-pressed="false">
+                <span class="theme-text theme-text-light" aria-hidden="true">Light</span>
+                <span class="theme-text theme-text-dark" aria-hidden="true">Dark</span>
+                <span class="sr-only">Current theme: <span id="current-theme">light</span></span>
             </button>
             
-            <!-- Centered logo -->
-            <a class="logo" href="{{ .Site.Home.Permalink }}">{{ .Site.Title }}</a>
+            <!-- Centered logo with proper semantics -->
+            <a class="logo" href="{{ .Site.Home.Permalink }}" aria-label="Go to homepage">{{ .Site.Title }}</a>
             
-            <!-- Main site link -->
-            <a class="main-site-link" href="https://www.nischalskanda.tech" target="_blank" rel="noopener noreferrer">Main Site</a>
+            <!-- Main site link with clear purpose -->
+            <a class="main-site-link" href="https://www.nischalskanda.tech" target="_blank" rel="noopener noreferrer" aria-label="Visit Nischal's main portfolio website (opens in new tab)">Main Site</a>
         </header>
         
-        <main>
+        <main id="main-content" role="main">
             <!-- Page content will be injected here -->
             {{ block "main" . }}{{ end }}
         </main>
