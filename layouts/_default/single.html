@@ -37,9 +37,8 @@
         <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
             {{- range .Params.tags }}
             <a href="{{ "/tags/" | relURL }}{{ . | urlize }}" 
-               style="display: inline-block; background: var(--accent-color-blue); color: white; padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.85rem; transition: transform 0.2s ease;"
-               onmouseover="this.style.transform='translateY(-2px)'"
-               onmouseout="this.style.transform='translateY(0)'">
+               class="tag-link"
+               style="display: inline-block; background: var(--accent-color-blue); color: white; padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.85rem; transition: transform 0.2s ease;">
                 #{{ . }}
             </a>
             {{- end }}
@@ -53,16 +52,14 @@
         <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
             <a href="https://twitter.com/intent/tweet?url={{ .Permalink }}&text={{ .Title }}&via={{ .Site.Params.twitter | strings.TrimPrefix "@" }}" 
                target="_blank" rel="noopener noreferrer"
-               style="display: inline-block; background: #1DA1F2; color: white; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; transition: opacity 0.2s ease;"
-               onmouseover="this.style.opacity='0.8'"
-               onmouseout="this.style.opacity='1'">
+               class="social-share-link twitter-share"
+               style="display: inline-block; background: #1DA1F2; color: white; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; transition: opacity 0.2s ease;">
                 Share on Twitter
             </a>
             <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink }}" 
                target="_blank" rel="noopener noreferrer"
-               style="display: inline-block; background: #0077B5; color: white; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; transition: opacity 0.2s ease;"
-               onmouseover="this.style.opacity='0.8'"
-               onmouseout="this.style.opacity='1'">
+               class="social-share-link linkedin-share"
+               style="display: inline-block; background: #0077B5; color: white; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; transition: opacity 0.2s ease;">
                 Share on LinkedIn
             </a>
         </div>

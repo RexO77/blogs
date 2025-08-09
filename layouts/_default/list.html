@@ -1,17 +1,25 @@
 {{ define "main" }}
-<div class="hero-section">
+<section class="hero-section" aria-label="Blog introduction">
     <h1 class="hero-headline">
-        THE ONLY BLOGS <span class="interactive-o"></span> YOU<br>
-        WOULD LOVE TO READ <span class="interactive-arrow"></span>
+        THE ONLY BLOGS YOU<br>
+        WOULD LOVE TO READ
     </h1>
-</div>
+    <div class="hero-interactive" aria-hidden="true">
+        <span class="interactive-o"></span>
+        <span class="interactive-arrow"></span>
+    </div>
+</section>
 
-<div class="post-list">
+<section class="post-list" aria-label="Blog posts">
+    <h2 class="sr-only">Latest Blog Posts</h2>
     {{ range .Paginator.Pages }}
         <article class="post-item">
-            <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-            <time>{{ .Date.Format "January 2, 2006" }}</time>
+            <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+            {{- if .Summary }}
+            <p class="post-summary">{{ .Summary | plainify | truncate 160 }}</p>
+            {{- end }}
         </article>
     {{ end }}
-</div>
+</section>
 {{ end }}

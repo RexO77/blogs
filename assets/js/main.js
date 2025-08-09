@@ -39,28 +39,16 @@
         threshold: 0.1
     };
     
-    // Performance: Preload critical resources
+    // Performance: Preload critical resources (handled in HTML via <link rel="preload">)
     function preloadCriticalResources() {
-        const criticalResources = [
-            '/fonts/inter.woff2',
-            '/fonts/unbounded.woff2'
-        ];
-        
-        criticalResources.forEach(resource => {
-            const link = document.createElement('link');
-            link.rel = 'preload';
-            link.as = resource.endsWith('.css') ? 'style' : 'font';
-            link.href = resource;
-            link.crossOrigin = 'anonymous';
-            document.head.appendChild(link);
-        });
+        // No-op: Font preloading is handled in HTML head for optimal timing.
     }
     
-    // Performance: Optimize font loading
+    // Performance: Optimize font loading to match CSS @font-face declarations
     function optimizeFontLoading() {
         if ('fonts' in document) {
             Promise.all([
-                document.fonts.load('400 1em Inter'),
+                document.fonts.load('400 1em Satoshi'),
                 document.fonts.load('700 1em Unbounded')
             ]).then(() => {
                 document.documentElement.classList.add('fonts-loaded');
@@ -142,7 +130,7 @@
         }
     }
     
-    // Optimized theme management - instant switching
+    // Optimized theme management - instant switching with accessibility
     function initThemeManager() {
         const html = document.documentElement;
         
@@ -150,10 +138,25 @@
         let currentTheme = localStorage.getItem('theme') || 
                           (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         
+        // Update aria-pressed and screen reader text
+        function updateThemeToggleState(theme) {
+            const themeToggle = document.getElementById('theme-toggle');
+            const currentThemeSpan = document.getElementById('current-theme');
+            if (themeToggle) {
+                themeToggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+            }
+            if (currentThemeSpan) {
+                currentThemeSpan.textContent = theme;
+            }
+        }
+        
         // Theme toggle click handler - optimized for instant switching
         function setupThemeToggle() {
             const themeToggle = document.getElementById('theme-toggle');
             if (themeToggle) {
+                // Set initial state
+                updateThemeToggleState(currentTheme);
+                
                 themeToggle.addEventListener('click', function() {
                     // Toggle theme instantly
                     currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -162,8 +165,19 @@
                     html.setAttribute('data-theme', currentTheme);
                     localStorage.setItem('theme', currentTheme);
                     
+                    // Update accessibility attributes
+                    updateThemeToggleState(currentTheme);
+                    
                     // Force repaint for instant visual change
                     html.offsetHeight;
+                });
+                
+                // Keyboard accessibility
+                themeToggle.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
                 });
             }
         }
@@ -173,6 +187,7 @@
             if (!localStorage.getItem('theme')) {
                 currentTheme = e.matches ? 'dark' : 'light';
                 html.setAttribute('data-theme', currentTheme);
+                updateThemeToggleState(currentTheme);
                 html.offsetHeight; // Force repaint
             }
         });
@@ -217,7 +232,7 @@
     
     // Performance: Initialize everything when DOM is ready
     function init() {
-        // Preload critical resources
+        // Preload critical resources (already done in HTML)
         preloadCriticalResources();
         
         // Optimize font loading
