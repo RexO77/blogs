@@ -32,7 +32,6 @@
     --glass-border: rgba(255, 255, 255, 0.3);
     --post-border: #e0e0e0;
 }
-
 /* Use border-box sizing globally */
 *, *::before, *::after {
     box-sizing: border-box;
