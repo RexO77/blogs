@@ -1,0 +1,241 @@
+{{ $itemsParam := .Get "items" }}
+{{ if not $itemsParam }}{{ $itemsParam = "stats,memory,addiction,platforms" }}{{ end }}
+{{ $hasStats := in $itemsParam "stats" }}
+{{ $hasMemory := in $itemsParam "memory" }}
+{{ $hasAddiction := in $itemsParam "addiction" }}
+{{ $hasPlatforms := in $itemsParam "platforms" }}
+{{ $.Scratch.Set "charts" 0 }}
+{{ if $hasMemory }}{{ $.Scratch.Add "charts" 1 }}{{ end }}
+{{ if $hasAddiction }}{{ $.Scratch.Add "charts" 1 }}{{ end }}
+{{ if $hasPlatforms }}{{ $.Scratch.Add "charts" 1 }}{{ end }}
+{{ $charts := $.Scratch.Get "charts" }}
+<div class="infographics" id="infographics">
+  <div class="infograph-grid">
+    {{ if $hasStats }}
+      <div class="data-card">
+        <div class="big-stat">40%</div>
+        <p class="big-stat-desc">Productivity loss from task-switching</p>
+      </div>
+      <div class="data-card">
+        <div class="big-stat">23m 15s</div>
+        <p class="big-stat-desc">Time to regain focus after one interruption</p>
+      </div>
+      <div class="data-card">
+        <div class="big-stat">~5 hrs</div>
+        <p class="big-stat-desc">Avg daily smartphone use (India)</p>
+      </div>
+    {{ end }}
+
+    {{ if $hasMemory }}
+      <div class="data-card chart-card {{ if and $hasStats (eq $charts 1) }}span-full{{ end }}">
+        <h3>Working Memory: Heavy vs Light Multitaskers</h3>
+        <div class="chart-container">
+          <canvas id="memoryPerformanceChart"></canvas>
+        </div>
+      </div>
+    {{ end }}
+
+    {{ if $hasAddiction }}
+      <div class="data-card chart-card">
+        <h3>Gen Z "Addiction" Awareness</h3>
+        <div class="chart-container">
+          <canvas id="addictionChart"></canvas>
+        </div>
+      </div>
+    {{ end }}
+
+    {{ if $hasPlatforms }}
+      <div class="data-card chart-card">
+        <h3>Top Social Platforms (India)</h3>
+        <div class="chart-container">
+          <canvas id="platformUsageChart"></canvas>
+        </div>
+      </div>
+    {{ end }}
+  </div>
+</div>
+
+<script>
+(function() {
+  function ensureChartJs(callback) {
+    if (window.Chart) { callback(); return; }
+    var script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+    script.defer = true;
+    script.onload = callback;
+    document.head.appendChild(script);
+  }
+
+  function initInfographics() {
+    if (!window.Chart) return;
+
+    function getThemeMode() {
+      var html = document.documentElement;
+      var mode = html.getAttribute('data-theme');
+      if (mode) return mode;
+      return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    }
+
+    function getAxisColors() {
+      var mode = getThemeMode();
+      if (mode === 'dark') {
+        return { tick: '#E5E7EB', grid: 'rgba(255,255,255,0.12)' };
+      }
+      return { tick: '#374151', grid: 'rgba(17,24,39,0.12)' };
+    }
+
+    var themeAware = getAxisColors();
+
+    const chartColors = {
+      red: 'rgba(239, 68, 68, 0.7)',
+      blue: 'rgba(59, 130, 246, 0.7)',
+      green: 'rgba(34, 197, 94, 0.7)',
+      purple: 'rgba(139, 92, 246, 0.7)',
+      grayBorder: 'rgba(0,0,0,0.1)',
+      redBorder: 'rgb(239, 68, 68)',
+      blueBorder: 'rgb(59, 130, 246)'
+    };
+
+    var createdCharts = [];
+
+    // Memory Performance
+    var memoryCtx = document.getElementById('memoryPerformanceChart');
+    if (memoryCtx && !memoryCtx._chart) {
+      memoryCtx._chart = new Chart(memoryCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Light Multitaskers', 'Heavy Multitaskers'],
+          datasets: [{
+            label: 'Working Memory Score',
+            data: [85, 60],
+            backgroundColor: [chartColors.blue, chartColors.red],
+            borderColor: [chartColors.blueBorder, chartColors.redBorder],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: { padding: { top: 16, right: 24, bottom: 24, left: 24 } },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: { color: themeAware.tick }
+            },
+            y: {
+              beginAtZero: true,
+              max: 100,
+              grid: { color: themeAware.grid },
+              ticks: { stepSize: 20, color: themeAware.tick }
+            }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: true }
+          },
+          animation: { duration: 0 },
+          transitions: { active: { animation: { duration: 0 } }, resize: { animation: { duration: 0 } } }
+        }
+      });
+      createdCharts.push(memoryCtx._chart);
+    }
+
+    // Addiction Awareness
+    var addictionCtx = document.getElementById('addictionChart');
+    if (addictionCtx && !addictionCtx._chart) {
+      addictionCtx._chart = new Chart(addictionCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Find social media "addicting"', 'Do not'],
+          datasets: [{
+            data: [82, 18],
+            backgroundColor: [chartColors.red, 'rgba(209, 213, 219, 0.7)']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '55%',
+          plugins: { legend: { position: 'bottom' } },
+          animation: { duration: 0 },
+          transitions: { active: { animation: { duration: 0 } }, resize: { animation: { duration: 0 } } }
+        }
+      });
+      createdCharts.push(addictionCtx._chart);
+    }
+
+    // Platform Usage
+    var platformCtx = document.getElementById('platformUsageChart');
+    if (platformCtx && !platformCtx._chart) {
+      platformCtx._chart = new Chart(platformCtx, {
+        type: 'bar',
+        data: {
+          labels: ['WhatsApp', 'Instagram', 'Facebook'],
+          datasets: [{
+            label: 'Usage among internet users (%)',
+            data: [80.8, 77.9, 67.8],
+            backgroundColor: [chartColors.green, chartColors.purple, chartColors.blue]
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: { x: { beginAtZero: true, max: 100, grid: { color: themeAware.grid }, ticks: { color: themeAware.tick } }, y: { ticks: { color: themeAware.tick }, grid: { display: false } } },
+          plugins: { legend: { display: false } },
+          animation: { duration: 0 },
+          transitions: { active: { animation: { duration: 0 } }, resize: { animation: { duration: 0 } } }
+        }
+      });
+      createdCharts.push(platformCtx._chart);
+    }
+
+    // Update charts when theme changes
+    try {
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+            var colors = getAxisColors();
+            createdCharts.forEach(function(ch) {
+              if (ch.options.scales) {
+                if (ch.options.scales.x) {
+                  ch.options.scales.x.ticks = ch.options.scales.x.ticks || {};
+                  ch.options.scales.x.ticks.color = colors.tick;
+                  if (ch.options.scales.x.grid) ch.options.scales.x.grid.color = colors.grid;
+                }
+                if (ch.options.scales.y) {
+                  ch.options.scales.y.ticks = ch.options.scales.y.ticks || {};
+                  ch.options.scales.y.ticks.color = colors.tick;
+                  if (ch.options.scales.y.grid) ch.options.scales.y.grid.color = colors.grid;
+                }
+              }
+              ch.update();
+            });
+          }
+        });
+      });
+      observer.observe(document.documentElement, { attributes: true });
+    } catch (e) {}
+  }
+
+  function onVisible(el, callback) {
+    if (!('IntersectionObserver' in window)) { callback(); return; }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          callback();
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    io.observe(el);
+  }
+
+  var root = document.getElementById('infographics');
+  if (root) {
+    onVisible(root, function() { ensureChartJs(initInfographics); });
+  }
+})();
+</script>
+
+
