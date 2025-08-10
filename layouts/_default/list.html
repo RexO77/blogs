@@ -1,17 +1,60 @@
 {{ define "main" }}
-<div class="hero-section">
-    <h1 class="hero-headline">
-        THE ONLY BLOGS <span class="interactive-o"></span> YOU<br>
-        WOULD LOVE TO READ <span class="interactive-arrow"></span>
+<section class="hero" aria-labelledby="hero-headline">
+    <h1 id="hero-headline" class="hero__headline">
+        THE ONLY BLOGS <span class="hero__interactive-o" aria-hidden="true"></span> YOU<br>
+        WOULD LOVE TO READ <span class="hero__interactive-arrow" aria-hidden="true"></span>
     </h1>
-</div>
+</section>
 
-<div class="post-list">
+<section class="post-list" aria-labelledby="posts-heading">
+    <h2 id="posts-heading" class="sr-only">Blog Posts</h2>
     {{ range .Paginator.Pages }}
-        <article class="post-item">
-            <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-            <time>{{ .Date.Format "January 2, 2006" }}</time>
+        <article class="post-item" itemscope itemtype="https://schema.org/BlogPosting">
+            <header class="post-item__header">
+                <h3 class="post-item__title" itemprop="headline">
+                    <a href="{{ .Permalink }}" itemprop="url" class="post-item__link">
+                        {{ .Title }}
+                    </a>
+                </h3>
+                <div class="post-item__meta">
+                    <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}" itemprop="datePublished" class="post-item__date">
+                        {{ .Date.Format "January 2, 2006" }}
+                    </time>
+                    {{- if .Params.tags }}
+                    <div class="post-item__tags">
+                        {{- range $index, $tag := first 3 .Params.tags }}
+                        <span class="post-item__tag">#{{ $tag }}</span>
+                        {{- end }}
+                    </div>
+                    {{- end }}
+                </div>
+            </header>
+            {{- if .Description }}
+            <div class="post-item__excerpt" itemprop="description">
+                {{ .Description }}
+            </div>
+            {{- end }}
         </article>
     {{ end }}
-</div>
+    
+    {{ if gt .Paginator.TotalPages 1 }}
+    <nav class="pagination" aria-label="Page navigation">
+        {{ if .Paginator.HasPrev }}
+        <a href="{{ .Paginator.Prev.URL }}" class="pagination__link pagination__link--prev" rel="prev">
+            <span aria-hidden="true">←</span> Previous
+        </a>
+        {{ end }}
+        
+        <span class="pagination__info">
+            Page {{ .Paginator.PageNumber }} of {{ .Paginator.TotalPages }}
+        </span>
+        
+        {{ if .Paginator.HasNext }}
+        <a href="{{ .Paginator.Next.URL }}" class="pagination__link pagination__link--next" rel="next">
+            Next <span aria-hidden="true">→</span>
+        </a>
+        {{ end }}
+    </nav>
+    {{ end }}
+</section>
 {{ end }}

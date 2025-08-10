@@ -1,263 +1,321 @@
-// Lightweight performance-optimized JavaScript
-(function() {
-    'use strict';
+/**
+ * Main Application Entry Point
+ * Modern ES6+ Module Architecture with Senior Frontend Best Practices
+ */
+
+import { ThemeManager } from './modules/theme.js';
+import { PerformanceManager } from './modules/performance.js';
+import { NavigationManager } from './modules/navigation.js';
+import { waitForDOM, dispatchCustomEvent } from './modules/utils.js';
+
+/**
+ * Main Application Class
+ * Orchestrates all modules and handles application lifecycle
+ */
+class App {
+  constructor() {
+    this.modules = new Map();
+    this.initialized = false;
+    this.version = '2.0.0';
     
-    // Performance: Use requestAnimationFrame for smooth animations
-    const raf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame;
-    
-    // Performance: Debounce function for scroll events
-    function debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
+    // Initialize immediately for critical functionality
+    this.initImmediate();
+  }
+
+  /**
+   * Initialize critical functionality immediately (theme management)
+   */
+  initImmediate() {
+    // Theme must be initialized immediately to prevent FOUC
+    try {
+      this.modules.set('theme', new ThemeManager());
+      console.log('🎨 Theme manager initialized');
+    } catch (error) {
+      console.error('Failed to initialize theme manager:', error);
     }
-    
-    // Performance: Throttle function for resize events
-    function throttle(func, limit) {
-        let inThrottle;
-        return function() {
-            const args = arguments;
-            const context = this;
-            if (!inThrottle) {
-                func.apply(context, args);
-                inThrottle = true;
-                setTimeout(() => inThrottle = false, limit);
-            }
-        };
+  }
+
+  /**
+   * Initialize application after DOM is ready
+   */
+  async init() {
+    if (this.initialized) {
+      console.warn('App already initialized');
+      return;
     }
-    
-    // Performance: Intersection Observer for lazy loading
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
-    
-    // Performance: Preload critical resources
-    function preloadCriticalResources() {
-        const criticalResources = [
-            '/fonts/inter.woff2',
-            '/fonts/unbounded.woff2'
-        ];
+
+    try {
+      console.log(`🚀 Initializing App v${this.version}`);
+      
+      // Wait for DOM to be ready
+      await waitForDOM();
+      
+      // Initialize modules in order of priority
+      await this.initializeModules();
+      
+      // Setup global event listeners
+      this.setupGlobalEvents();
+      
+      // Mark as initialized
+      this.initialized = true;
+      
+      // Dispatch app ready event
+      dispatchCustomEvent('app:ready', { version: this.version });
+      
+      console.log('✅ App initialization complete');
+      
+    } catch (error) {
+      console.error('❌ App initialization failed:', error);
+      this.handleInitializationError(error);
+    }
+  }
+
+  /**
+   * Initialize all application modules
+   */
+  async initializeModules() {
+    const moduleInitializers = [
+      { name: 'performance', class: PerformanceManager, critical: true },
+      { name: 'navigation', class: NavigationManager, critical: true }
+    ];
+
+    for (const { name, class: ModuleClass, critical } of moduleInitializers) {
+      try {
+        console.log(`🔧 Initializing ${name} module...`);
+        const instance = new ModuleClass();
+        this.modules.set(name, instance);
+        console.log(`✅ ${name} module initialized`);
+      } catch (error) {
+        console.error(`❌ Failed to initialize ${name} module:`, error);
         
-        criticalResources.forEach(resource => {
-            const link = document.createElement('link');
-            link.rel = 'preload';
-            link.as = resource.endsWith('.css') ? 'style' : 'font';
-            link.href = resource;
-            link.crossOrigin = 'anonymous';
-            document.head.appendChild(link);
-        });
-    }
-    
-    // Performance: Optimize font loading
-    function optimizeFontLoading() {
-        if ('fonts' in document) {
-            Promise.all([
-                document.fonts.load('400 1em Inter'),
-                document.fonts.load('700 1em Unbounded')
-            ]).then(() => {
-                document.documentElement.classList.add('fonts-loaded');
-            });
+        if (critical) {
+          throw new Error(`Critical module ${name} failed to initialize`);
         }
+      }
     }
+  }
+
+  /**
+   * Setup global application event listeners
+   */
+  setupGlobalEvents() {
+    // Handle page visibility changes
+    document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
     
-    // Performance: Smooth scroll for anchor links
-    function initSmoothScroll() {
-        const links = document.querySelectorAll('a[href^="#"]');
-        links.forEach(link => {
-            link.addEventListener('click', function(e) {
-                const targetId = this.getAttribute('href');
-                if (targetId.length > 1) {
-                    e.preventDefault();
-                    const target = document.querySelector(targetId);
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                }
-            });
-        });
-    }
+    // Handle online/offline status
+    window.addEventListener('online', this.handleOnline.bind(this));
+    window.addEventListener('offline', this.handleOffline.bind(this));
     
-    // Performance: Add loading states
-    function initLoadingStates() {
-        const elements = document.querySelectorAll('.hero-headline, .post-item');
-        elements.forEach(element => {
-            element.classList.add('loading');
-        });
-        
-        // Use Intersection Observer for progressive loading
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.remove('loading');
-                    entry.target.classList.add('loaded');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-        
-        elements.forEach(element => {
-            observer.observe(element);
-        });
-    }
+    // Handle global errors
+    window.addEventListener('error', this.handleGlobalError.bind(this));
+    window.addEventListener('unhandledrejection', this.handleUnhandledRejection.bind(this));
     
-    // Performance: Optimize images
-    function optimizeImages() {
-        const images = document.querySelectorAll('img');
-        images.forEach(img => {
-            // Add loading="lazy" for images below the fold
-            if (img.getBoundingClientRect().top > window.innerHeight) {
-                img.loading = 'lazy';
-            }
-            
-            // Add error handling
-            img.addEventListener('error', function() {
-                this.style.display = 'none';
-            });
-        });
-    }
+    // Handle page unload
+    window.addEventListener('beforeunload', this.handleBeforeUnload.bind(this));
     
-    // Performance: Service Worker registration (if available)
-    function registerServiceWorker() {
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('SW registered: ', registration);
-                    })
-                    .catch(registrationError => {
-                        console.log('SW registration failed: ', registrationError);
-                    });
-            });
-        }
-    }
-    
-    // Optimized theme management - instant switching
-    function initThemeManager() {
-        const html = document.documentElement;
-        
-        // Get current theme immediately
-        let currentTheme = localStorage.getItem('theme') || 
-                          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        
-        // Theme toggle click handler - optimized for instant switching
-        function setupThemeToggle() {
-            const themeToggle = document.getElementById('theme-toggle');
-            if (themeToggle) {
-                themeToggle.addEventListener('click', function() {
-                    // Toggle theme instantly
-                    currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                    
-                    // Apply theme change immediately - no delays or transitions
-                    html.setAttribute('data-theme', currentTheme);
-                    localStorage.setItem('theme', currentTheme);
-                    
-                    // Force repaint for instant visual change
-                    html.offsetHeight;
-                });
-            }
-        }
-        
-        // Listen for system theme changes
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-            if (!localStorage.getItem('theme')) {
-                currentTheme = e.matches ? 'dark' : 'light';
-                html.setAttribute('data-theme', currentTheme);
-                html.offsetHeight; // Force repaint
-            }
-        });
-        
-        // Setup toggle immediately and on DOM ready
-        setupThemeToggle();
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', setupThemeToggle);
-        }
-    }
-    
-    // Performance: Analytics optimization
-    function optimizeAnalytics() {
-        // Defer analytics loading
-        const analyticsScript = document.querySelector('script[src*="vercel.com/analytics"]');
-        if (analyticsScript) {
-            analyticsScript.setAttribute('data-defer', 'true');
-        }
-    }
-    
-    // Performance: Memory management
-    function cleanup() {
-        // Clean up event listeners when page unloads
-        window.addEventListener('beforeunload', () => {
-            // Cleanup code here if needed
-        });
-    }
-    
-    // Performance: Sticky header scroll effect
-    function initStickyHeader() {
-        const header = document.querySelector('.site-header');
-        if (header) {
-            window.addEventListener('scroll', throttle(() => {
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-            }, 10));
-        }
-    }
-    
-    // Performance: Initialize everything when DOM is ready
-    function init() {
-        // Preload critical resources
-        preloadCriticalResources();
-        
-        // Optimize font loading
-        optimizeFontLoading();
-        
-        // Initialize smooth scroll
-        initSmoothScroll();
-        
-        // Initialize loading states
-        initLoadingStates();
-        
-        // Initialize sticky header
-        initStickyHeader();
-        
-        // Optimize images
-        optimizeImages();
-        
-        // Register service worker
-        registerServiceWorker();
-        
-        // Optimize analytics
-        optimizeAnalytics();
-        
-        // Setup cleanup
-        cleanup();
-        
-        // Performance: Mark page as loaded
-        window.addEventListener('load', () => {
-            document.documentElement.classList.add('page-loaded');
-        });
-    }
-    
-    // Initialize theme manager immediately (don't wait for DOM)
-    initThemeManager();
-    
-    // Performance: Use DOMContentLoaded for faster initialization
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
+    // Page load complete
+    window.addEventListener('load', this.handlePageLoad.bind(this));
+  }
+
+  /**
+   * Handle page visibility changes
+   */
+  handleVisibilityChange() {
+    if (document.hidden) {
+      console.log('📱 Page hidden');
+      dispatchCustomEvent('app:hidden');
     } else {
-        init();
+      console.log('👁️ Page visible');
+      dispatchCustomEvent('app:visible');
     }
+  }
+
+  /**
+   * Handle online status
+   */
+  handleOnline() {
+    console.log('🌐 Connection restored');
+    dispatchCustomEvent('app:online');
+    document.documentElement.classList.remove('offline');
+    document.documentElement.classList.add('online');
+  }
+
+  /**
+   * Handle offline status
+   */
+  handleOffline() {
+    console.log('📡 Connection lost');
+    dispatchCustomEvent('app:offline');
+    document.documentElement.classList.remove('online');
+    document.documentElement.classList.add('offline');
+  }
+
+  /**
+   * Handle global JavaScript errors
+   * @param {ErrorEvent} event - Error event
+   */
+  handleGlobalError(event) {
+    console.error('Global error:', event.error);
     
-})(); 
+    // Report to analytics if available
+    if (window.gtag) {
+      gtag('event', 'exception', {
+        'description': event.error.message,
+        'fatal': false
+      });
+    }
+  }
+
+  /**
+   * Handle unhandled promise rejections
+   * @param {PromiseRejectionEvent} event - Promise rejection event
+   */
+  handleUnhandledRejection(event) {
+    console.error('Unhandled promise rejection:', event.reason);
+    
+    // Report to analytics if available
+    if (window.gtag) {
+      gtag('event', 'exception', {
+        'description': `Unhandled Promise: ${event.reason}`,
+        'fatal': false
+      });
+    }
+  }
+
+  /**
+   * Handle page unload
+   */
+  handleBeforeUnload() {
+    console.log('📤 Page unloading');
+    
+    // Cleanup modules
+    this.modules.forEach((module, name) => {
+      if (typeof module.cleanup === 'function') {
+        try {
+          module.cleanup();
+        } catch (error) {
+          console.error(`Error cleaning up ${name} module:`, error);
+        }
+      }
+    });
+    
+    dispatchCustomEvent('app:beforeunload');
+  }
+
+  /**
+   * Handle page load complete
+   */
+  handlePageLoad() {
+    console.log('🎯 Page load complete');
+    document.documentElement.classList.add('page-loaded');
+    dispatchCustomEvent('app:loaded');
+    
+    // Report performance metrics
+    const performance = this.getModule('performance');
+    if (performance && typeof performance.reportPerformanceMetrics === 'function') {
+      // Performance metrics will be reported by the performance module
+    }
+  }
+
+  /**
+   * Handle initialization errors
+   * @param {Error} error - Initialization error
+   */
+  handleInitializationError(error) {
+    // Show user-friendly error message
+    console.error('Application failed to initialize properly');
+    
+    // Try to initialize in degraded mode
+    this.initializeDegradedMode();
+  }
+
+  /**
+   * Initialize application in degraded mode (fallback)
+   */
+  initializeDegradedMode() {
+    console.log('🔄 Initializing in degraded mode');
+    
+    // Basic functionality only
+    document.documentElement.classList.add('degraded-mode');
+    
+    // Ensure theme still works
+    if (!this.modules.has('theme')) {
+      try {
+        this.modules.set('theme', new ThemeManager());
+      } catch (error) {
+        console.error('Even theme failed in degraded mode:', error);
+      }
+    }
+  }
+
+  /**
+   * Get module instance
+   * @param {string} name - Module name
+   * @returns {Object|null} Module instance
+   */
+  getModule(name) {
+    return this.modules.get(name) || null;
+  }
+
+  /**
+   * Check if module is loaded
+   * @param {string} name - Module name
+   * @returns {boolean} Whether module is loaded
+   */
+  hasModule(name) {
+    return this.modules.has(name);
+  }
+
+  /**
+   * Get application version
+   * @returns {string} Application version
+   */
+  getVersion() {
+    return this.version;
+  }
+
+  /**
+   * Get initialization status
+   * @returns {boolean} Whether app is initialized
+   */
+  isInitialized() {
+    return this.initialized;
+  }
+
+  /**
+   * Reload application
+   */
+  reload() {
+    console.log('🔄 Reloading application');
+    window.location.reload();
+  }
+
+  /**
+   * Debug information
+   * @returns {Object} Debug information
+   */
+  debug() {
+    return {
+      version: this.version,
+      initialized: this.initialized,
+      modules: Array.from(this.modules.keys()),
+      userAgent: navigator.userAgent,
+      url: window.location.href,
+      timestamp: new Date().toISOString()
+    };
+  }
+}
+
+// Initialize application
+const app = new App();
+
+// Make app available globally for debugging
+window.app = app;
+
+// Start initialization
+app.init().catch(error => {
+  console.error('Critical app initialization failure:', error);
+});
+
+// Export for potential module usage
+export default app; 

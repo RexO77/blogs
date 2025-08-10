@@ -35,29 +35,44 @@
     {{ end }}
 </head>
 <body>
-    <div class="container">
-        <header class="site-header">
-            <!-- Theme toggle with CSS-controlled text -->
-            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-                <span class="theme-text theme-text-light">Light</span>
-                <span class="theme-text theme-text-dark">Dark</span>
+    <!-- Site Header -->
+    <header class="site-header" role="banner">
+        <div class="site-header__container">
+            <!-- Theme toggle with improved accessibility -->
+            <button 
+                id="theme-toggle" 
+                class="theme-toggle" 
+                aria-label="Toggle between light and dark theme"
+                aria-pressed="false"
+                type="button">
+                <span class="theme-text theme-text--light">Light</span>
+                <span class="theme-text theme-text--dark">Dark</span>
             </button>
             
-            <!-- Centered logo -->
-            <a class="logo" href="{{ .Site.Home.Permalink }}">{{ .Site.Title }}</a>
+            <!-- Centered logo with proper semantics -->
+            <a class="logo" href="{{ .Site.Home.Permalink }}" aria-label="Go to homepage">
+                {{ .Site.Title }}
+            </a>
             
-            <!-- Main site link -->
-            <a class="main-site-link" href="https://www.nischalskanda.tech" target="_blank" rel="noopener noreferrer">Main Site</a>
-        </header>
-        
-        <main>
-            <!-- Page content will be injected here -->
-            {{ block "main" . }}{{ end }}
-        </main>
-    </div>
+            <!-- Main site link with improved accessibility -->
+            <a 
+                class="main-site-link" 
+                href="https://www.nischalskanda.tech" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                aria-label="Visit main portfolio site (opens in new tab)">
+                Main Site
+            </a>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main id="main" role="main" class="container">
+        {{ block "main" . }}{{ end }}
+    </main>
     
     {{ $js := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint }}
-    <script src="{{ $js.RelPermalink }}" defer integrity="{{ $js.Data.Integrity }}"></script>
+    <script type="module" src="{{ $js.RelPermalink }}" defer integrity="{{ $js.Data.Integrity }}"></script>
     
     <!-- Analytics Test Script (remove in production) -->
     {{ $analyticsTest := resources.Get "js/analytics-test.js" | resources.Minify }}

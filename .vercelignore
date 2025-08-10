@@ -1,0 +1,62 @@
+# Vercel Ignore File
+# Optimize deployment by excluding unnecessary files
+
+# Development files
+.git/
+.gitignore
+.DS_Store
+.vscode/
+.idea/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Hugo development files
+resources/_gen/
+.hugo_build.lock
+hugo_stats.json
+
+# Node modules (if any)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build artifacts (will be regenerated)
+public/
+
+# Development scripts
+dev.sh
+verify-urls.sh
+
+# Documentation
+readme.md
+README.md
+*.md
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# OS generated files
+Thumbs.db
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# IDE files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Hugo archetypes (not needed for production)
+archetypes/
+
+# Scripts (except build.sh)
+scripts/
+!build.sh

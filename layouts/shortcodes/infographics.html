@@ -1,239 +1,411 @@
-{{ $itemsParam := .Get "items" }}
-{{ if not $itemsParam }}{{ $itemsParam = "stats,memory,addiction,platforms" }}{{ end }}
-{{ $hasStats := in $itemsParam "stats" }}
-{{ $hasMemory := in $itemsParam "memory" }}
-{{ $hasAddiction := in $itemsParam "addiction" }}
-{{ $hasPlatforms := in $itemsParam "platforms" }}
-{{ $.Scratch.Set "charts" 0 }}
-{{ if $hasMemory }}{{ $.Scratch.Add "charts" 1 }}{{ end }}
-{{ if $hasAddiction }}{{ $.Scratch.Add "charts" 1 }}{{ end }}
-{{ if $hasPlatforms }}{{ $.Scratch.Add "charts" 1 }}{{ end }}
-{{ $charts := $.Scratch.Get "charts" }}
-<div class="infographics" id="infographics">
+{{/* Infographics Shortcode - Clean & Maintainable Version */}}
+{{/* Parse parameters */}}
+{{ $items := .Get "items" | default "stats,memory,addiction,platforms" }}
+{{ $hasStats := in $items "stats" }}
+{{ $hasMemory := in $items "memory" }}
+{{ $hasAddiction := in $items "addiction" }}
+{{ $hasPlatforms := in $items "platforms" }}
+
+{{/* Calculate chart count for layout decisions */}}
+{{ $chartCount := 0 }}
+{{ if $hasMemory }}{{ $chartCount = add $chartCount 1 }}{{ end }}
+{{ if $hasAddiction }}{{ $chartCount = add $chartCount 1 }}{{ end }}
+{{ if $hasPlatforms }}{{ $chartCount = add $chartCount 1 }}{{ end }}
+
+<section 
+  class="infographics" 
+  id="infographics-{{ now.Unix }}"
+  data-chart-count="{{ $chartCount }}"
+  aria-label="Data visualization">
+  
   <div class="infograph-grid">
+    {{/* Statistics Cards */}}
     {{ if $hasStats }}
-      <div class="data-card">
-        <div class="big-stat">40%</div>
-        <p class="big-stat-desc">Productivity loss from task-switching</p>
-      </div>
-      <div class="data-card">
-        <div class="big-stat">23m 15s</div>
-        <p class="big-stat-desc">Time to regain focus after one interruption</p>
-      </div>
-      <div class="data-card">
-        <div class="big-stat">~5 hrs</div>
-        <p class="big-stat-desc">Avg daily smartphone use (India)</p>
-      </div>
+      {{ partial "infographics/stats-cards.html" . }}
     {{ end }}
 
+    {{/* Memory Performance Chart */}}
     {{ if $hasMemory }}
-      <div class="data-card chart-card {{ if and $hasStats (eq $charts 1) }}span-full{{ end }}">
-        <h3>Working Memory: Heavy vs Light Multitaskers</h3>
-        <div class="chart-container">
-          <canvas id="memoryPerformanceChart"></canvas>
+      <div class="data-card chart-card {{ if and $hasStats (eq $chartCount 1) }}span-full{{ end }}">
+        <h3 class="chart-card__title">Working Memory: Heavy vs Light Multitaskers</h3>
+        <div class="chart-container" role="img" aria-label="Bar chart showing working memory performance">
+          <canvas 
+            id="memoryChart-{{ now.Unix }}" 
+            data-chart-type="memory"
+            aria-describedby="memory-description">
+          </canvas>
+          <div id="memory-description" class="sr-only">
+            Chart showing that light multitaskers score 85% on working memory tests compared to 60% for heavy multitaskers.
+          </div>
         </div>
       </div>
     {{ end }}
 
+    {{/* Addiction Awareness Chart */}}
     {{ if $hasAddiction }}
       <div class="data-card chart-card">
-        <h3>Gen Z "Addiction" Awareness</h3>
-        <div class="chart-container">
-          <canvas id="addictionChart"></canvas>
+        <h3 class="chart-card__title">Gen Z "Addiction" Awareness</h3>
+        <div class="chart-container" role="img" aria-label="Doughnut chart showing addiction awareness">
+          <canvas 
+            id="addictionChart-{{ now.Unix }}" 
+            data-chart-type="addiction"
+            aria-describedby="addiction-description">
+          </canvas>
+          <div id="addiction-description" class="sr-only">
+            Chart showing that 82% of Gen Z find social media addicting, while 18% do not.
+          </div>
         </div>
       </div>
     {{ end }}
 
+    {{/* Platform Usage Chart */}}
     {{ if $hasPlatforms }}
       <div class="data-card chart-card">
-        <h3>Top Social Platforms (India)</h3>
-        <div class="chart-container">
-          <canvas id="platformUsageChart"></canvas>
+        <h3 class="chart-card__title">Top Social Platforms (India)</h3>
+        <div class="chart-container" role="img" aria-label="Horizontal bar chart showing platform usage">
+          <canvas 
+            id="platformChart-{{ now.Unix }}" 
+            data-chart-type="platforms"
+            aria-describedby="platform-description">
+          </canvas>
+          <div id="platform-description" class="sr-only">
+            Chart showing social media usage in India: WhatsApp 80.8%, Instagram 77.9%, Facebook 67.8%.
+          </div>
         </div>
       </div>
     {{ end }}
   </div>
-</div>
+</section>
 
+{{/* Chart initialization script */}}
 <script>
 (function() {
-  function ensureChartJs(callback) {
-    if (window.Chart) { callback(); return; }
-    var script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
-    script.defer = true;
-    script.onload = callback;
-    document.head.appendChild(script);
-  }
-
-  function initInfographics() {
-    if (!window.Chart) return;
-
-    function getThemeMode() {
-      var html = document.documentElement;
-      var mode = html.getAttribute('data-theme');
-      if (mode) return mode;
-      return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  'use strict';
+  
+  // Chart Manager Implementation (self-contained for compatibility)
+  class ChartManager {
+    constructor(container) {
+      this.container = container;
+      this.charts = new Map();
+      this.colors = {
+        primary: '#0099ff',
+        secondary: '#ffd700',
+        success: '#10b981',
+        danger: '#ef4444',
+        warning: '#f59e0b',
+        purple: '#8b5cf6',
+        gray: '#6b7280'
+      };
     }
 
-    function getAxisColors() {
-      var mode = getThemeMode();
-      if (mode === 'dark') {
-        return { tick: '#E5E7EB', grid: 'rgba(255,255,255,0.12)' };
+    async init() {
+      try {
+        await this.loadChartJS();
+        this.setupIntersectionObserver();
+        this.setupThemeListener();
+      } catch (error) {
+        console.error('Failed to initialize ChartManager:', error);
       }
-      return { tick: '#374151', grid: 'rgba(17,24,39,0.12)' };
     }
 
-    var themeAware = getAxisColors();
+    async loadChartJS() {
+      if (window.Chart) return Promise.resolve();
+      
+      return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js';
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
+    }
 
-    const chartColors = {
-      red: 'rgba(239, 68, 68, 0.7)',
-      blue: 'rgba(59, 130, 246, 0.7)',
-      green: 'rgba(34, 197, 94, 0.7)',
-      purple: 'rgba(139, 92, 246, 0.7)',
-      grayBorder: 'rgba(0,0,0,0.1)',
-      redBorder: 'rgb(239, 68, 68)',
-      blueBorder: 'rgb(59, 130, 246)'
-    };
+    setupIntersectionObserver() {
+      if (!('IntersectionObserver' in window)) {
+        this.initializeCharts();
+        return;
+      }
 
-    var createdCharts = [];
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            this.initializeCharts();
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.2,
+        rootMargin: '50px'
+      });
 
-    // Memory Performance
-    var memoryCtx = document.getElementById('memoryPerformanceChart');
-    if (memoryCtx && !memoryCtx._chart) {
-      memoryCtx._chart = new Chart(memoryCtx, {
+      observer.observe(this.container);
+    }
+
+    initializeCharts() {
+      const canvases = this.container.querySelectorAll('canvas[data-chart-type]');
+      
+      canvases.forEach(canvas => {
+        const chartType = canvas.dataset.chartType;
+        const chartId = canvas.id;
+        
+        if (this.charts.has(chartId)) return;
+        
+        try {
+          const chart = this.createChart(canvas, chartType);
+          if (chart) {
+            this.charts.set(chartId, chart);
+          }
+        } catch (error) {
+          console.error(`Failed to create ${chartType} chart:`, error);
+        }
+      });
+    }
+
+    createChart(canvas, type) {
+      const ctx = canvas.getContext('2d');
+      const themeColors = this.getThemeColors();
+      
+      switch (type) {
+        case 'memory':
+          return this.createMemoryChart(ctx, themeColors);
+        case 'addiction':
+          return this.createAddictionChart(ctx, themeColors);
+        case 'platforms':
+          return this.createPlatformChart(ctx, themeColors);
+        default:
+          console.warn(`Unknown chart type: ${type}`);
+          return null;
+      }
+    }
+
+    createMemoryChart(ctx, themeColors) {
+      return new Chart(ctx, {
         type: 'bar',
         data: {
           labels: ['Light Multitaskers', 'Heavy Multitaskers'],
           datasets: [{
-            label: 'Working Memory Score',
+            label: 'Working Memory Score (%)',
             data: [85, 60],
-            backgroundColor: [chartColors.blue, chartColors.red],
-            borderColor: [chartColors.blueBorder, chartColors.redBorder],
-            borderWidth: 1
+            backgroundColor: [
+              this.colors.primary + '99',
+              this.colors.danger + '99'
+            ],
+            borderColor: [
+              this.colors.primary,
+              this.colors.danger
+            ],
+            borderWidth: 2,
+            borderRadius: 6,
+            borderSkipped: false
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          layout: { padding: { top: 16, right: 24, bottom: 24, left: 24 } },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              titleFont: { family: 'Satoshi', size: 14, weight: 'bold' },
+              bodyFont: { family: 'Satoshi', size: 13 },
+              cornerRadius: 8,
+              padding: 12,
+              callbacks: {
+                label: function(context) {
+                  return `${context.dataset.label}: ${context.parsed.y}%`;
+                }
+              }
+            }
+          },
           scales: {
             x: {
               grid: { display: false },
-              ticks: { color: themeAware.tick }
+              ticks: {
+                color: themeColors.text,
+                font: { family: 'Satoshi', size: 12, weight: '500' }
+              }
             },
             y: {
               beginAtZero: true,
               max: 100,
-              grid: { color: themeAware.grid },
-              ticks: { stepSize: 20, color: themeAware.tick }
+              grid: { color: themeColors.grid },
+              ticks: {
+                stepSize: 20,
+                color: themeColors.text,
+                font: { family: 'Satoshi', size: 11 },
+                callback: function(value) { return value + '%'; }
+              }
             }
-          },
-          plugins: {
-            legend: { display: false },
-            tooltip: { enabled: true }
-          },
-          animation: { duration: 0 },
-          transitions: { active: { animation: { duration: 0 } }, resize: { animation: { duration: 0 } } }
+          }
         }
       });
-      createdCharts.push(memoryCtx._chart);
     }
 
-    // Addiction Awareness
-    var addictionCtx = document.getElementById('addictionChart');
-    if (addictionCtx && !addictionCtx._chart) {
-      addictionCtx._chart = new Chart(addictionCtx, {
+    createAddictionChart(ctx, themeColors) {
+      return new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: ['Find social media "addicting"', 'Do not'],
+          labels: ['Find social media "addicting"', 'Do not find it addicting'],
           datasets: [{
             data: [82, 18],
-            backgroundColor: [chartColors.red, 'rgba(209, 213, 219, 0.7)']
+            backgroundColor: [
+              this.colors.danger + 'CC',
+              themeColors.muted + '80'
+            ],
+            borderColor: [
+              this.colors.danger,
+              themeColors.muted
+            ],
+            borderWidth: 2
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          cutout: '55%',
-          plugins: { legend: { position: 'bottom' } },
-          animation: { duration: 0 },
-          transitions: { active: { animation: { duration: 0 } }, resize: { animation: { duration: 0 } } }
+          cutout: '60%',
+          plugins: {
+            legend: {
+              display: true,
+              position: 'bottom',
+              labels: {
+                usePointStyle: true,
+                padding: 20,
+                color: themeColors.text,
+                font: { family: 'Satoshi', size: 12, weight: '500' }
+              }
+            },
+            tooltip: {
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              callbacks: {
+                label: function(context) {
+                  return `${context.label}: ${context.parsed}%`;
+                }
+              }
+            }
+          }
         }
       });
-      createdCharts.push(addictionCtx._chart);
     }
 
-    // Platform Usage
-    var platformCtx = document.getElementById('platformUsageChart');
-    if (platformCtx && !platformCtx._chart) {
-      platformCtx._chart = new Chart(platformCtx, {
+    createPlatformChart(ctx, themeColors) {
+      return new Chart(ctx, {
         type: 'bar',
         data: {
           labels: ['WhatsApp', 'Instagram', 'Facebook'],
           datasets: [{
             label: 'Usage among internet users (%)',
             data: [80.8, 77.9, 67.8],
-            backgroundColor: [chartColors.green, chartColors.purple, chartColors.blue]
+            backgroundColor: [
+              this.colors.success + '99',
+              this.colors.purple + '99',
+              this.colors.primary + '99'
+            ],
+            borderColor: [
+              this.colors.success,
+              this.colors.purple,
+              this.colors.primary
+            ],
+            borderWidth: 2,
+            borderRadius: 6,
+            borderSkipped: false
           }]
         },
         options: {
           indexAxis: 'y',
           responsive: true,
           maintainAspectRatio: false,
-          scales: { x: { beginAtZero: true, max: 100, grid: { color: themeAware.grid }, ticks: { color: themeAware.tick } }, y: { ticks: { color: themeAware.tick }, grid: { display: false } } },
-          plugins: { legend: { display: false } },
-          animation: { duration: 0 },
-          transitions: { active: { animation: { duration: 0 } }, resize: { animation: { duration: 0 } } }
-        }
-      });
-      createdCharts.push(platformCtx._chart);
-    }
-
-    // Update charts when theme changes
-    try {
-      var observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-          if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
-            var colors = getAxisColors();
-            createdCharts.forEach(function(ch) {
-              if (ch.options.scales) {
-                if (ch.options.scales.x) {
-                  ch.options.scales.x.ticks = ch.options.scales.x.ticks || {};
-                  ch.options.scales.x.ticks.color = colors.tick;
-                  if (ch.options.scales.x.grid) ch.options.scales.x.grid.color = colors.grid;
-                }
-                if (ch.options.scales.y) {
-                  ch.options.scales.y.ticks = ch.options.scales.y.ticks || {};
-                  ch.options.scales.y.ticks.color = colors.tick;
-                  if (ch.options.scales.y.grid) ch.options.scales.y.grid.color = colors.grid;
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              callbacks: {
+                label: function(context) {
+                  return `${context.dataset.label}: ${context.parsed.x}%`;
                 }
               }
-              ch.update();
-            });
+            }
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              max: 100,
+              grid: { color: themeColors.grid },
+              ticks: {
+                color: themeColors.text,
+                font: { family: 'Satoshi', size: 11 },
+                callback: function(value) { return value + '%'; }
+              }
+            },
+            y: {
+              grid: { display: false },
+              ticks: {
+                color: themeColors.text,
+                font: { family: 'Satoshi', size: 12, weight: '500' }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    getThemeColors() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark' ||
+                     (!document.documentElement.getAttribute('data-theme') && 
+                      window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+      return {
+        text: isDark ? '#e5e7eb' : '#374151',
+        muted: isDark ? '#9ca3af' : '#6b7280',
+        grid: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+        background: isDark ? '#1a1a1a' : '#ffffff'
+      };
+    }
+
+    setupThemeListener() {
+      document.addEventListener('themechange', () => {
+        this.updateChartsTheme();
+      });
+
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+            this.updateChartsTheme();
           }
         });
       });
-      observer.observe(document.documentElement, { attributes: true });
-    } catch (e) {}
-  }
 
-  function onVisible(el, callback) {
-    if (!('IntersectionObserver' in window)) { callback(); return; }
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          callback();
-          io.unobserve(entry.target);
-        }
+      observer.observe(document.documentElement, { 
+        attributes: true,
+        attributeFilter: ['data-theme']
       });
-    }, { threshold: 0.2 });
-    io.observe(el);
+    }
+
+    updateChartsTheme() {
+      const themeColors = this.getThemeColors();
+      
+      this.charts.forEach((chart) => {
+        if (chart.options.scales) {
+          Object.keys(chart.options.scales).forEach(scaleKey => {
+            const scale = chart.options.scales[scaleKey];
+            if (scale.ticks) scale.ticks.color = themeColors.text;
+            if (scale.grid) scale.grid.color = themeColors.grid;
+          });
+        }
+
+        if (chart.options.plugins?.legend?.labels) {
+          chart.options.plugins.legend.labels.color = themeColors.text;
+        }
+
+        chart.update('none');
+      });
+    }
   }
 
-  var root = document.getElementById('infographics');
-  if (root) {
-    onVisible(root, function() { ensureChartJs(initInfographics); });
+  // Initialize charts when the section becomes visible
+  const infographicsSection = document.getElementById('infographics-{{ now.Unix }}');
+  if (infographicsSection) {
+    const chartManager = new ChartManager(infographicsSection);
+    chartManager.init();
   }
 })();
 </script>
