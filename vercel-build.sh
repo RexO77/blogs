@@ -50,10 +50,13 @@ rm -rf resources/_gen/ 2>/dev/null || true
 
 # Validate content
 print_status "Validating Hugo content..."
-if hugo --quiet --buildDrafts=false --buildFuture=false --renderToMemory; then
+TMPDIR=$(mktemp -d)
+if hugo --quiet --buildDrafts=false --buildFuture=false -d "$TMPDIR"; then
     print_success "Content validation passed"
+    rm -rf "$TMPDIR"
 else
     print_error "Content validation failed"
+    rm -rf "$TMPDIR"
     exit 1
 fi
 
