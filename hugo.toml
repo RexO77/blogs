@@ -43,12 +43,15 @@ canonifyURLs = true
   googleAnalytics = ""  # Add your GA4 tracking ID
   vercelAnalytics = true  # Enable Vercel Analytics
   
-# Performance
-  lazyLoading = true
-  
-# Build performance
+# Performance & Build Optimization
 [build]
   writeStats = true
+  includeFiles = [
+    "assets/**",
+    "layouts/**",
+    "content/**",
+    "static/**"
+  ]
   
 [minify]
   disableCSS = false
@@ -57,36 +60,117 @@ canonifyURLs = true
   disableJSON = false
   disableSVG = false
   disableXML = false
+  minifyOutput = true
   
+  # Advanced minification settings
+  [minify.tdewolff]
+    [minify.tdewolff.css]
+      keepCSS2 = true
+      precision = 0
+    [minify.tdewolff.html]
+      keepComments = false
+      keepConditionalComments = true
+      keepDefaultAttrVals = true
+      keepDocumentTags = true
+      keepEndTags = true
+      keepQuotes = false
+      keepWhitespace = false
+    [minify.tdewolff.js]
+      keepVarNames = false
+      precision = 0
+    [minify.tdewolff.json]
+      precision = 0
+    [minify.tdewolff.svg]
+      precision = 1
+    [minify.tdewolff.xml]
+      keepWhitespace = false
+
+# Enhanced Caching Strategy
 [caches]
   [caches.getjson]
-    maxAge = "10m"
+    dir = ":cacheDir/:project"
+    maxAge = "1h"
   [caches.getcsv]
-    maxAge = "10m"
+    dir = ":cacheDir/:project"
+    maxAge = "1h"
+  [caches.getresource]
+    dir = ":cacheDir/:project"
+    maxAge = "24h"
   [caches.images]
-    maxAge = "8760h"  # 1 year
+    dir = ":resourceDir/_gen"
+    maxAge = "8760h"  # 1 year - images rarely change
   [caches.assets]
+    dir = ":resourceDir/_gen"
+    maxAge = "720h"   # 30 days - assets may change more frequently
+  [caches.modules]
+    dir = ":cacheDir/modules"
     maxAge = "8760h"  # 1 year
-  
+
+# Advanced Image Processing
 [imaging]
-  # Optimized image settings for performance
+  # High quality settings with performance optimization
   quality = 85
-  resampleFilter = "Lanczos"
+  resampleFilter = "CatmullRom"  # Better quality than Lanczos for most images
   hint = "photo"
   anchor = "Smart"
+  bgColor = "#ffffff"
   
-  # Generate WebP versions for better performance
+  # WebP generation for modern browsers
   [imaging.webp]
     quality = 85
+    lossless = false
+  
+  # AVIF generation for cutting-edge performance
+  [imaging.avif]
+    quality = 80
+    speed = 5  # Balance between compression and encoding speed
+
+# Security configuration optimized for Vercel
+[security]
+  enableInlineShortcodes = false
+  [security.exec]
+    allow = ['^(dart-)?sass(-embedded)?$', '^go$', '^npx$', '^postcss$', '^git$']
+    osEnv = ['(?i)^((HTTPS?|NO)_PROXY|PATH(EXT)?|APPDATA|TE?MP|TERM|GO\w+|(XDG_)?CACHE_HOME|YARN_CACHE_FOLDER)$']
+  [security.funcs]
+    getenv = ['^HUGO_', '^CI$', '^VERCEL_', '^NEXT_PUBLIC_']
+  [security.http]
+    methods = ['(?i)GET|POST']
+    urls = ['.*']
 
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+      hardWraps = false
+      xhtml = false
+    [markup.goldmark.parser]
+      autoHeadingID = true
+      autoHeadingIDType = "github"
+      [markup.goldmark.parser.attribute]
+        block = false
+        title = true
+    [markup.goldmark.extensions]
+      definitionList = true
+      footnote = true
+      linkify = true
+      linkifyProtocol = "https"
+      strikethrough = true
+      table = true
+      taskList = true
+      typographer = true
   [markup.highlight]
     style = "github"
     lineNos = true
+    lineNumbersInTable = false
+    noClasses = false
     codeFences = true
+    guessSyntax = false
+    hl_Lines = ""
+    anchorLineNos = false
+  [markup.tableOfContents]
+    endLevel = 3
+    ordered = false
+    startLevel = 2
 
 # Menu configuration for better navigation
 [menu]

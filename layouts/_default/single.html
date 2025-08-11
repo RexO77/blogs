@@ -1,29 +1,31 @@
 {{ define "main" }}
-<article class="post-content" itemscope itemtype="https://schema.org/BlogPosting">
-    <header class="post-header" style="margin-bottom: 2rem; text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 2rem;">
-        <h1 itemprop="headline" style="margin-bottom: 1rem;">{{ .Title }}</h1>
-        <div class="post-meta" style="color: var(--text-color); opacity: 0.7; font-size: 0.85rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-            <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}" itemprop="datePublished">
+<article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+    <header class="post__header">
+        <h1 class="post__title" itemprop="headline">{{ .Title }}</h1>
+        <div class="post__meta">
+            <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}" itemprop="datePublished" class="post__date">
                 {{ .Date.Format "Jan 2, 2006" }}
             </time>
-            <span style="opacity: 0.5;">•</span>
-            <span>{{ .ReadingTime }} min read</span>
+            <span class="post__meta-separator" aria-hidden="true">•</span>
+            <span class="post__reading-time">{{ .ReadingTime }} min read</span>
             {{- if .Params.categories }}
-            <span style="opacity: 0.5;">•</span>
-            {{- range $index, $category := .Params.categories }}
-                {{- if $index }}, {{ end }}
-                <a href="{{ "/categories/" | relURL }}{{ $category | urlize }}" style="color: var(--accent-color-blue); text-decoration: none; font-weight: 500;">{{ $category }}</a>
-            {{- end }}
+            <span class="post__meta-separator" aria-hidden="true">•</span>
+            <div class="post__categories">
+                {{- range $index, $category := .Params.categories }}
+                    {{- if $index }}, {{ end }}
+                    <a href="{{ "/categories/" | relURL }}{{ $category | urlize }}" class="post__category-link">{{ $category }}</a>
+                {{- end }}
+            </div>
             {{- end }}
         </div>
         {{- if .Description }}
-        <div class="post-description" style="font-size: 1.1rem; color: var(--text-color); opacity: 0.8; font-style: italic; max-width: 600px; margin: 0 auto;" itemprop="description">
+        <div class="post__description" itemprop="description">
             {{ .Description }}
         </div>
         {{- end }}
     </header>
     
-    <div class="content" itemprop="articleBody">
+    <div class="post__content" itemprop="articleBody">
         {{ .Content }}
     </div>
     
@@ -32,62 +34,61 @@
     
     <!-- Tags -->
     {{- if .Params.tags }}
-    <div class="post-tags" style="margin: 2rem 0; padding: 1.5rem 0; border-top: 1px solid var(--border-color);">
-        <h3 style="margin: 0 0 1rem 0; font-size: 1.1rem; color: var(--text-color);">Tagged with:</h3>
-        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-            {{- range .Params.tags }}
-            <a href="{{ "/tags/" | relURL }}{{ . | urlize }}" 
-               style="display: inline-block; background: var(--accent-color-blue); color: white; padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.85rem; transition: transform 0.2s ease;"
-               onmouseover="this.style.transform='translateY(-2px)'"
-               onmouseout="this.style.transform='translateY(0)'">
-                #{{ . }}
-            </a>
-            {{- end }}
-        </div>
-    </div>
+    <footer class="post__footer">
+        <section class="post__tags">
+            <h3 class="post__tags-title">Tagged with:</h3>
+            <div class="post__tags-list">
+                {{- range .Params.tags }}
+                <a href="{{ "/tags/" | relURL }}{{ . | urlize }}" class="tag" aria-label="View posts tagged with {{ . }}">
+                    #{{ . }}
+                </a>
+                {{- end }}
+            </div>
+        </section>
+        
+        <!-- Social sharing -->
+        <section class="social-sharing">
+            <h3 class="social-sharing__title">Share this post:</h3>
+            <div class="social-sharing__buttons">
+                <a href="https://twitter.com/intent/tweet?url={{ .Permalink }}&text={{ .Title }}&via={{ .Site.Params.twitter | strings.TrimPrefix "@" }}" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   class="social-btn social-btn--twitter"
+                   aria-label="Share on Twitter (opens in new tab)">
+                    Share on Twitter
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink }}" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   class="social-btn social-btn--linkedin"
+                   aria-label="Share on LinkedIn (opens in new tab)">
+                    Share on LinkedIn
+                </a>
+            </div>
+        </section>
+        
+        <!-- Navigation to other posts -->
+        <nav class="post-nav" aria-label="Post navigation">
+            <div class="post-nav__container">
+                {{- if .PrevInSection }}
+                <div class="post-nav__item">
+                    <p class="post-nav__label">Previous Post</p>
+                    <a href="{{ .PrevInSection.RelPermalink }}" class="post-nav__link" rel="prev">
+                        {{ .PrevInSection.Title }}
+                    </a>
+                </div>
+                {{- end }}
+                {{- if .NextInSection }}
+                <div class="post-nav__item post-nav__item--next">
+                    <p class="post-nav__label">Next Post</p>
+                    <a href="{{ .NextInSection.RelPermalink }}" class="post-nav__link" rel="next">
+                        {{ .NextInSection.Title }}
+                    </a>
+                </div>
+                {{- end }}
+            </div>
+        </nav>
+    </footer>
     {{- end }}
-    
-    <!-- Social sharing -->
-    <div class="social-sharing" style="margin: 2rem 0; padding: 1.5rem 0; border-top: 1px solid var(--border-color); text-align: center;">
-        <h3 style="margin: 0 0 1rem 0; font-size: 1.1rem; color: var(--text-color);">Share this post:</h3>
-        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-            <a href="https://twitter.com/intent/tweet?url={{ .Permalink }}&text={{ .Title }}&via={{ .Site.Params.twitter | strings.TrimPrefix "@" }}" 
-               target="_blank" rel="noopener noreferrer"
-               style="display: inline-block; background: #1DA1F2; color: white; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; transition: opacity 0.2s ease;"
-               onmouseover="this.style.opacity='0.8'"
-               onmouseout="this.style.opacity='1'">
-                Share on Twitter
-            </a>
-            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink }}" 
-               target="_blank" rel="noopener noreferrer"
-               style="display: inline-block; background: #0077B5; color: white; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; transition: opacity 0.2s ease;"
-               onmouseover="this.style.opacity='0.8'"
-               onmouseout="this.style.opacity='1'">
-                Share on LinkedIn
-            </a>
-        </div>
-    </div>
-    
-    <!-- Navigation to other posts -->
-    <nav class="post-navigation" style="margin: 2rem 0; padding: 1.5rem 0; border-top: 1px solid var(--border-color);">
-        <div style="display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap;">
-            {{- if .PrevInSection }}
-            <div style="flex: 1; min-width: 200px;">
-                <p style="margin: 0 0 0.5rem 0; font-size: 0.85rem; text-transform: uppercase; color: var(--text-color); opacity: 0.7;">Previous Post</p>
-                <a href="{{ .PrevInSection.RelPermalink }}" style="color: var(--accent-color-blue); text-decoration: none; font-weight: 500;">
-                    {{ .PrevInSection.Title }}
-                </a>
-            </div>
-            {{- end }}
-            {{- if .NextInSection }}
-            <div style="flex: 1; min-width: 200px; text-align: right;">
-                <p style="margin: 0 0 0.5rem 0; font-size: 0.85rem; text-transform: uppercase; color: var(--text-color); opacity: 0.7;">Next Post</p>
-                <a href="{{ .NextInSection.RelPermalink }}" style="color: var(--accent-color-blue); text-decoration: none; font-weight: 500;">
-                    {{ .NextInSection.Title }}
-                </a>
-            </div>
-            {{- end }}
-        </div>
-    </nav>
 </article>
 {{ end }}
