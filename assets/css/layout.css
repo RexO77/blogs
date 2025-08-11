@@ -3,6 +3,11 @@
  * Mobile-First Responsive Design Approach
  */
 
+/* ===== GLOBAL LAYOUT SETUP ===== */
+body {
+  padding-top: var(--header-height);
+}
+
 /* ===== CONTAINER SYSTEM ===== */
 .container {
   max-width: var(--container-max-width);

@@ -1,22 +1,12 @@
 /*
- * Master Stylesheet - Modern CSS Architecture
- * Senior Frontend Developer Implementation
+ * Legacy Styles - Table & Infographics Components
  * 
- * Breaking down monolithic CSS into maintainable modules
- * Using design tokens, utility-first approach, and component architecture
+ * These styles are maintained for specific components that haven't been 
+ * fully migrated to the new modular system yet.
+ * 
+ * Note: CSS files are now concatenated in Hugo template:
+ * theme.css → base.css → layout.css → components.css → utilities.css → style.css
  */
-
-/* ===== CORE FOUNDATION ===== */
-@import 'theme.css';     /* Design tokens, variables, theme system */
-@import 'base.css';      /* Reset, typography, global elements */
-@import 'layout.css';    /* Grid, flexbox, container, positioning */
-@import 'components.css'; /* Reusable UI components */
-@import 'utilities.css';  /* Atomic utility classes */
-
-/* ===== GLOBAL LAYOUT SETUP ===== */
-body {
-  padding-top: var(--header-height);
-}
 
 /* ===== LEGACY SUPPORT & MIGRATION ===== */
 /* These styles maintain compatibility during migration */

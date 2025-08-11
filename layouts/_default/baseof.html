@@ -5,7 +5,13 @@
     {{ partial "head-seo.html" . }}
     
     <!-- Optimized & fingerprinted CSS with preload -->
-    {{ $style := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}
+    {{ $theme := resources.Get "css/theme.css" }}
+    {{ $base := resources.Get "css/base.css" }}
+    {{ $layout := resources.Get "css/layout.css" }}
+    {{ $components := resources.Get "css/components.css" }}
+    {{ $utilities := resources.Get "css/utilities.css" }}
+    {{ $legacy := resources.Get "css/style.css" }}
+    {{ $style := slice $theme $base $layout $components $utilities $legacy | resources.Concat "css/bundle.css" | resources.Minify | resources.Fingerprint }}
     <link rel="preload" href="{{ $style.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="{{ $style.Data.Integrity }}">
     <noscript><link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}"></noscript>
     
