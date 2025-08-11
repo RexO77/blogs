@@ -98,11 +98,6 @@
       "destination": "/$1"
     }
   ],
-  "functions": {
-    "app/api/**/*.js": {
-      "runtime": "nodejs18.x"
-    }
-  },
   "trailingSlash": false,
   "cleanUrls": true,
   "github": {
