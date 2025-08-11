@@ -7,7 +7,7 @@
       "NODE_VERSION": "18.x"
     }
   },
-  "buildCommand": "chmod +x ./build.sh && ./build.sh",
+  "buildCommand": "chmod +x ./vercel-build.sh && ./vercel-build.sh",
   "outputDirectory": "public",
   "installCommand": "",
   "devCommand": "hugo server --buildDrafts --buildFuture --baseURL=\"http://localhost:1313\" --bind=\"0.0.0.0\"",
