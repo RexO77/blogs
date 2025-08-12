@@ -8,6 +8,7 @@ export class ThemeManager {
     this.html = document.documentElement;
     this.storageKey = 'theme';
     this.prefersDarkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    this.toggleButton = null;
     
     this.init();
   }
@@ -69,6 +70,9 @@ export class ThemeManager {
     
     this.currentTheme = theme;
     
+    // Reflect state on the toggle for accessibility
+    this.updateToggleState();
+    
     // Dispatch custom event for other modules to listen
     this.dispatchThemeChangeEvent(theme);
   }
@@ -88,8 +92,12 @@ export class ThemeManager {
     const setupToggle = () => {
       const themeToggle = document.getElementById('theme-toggle');
       if (themeToggle && !themeToggle._themeHandlerAttached) {
+        this.toggleButton = themeToggle;
         themeToggle.addEventListener('click', () => this.toggle());
         themeToggle._themeHandlerAttached = true;
+        
+        // Sync initial state
+        this.updateToggleState();
         
         // Add keyboard support
         themeToggle.addEventListener('keydown', (e) => {
@@ -106,6 +114,16 @@ export class ThemeManager {
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', setupToggle);
     }
+  }
+
+  /**
+   * Update toggle accessibility and label state
+   */
+  updateToggleState() {
+    if (!this.toggleButton) return;
+    const isDark = this.currentTheme === 'dark';
+    this.toggleButton.setAttribute('aria-pressed', String(isDark));
+    this.toggleButton.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
   }
 
   /**

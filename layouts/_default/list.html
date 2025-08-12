@@ -20,20 +20,8 @@
                     <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}" itemprop="datePublished" class="post-item__date">
                         {{ .Date.Format "January 2, 2006" }}
                     </time>
-                    {{- if .Params.tags }}
-                    <div class="post-item__tags">
-                        {{- range $index, $tag := first 3 .Params.tags }}
-                        <span class="post-item__tag">#{{ $tag }}</span>
-                        {{- end }}
-                    </div>
-                    {{- end }}
                 </div>
             </header>
-            {{- if .Description }}
-            <div class="post-item__excerpt" itemprop="description">
-                {{ .Description }}
-            </div>
-            {{- end }}
         </article>
     {{ end }}
     
