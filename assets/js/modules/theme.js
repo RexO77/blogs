@@ -19,10 +19,20 @@ export class ThemeManager {
   init() {
     // Get current theme immediately
     this.currentTheme = this.getCurrentTheme();
+    // Sync with attribute set by the inline head script if present
+    const attrTheme = this.html.getAttribute('data-theme');
+    if (attrTheme === 'dark' || attrTheme === 'light') {
+      this.currentTheme = attrTheme;
+    }
     
-    // Apply theme immediately if not already set
-    if (!this.html.hasAttribute('data-theme')) {
-      this.applyTheme(this.currentTheme, false);
+    // Only apply immediately if the user has an explicit stored preference
+    // This avoids overriding system preference when no choice was made
+    const stored = localStorage.getItem(this.storageKey);
+    if (!this.html.hasAttribute('data-theme') && stored) {
+      this.applyTheme(stored, false);
+    } else {
+      // Ensure ARIA state reflects the current theme
+      this.updateToggleState();
     }
     
     // Setup theme toggle
@@ -55,10 +65,11 @@ export class ThemeManager {
     // Force reflow to ensure clean state
     this.html.offsetHeight;
     
-    // Apply new theme (only if dark, light is default)
-    if (theme === 'dark') {
-      this.html.setAttribute('data-theme', 'dark');
-    }
+    // Apply new theme explicitly for both states to override system preference
+    this.html.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
+    // Apply a class to help debug CSS specificity issues
+    this.html.classList.remove('theme-light', 'theme-dark');
+    this.html.classList.add(theme === 'dark' ? 'theme-dark' : 'theme-light');
     
     // Force another reflow for instant visual change
     this.html.offsetHeight;

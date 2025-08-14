@@ -164,6 +164,25 @@
 }
 
 /* ===== DARK THEME OVERRIDE ===== */
+/* Support explicit 'light' to normalize variables as well */
+[data-theme="light"] {
+  /* Light theme re-assertion to prevent system-preference bleed-through */
+  --color-background: #f8f7f3;
+  --color-surface: var(--color-white);
+  --color-surface-elevated: var(--color-white);
+  --color-text: #1a1a1a;
+  --color-text-muted: var(--color-gray-600);
+  --color-text-subtle: var(--color-gray-500);
+  --color-border: rgba(0, 0, 0, 0.1);
+  --color-border-subtle: rgba(0, 0, 0, 0.05);
+  --color-primary: #0099ff;
+  --color-primary-hover: #0088e6;
+  --color-accent: #ffd700;
+  --color-accent-hover: #e6c200;
+  --glass-bg: rgba(255, 255, 255, 0.2);
+  --glass-border: rgba(255, 255, 255, 0.3);
+}
+
 [data-theme="dark"] {
   /* Dark Theme Semantic Colors */
   --color-background: #0a0a0a;

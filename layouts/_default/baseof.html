@@ -19,22 +19,16 @@
     <link rel="preload" href="/fonts/Satoshi-Regular.otf" as="font" type="font/otf" crossorigin>
     <link rel="preload" href="/fonts/Unbounded-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
     
-    <!-- Immediate theme script to prevent FOUC (apply 'dark' only) -->
+    <!-- Immediate theme script to prevent FOUC (mirror production technique) -->
     <script>
         (function() {
             try {
                 const stored = localStorage.getItem('theme');
                 const theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-                if (theme === 'dark') {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                } else {
-                    document.documentElement.removeAttribute('data-theme');
-                }
+                document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
             } catch (e) {
-                // If anything fails, fall back to system preference
-                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                }
+                const fallback = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', fallback);
             }
         })();
     </script>
