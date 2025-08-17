@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Research on IDEA LABS</title>
+    <link>http://localhost:1313/categories/research/</link>
+    <description>Recent content in Research on IDEA LABS</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 27 Jan 2025 10:30:00 +0530</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/research/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Everything We Know About AI Is a Lie (And Silicon Valley Hopes You Never Find Out)</title>
+      <link>http://localhost:1313/posts/ai_is_lying/</link>
+      <pubDate>Mon, 27 Jan 2025 10:30:00 +0530</pubDate>
+      <guid>http://localhost:1313/posts/ai_is_lying/</guid>
+      <description>&lt;p style=&#34;color: red; font-weight: bold;&#34;&gt;&lt;em&gt;Image not found: images/thumbnail.jpg&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Okay — buckle up. This is gonna be raw, messy, and kinda deliciously paranoid. What we&amp;rsquo;ve been sold as &amp;ldquo;AI&amp;rdquo; — bigger models, more data, instant genius — is largely theatrical. Apple&amp;rsquo;s paper &lt;em&gt;The Illusion of Thinking&lt;/em&gt; ripped the veil off a thing that every ML lab kinda already knew: these models &lt;strong&gt;simulate&lt;/strong&gt; thinking, and when problems actually get hard, they&amp;hellip; bail. Like, dramatic Insaneeeee collapse.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
