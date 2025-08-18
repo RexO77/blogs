@@ -42,8 +42,8 @@
     // Performance: Preload critical resources
     function preloadCriticalResources() {
         const criticalResources = [
-            '/fonts/inter.woff2',
-            '/fonts/unbounded.woff2'
+            '/fonts/Satoshi-Regular.otf',
+            '/fonts/Unbounded-VariableFont_wght.ttf'
         ];
         
         criticalResources.forEach(resource => {
@@ -60,9 +60,12 @@
     function optimizeFontLoading() {
         if ('fonts' in document) {
             Promise.all([
-                document.fonts.load('400 1em Inter'),
+                document.fonts.load('400 1em Satoshi'),
                 document.fonts.load('700 1em Unbounded')
             ]).then(() => {
+                document.documentElement.classList.add('fonts-loaded');
+            }).catch(() => {
+                // Fallback if font loading fails
                 document.documentElement.classList.add('fonts-loaded');
             });
         }
@@ -215,6 +218,35 @@
         }
     }
     
+    // Performance: Reading progress indicator
+    function initReadingProgress() {
+        const article = document.querySelector('.post-content .content');
+        if (!article) return;
+        
+        // Create progress bar
+        const progressBar = document.createElement('div');
+        progressBar.className = 'reading-progress';
+        progressBar.innerHTML = '<div class="reading-progress-fill"></div>';
+        document.body.appendChild(progressBar);
+        
+        const progressFill = progressBar.querySelector('.reading-progress-fill');
+        
+        function updateProgress() {
+            const articleTop = article.offsetTop;
+            const articleHeight = article.offsetHeight;
+            const windowHeight = window.innerHeight;
+            const scrollTop = window.pageYOffset;
+            
+            const articleEnd = articleTop + articleHeight - windowHeight;
+            const progress = Math.min(Math.max((scrollTop - articleTop) / (articleEnd - articleTop), 0), 1);
+            
+            progressFill.style.width = `${progress * 100}%`;
+        }
+        
+        window.addEventListener('scroll', throttle(updateProgress, 10));
+        updateProgress();
+    }
+    
     // Performance: Initialize everything when DOM is ready
     function init() {
         // Preload critical resources
@@ -231,6 +263,9 @@
         
         // Initialize sticky header
         initStickyHeader();
+        
+        // Initialize reading progress
+        initReadingProgress();
         
         // Optimize images
         optimizeImages();

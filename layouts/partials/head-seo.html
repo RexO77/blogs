@@ -75,6 +75,27 @@
 <meta name="theme-color" content="#0099FF">
 <meta name="msapplication-TileColor" content="#0099FF">
 
+<!-- Performance & Crawling Hints -->
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+
+<!-- Web App Manifest -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="{{ .Site.Title }}">
+
+<!-- Performance Hints -->
+<meta http-equiv="x-dns-prefetch-control" content="on">
+<link rel="preconnect" href="{{ .Site.Params.mainSiteURL }}" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+
+<!-- Security Headers -->
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+
 <!-- Structured Data (JSON-LD) -->
 <script type="application/ld+json">
 {
@@ -133,15 +154,34 @@
 
 <!-- Critical CSS inlining hint -->
 <style>
-  /* Critical above-the-fold styles */
-  body { margin: 0; padding-top: 80px; }
+  /* Critical above-the-fold styles with design tokens */
+  :root { 
+    --space-lg: 2rem; --space-xl: 2.5rem; --text-2xl: 1.5rem; --text-5xl: 3rem;
+    --transition-normal: 0.15s ease; --background-color: #F8F7F3; --text-color: #1a1a1a;
+  }
+  body { 
+    margin: 0; padding-top: 80px; font-family: 'Satoshi', -apple-system, sans-serif;
+    background-color: var(--background-color); color: var(--text-color);
+  }
   .site-header { 
     position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
     background: rgba(248, 247, 243, 0.95); backdrop-filter: blur(10px);
-    display: flex; justify-content: center; align-items: center; padding: 20px 40px;
+    display: flex; justify-content: center; align-items: center; padding: var(--space-lg) var(--space-xl);
+    transition: all var(--transition-normal);
   }
-  .logo { font-weight: 700; font-size: 1.5rem; position: absolute; left: 50%; transform: translateX(-50%); }
-  .hero-headline { font-size: 5rem; line-height: 1.1; text-transform: uppercase; font-weight: 700; }
+  .logo { 
+    font-weight: 700; font-size: var(--text-2xl); font-family: 'Unbounded', sans-serif;
+    position: absolute; left: 50%; transform: translateX(-50%); color: var(--text-color);
+  }
+  .hero-headline { 
+    font-size: var(--text-5xl); line-height: 1.1; text-transform: uppercase; 
+    font-weight: 700; font-family: 'Unbounded', sans-serif;
+  }
+  .fonts-loaded .hero-headline { font-size: 5rem; }
+  @media (prefers-color-scheme: dark) {
+    :root { --background-color: #0a0a0a; --text-color: #f5f5f5; }
+    .site-header { background: rgba(10, 10, 10, 0.95); }
+  }
 </style>
 
 <!-- Favicon and Icons -->

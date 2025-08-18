@@ -35,6 +35,27 @@
 <meta name="msapplication-TileColor" content="#0099FF">
 
 
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="IDEA LABS">
+
+
+<meta http-equiv="x-dns-prefetch-control" content="on">
+<link rel="preconnect" href="https://www.nischalskanda.tech/" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+
+
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -67,14 +88,33 @@
 
 <style>
    
-  body { margin: 0; padding-top: 80px; }
+  :root { 
+    --space-lg: 2rem; --space-xl: 2.5rem; --text-2xl: 1.5rem; --text-5xl: 3rem;
+    --transition-normal: 0.15s ease; --background-color: #F8F7F3; --text-color: #1a1a1a;
+  }
+  body { 
+    margin: 0; padding-top: 80px; font-family: 'Satoshi', -apple-system, sans-serif;
+    background-color: var(--background-color); color: var(--text-color);
+  }
   .site-header { 
     position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
     background: rgba(248, 247, 243, 0.95); backdrop-filter: blur(10px);
-    display: flex; justify-content: center; align-items: center; padding: 20px 40px;
+    display: flex; justify-content: center; align-items: center; padding: var(--space-lg) var(--space-xl);
+    transition: all var(--transition-normal);
   }
-  .logo { font-weight: 700; font-size: 1.5rem; position: absolute; left: 50%; transform: translateX(-50%); }
-  .hero-headline { font-size: 5rem; line-height: 1.1; text-transform: uppercase; font-weight: 700; }
+  .logo { 
+    font-weight: 700; font-size: var(--text-2xl); font-family: 'Unbounded', sans-serif;
+    position: absolute; left: 50%; transform: translateX(-50%); color: var(--text-color);
+  }
+  .hero-headline { 
+    font-size: var(--text-5xl); line-height: 1.1; text-transform: uppercase; 
+    font-weight: 700; font-family: 'Unbounded', sans-serif;
+  }
+  .fonts-loaded .hero-headline { font-size: 5rem; }
+  @media (prefers-color-scheme: dark) {
+    :root { --background-color: #0a0a0a; --text-color: #f5f5f5; }
+    .site-header { background: rgba(10, 10, 10, 0.95); }
+  }
 </style>
 
 
@@ -90,8 +130,8 @@
     
     
     
-    <link rel="preload" href="http://localhost:1313/css/style.min.0c56b77bdd5c3eeef473b14dece7de6cb1219974a7e69b9b978a6c7c54710381.css" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="sha256-DFa3e91cPu70c7FN7OfebLEhmXSn5publ4psfFRxA4E=">
-    <noscript><link rel="stylesheet" href="http://localhost:1313/css/style.min.0c56b77bdd5c3eeef473b14dece7de6cb1219974a7e69b9b978a6c7c54710381.css" integrity="sha256-DFa3e91cPu70c7FN7OfebLEhmXSn5publ4psfFRxA4E="></noscript>
+    <link rel="preload" href="http://localhost:1313/css/style.min.56c5e015c1d2f66fb6c52e124edb58df9aecf283d2add800d9873eab425057b3.css" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="sha256-VsXgFcHS9m&#43;2xS4STttY35rs8oPSrdgA2Yc&#43;q0JQV7M=">
+    <noscript><link rel="stylesheet" href="http://localhost:1313/css/style.min.56c5e015c1d2f66fb6c52e124edb58df9aecf283d2add800d9873eab425057b3.css" integrity="sha256-VsXgFcHS9m&#43;2xS4STttY35rs8oPSrdgA2Yc&#43;q0JQV7M="></noscript>
     
     
     <link rel="preload" href="http://localhost:1313/fonts/Satoshi-Regular.otf" as="font" type="font/otf" crossorigin>
@@ -129,20 +169,20 @@
             
             
 <article class="post-content" itemscope itemtype="https://schema.org/BlogPosting">
-    <header class="post-header" style="margin-bottom: 2rem; text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 2rem;">
-        <h1 itemprop="headline" style="margin-bottom: 1rem;">Stop Oversharing With AI: Your Deepest Secrets Don’t Belong on Google</h1>
-        <div class="post-meta" style="color: var(--text-color); opacity: 0.7; font-size: 0.85rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="headline">Stop Oversharing With AI: Your Deepest Secrets Don’t Belong on Google</h1>
+        <div class="post-meta">
             <time datetime="2025-08-03T10:30:00&#43;05:30" itemprop="datePublished">
                 Aug 3, 2025
             </time>
-            <span style="opacity: 0.5;">•</span>
+            <span class="post-meta-separator">•</span>
             <span>4 min read</span>
-            <span style="opacity: 0.5;">•</span>
-                <a href="http://localhost:1313/categories/technology" style="color: var(--accent-color-blue); text-decoration: none; font-weight: 500;">Technology</a>, 
-                <a href="http://localhost:1313/categories/privacy" style="color: var(--accent-color-blue); text-decoration: none; font-weight: 500;">Privacy</a>, 
-                <a href="http://localhost:1313/categories/design" style="color: var(--accent-color-blue); text-decoration: none; font-weight: 500;">Design</a>
+            <span class="post-meta-separator">•</span>
+                <a href="http://localhost:1313/categories/technology" class="post-category-link">Technology</a>, 
+                <a href="http://localhost:1313/categories/privacy" class="post-category-link">Privacy</a>, 
+                <a href="http://localhost:1313/categories/design" class="post-category-link">Design</a>
         </div>
-        <div class="post-description" style="font-size: 1.1rem; color: var(--text-color); opacity: 0.8; font-style: italic; max-width: 600px; margin: 0 auto;" itemprop="description">
+        <div class="post-description" itemprop="description">
             A raw, unfiltered rant on why using ChatGPT as your therapist is a terrible idea, how OpenAI accidentally exposed private convos to Google, and how to actually protect yourself—with a product designer&#39;s take on how to design AI better.
         </div>
     </header>
@@ -299,81 +339,57 @@ Want to see my take on non-zombie, privacy-first tech? <strong><a href="https://
 
     
     
-    <div class="post-tags" style="margin: 2rem 0; padding: 1.5rem 0; border-top: 1px solid var(--border-color);">
-        <h3 style="margin: 0 0 1rem 0; font-size: 1.1rem; color: var(--text-color);">Tagged with:</h3>
-        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-            <a href="http://localhost:1313/tags/ai" 
-               style="display: inline-block; background: var(--accent-color-blue); color: white; padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.85rem; transition: transform 0.2s ease;"
-               onmouseover="this.style.transform='translateY(-2px)'"
-               onmouseout="this.style.transform='translateY(0)'">
+    <div class="post-tags post-section post-divider">
+        <h3 class="post-tags-title">Tagged with:</h3>
+        <div class="post-tags-list">
+            <a href="http://localhost:1313/tags/ai" class="post-tag">
                 #AI
             </a>
-            <a href="http://localhost:1313/tags/privacy" 
-               style="display: inline-block; background: var(--accent-color-blue); color: white; padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.85rem; transition: transform 0.2s ease;"
-               onmouseover="this.style.transform='translateY(-2px)'"
-               onmouseout="this.style.transform='translateY(0)'">
+            <a href="http://localhost:1313/tags/privacy" class="post-tag">
                 #Privacy
             </a>
-            <a href="http://localhost:1313/tags/technology" 
-               style="display: inline-block; background: var(--accent-color-blue); color: white; padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.85rem; transition: transform 0.2s ease;"
-               onmouseover="this.style.transform='translateY(-2px)'"
-               onmouseout="this.style.transform='translateY(0)'">
+            <a href="http://localhost:1313/tags/technology" class="post-tag">
                 #Technology
             </a>
-            <a href="http://localhost:1313/tags/chatgpt" 
-               style="display: inline-block; background: var(--accent-color-blue); color: white; padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.85rem; transition: transform 0.2s ease;"
-               onmouseover="this.style.transform='translateY(-2px)'"
-               onmouseout="this.style.transform='translateY(0)'">
+            <a href="http://localhost:1313/tags/chatgpt" class="post-tag">
                 #ChatGPT
             </a>
-            <a href="http://localhost:1313/tags/ollama" 
-               style="display: inline-block; background: var(--accent-color-blue); color: white; padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.85rem; transition: transform 0.2s ease;"
-               onmouseover="this.style.transform='translateY(-2px)'"
-               onmouseout="this.style.transform='translateY(0)'">
+            <a href="http://localhost:1313/tags/ollama" class="post-tag">
                 #Ollama
             </a>
-            <a href="http://localhost:1313/tags/product-design" 
-               style="display: inline-block; background: var(--accent-color-blue); color: white; padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.85rem; transition: transform 0.2s ease;"
-               onmouseover="this.style.transform='translateY(-2px)'"
-               onmouseout="this.style.transform='translateY(0)'">
+            <a href="http://localhost:1313/tags/product-design" class="post-tag">
                 #Product Design
             </a>
         </div>
     </div>
     
     
-    <div class="social-sharing" style="margin: 2rem 0; padding: 1.5rem 0; border-top: 1px solid var(--border-color); text-align: center;">
-        <h3 style="margin: 0 0 1rem 0; font-size: 1.1rem; color: var(--text-color);">Share this post:</h3>
-        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+    <div class="social-sharing post-section post-divider text-center">
+        <h3 class="social-sharing-title">Share this post:</h3>
+        <div class="social-sharing-buttons">
             <a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fyou_shouldnt_share%2f&text=Stop%20Oversharing%20With%20AI%3a%20Your%20Deepest%20Secrets%20Don%e2%80%99t%20Belong%20on%20Google&via=nischalskanda" 
-               target="_blank" rel="noopener noreferrer"
-               style="display: inline-block; background: #1DA1F2; color: white; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; transition: opacity 0.2s ease;"
-               onmouseover="this.style.opacity='0.8'"
-               onmouseout="this.style.opacity='1'">
+               target="_blank" rel="noopener noreferrer" class="social-button social-button-twitter">
                 Share on Twitter
             </a>
             <a href="https://www.linkedin.com/sharing/share-offsite/?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fyou_shouldnt_share%2f" 
-               target="_blank" rel="noopener noreferrer"
-               style="display: inline-block; background: #0077B5; color: white; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; transition: opacity 0.2s ease;"
-               onmouseover="this.style.opacity='0.8'"
-               onmouseout="this.style.opacity='1'">
+               target="_blank" rel="noopener noreferrer" class="social-button social-button-linkedin">
                 Share on LinkedIn
             </a>
         </div>
     </div>
     
     
-    <nav class="post-navigation" style="margin: 2rem 0; padding: 1.5rem 0; border-top: 1px solid var(--border-color);">
-        <div style="display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap;">
-            <div style="flex: 1; min-width: 200px;">
-                <p style="margin: 0 0 0.5rem 0; font-size: 0.85rem; text-transform: uppercase; color: var(--text-color); opacity: 0.7;">Previous Post</p>
-                <a href="http://localhost:1313/posts/ai_brain_impact/" style="color: var(--accent-color-blue); text-decoration: none; font-weight: 500;">
+    <nav class="post-navigation post-section post-divider">
+        <div class="post-navigation-container">
+            <div class="post-nav-item post-nav-prev">
+                <p class="post-nav-label">Previous Post</p>
+                <a href="http://localhost:1313/posts/ai_brain_impact/" class="post-nav-link">
                     Help! AI’s Turning Our Brains to Goo, and We’re Too Busy Swiping to Notice
                 </a>
             </div>
-            <div style="flex: 1; min-width: 200px; text-align: right;">
-                <p style="margin: 0 0 0.5rem 0; font-size: 0.85rem; text-transform: uppercase; color: var(--text-color); opacity: 0.7;">Next Post</p>
-                <a href="http://localhost:1313/posts/brain_rot/" style="color: var(--accent-color-blue); text-decoration: none; font-weight: 500;">
+            <div class="post-nav-item post-nav-next">
+                <p class="post-nav-label">Next Post</p>
+                <a href="http://localhost:1313/posts/brain_rot/" class="post-nav-link">
                     The Dopamine Brain Rot
                 </a>
             </div>
@@ -385,7 +401,7 @@ Want to see my take on non-zombie, privacy-first tech? <strong><a href="https://
     </div>
     
     
-    <script src="http://localhost:1313/js/main.min.5f2fd5d96e7c59ff3efcc27eacb82da20a5f7519a4209e8f2ec939278a08bbf4.js" defer integrity="sha256-Xy/V2W58Wf8&#43;/MJ&#43;rLgtogpfdRmkIJ6PLsk5J4oIu/Q="></script>
+    <script src="http://localhost:1313/js/main.min.cf420efcc513b9e910c92cf4fa5eba536e2f9033f9503f92298e00297c316abf.js" defer integrity="sha256-z0IO/MUTuekQySz0&#43;l66U24vkDP5UD&#43;SKY4AKXwxar8="></script>
     
     
     
