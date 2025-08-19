@@ -6,6 +6,7 @@
 echo "🚀 Starting Hugo development server..."
 echo "📍 Server will be available at http://localhost:1313/"
 echo "🔗 All links will use localhost URLs for proper local development"
+echo "⚠️  Remember: Run './build.sh' before deploying to production!"
 echo ""
 
 hugo server \
