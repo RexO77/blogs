@@ -118,8 +118,3 @@ The idea that you need Instagram to have a social life is the biggest scam Silic
 
 ---
 
-## TL;DR
-
-Delete the app. Touch some grass. Text humans you actually like. Your brain will send you a thank‑you card.
-
-Two years later, I can confirm: you’re not missing out. You’re just finally living life without counting likes. And honestly? That feels insaneeeee in the best way.
