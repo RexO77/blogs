@@ -117,4 +117,3 @@ Here’s my hot take: those excuses are crap. Real friends will text you. Real n
 The idea that you need Instagram to have a social life is the biggest scam Silicon Valley ever sold us.
 
 ---
-
