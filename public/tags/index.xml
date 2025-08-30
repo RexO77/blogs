@@ -6,8 +6,36 @@
     <description>Recent content in Tags on IDEA LABS</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 17 Aug 2025 15:15:54 +0530</lastBuildDate>
+    <lastBuildDate>Tue, 26 Aug 2025 22:52:15 +0530</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Digital Detox</title>
+      <link>http://localhost:1313/tags/digital-detox/</link>
+      <pubDate>Sun, 24 Aug 2025 10:30:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/digital-detox/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Mental Health</title>
+      <link>http://localhost:1313/tags/mental-health/</link>
+      <pubDate>Sun, 24 Aug 2025 10:30:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/mental-health/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Personal Growth</title>
+      <link>http://localhost:1313/tags/personal-growth/</link>
+      <pubDate>Sun, 24 Aug 2025 10:30:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/personal-growth/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Social Media</title>
+      <link>http://localhost:1313/tags/social-media/</link>
+      <pubDate>Sun, 24 Aug 2025 10:30:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/social-media/</guid>
+      <description></description>
+    </item>
     <item>
       <title>AI</title>
       <link>http://localhost:1313/tags/ai/</link>
@@ -83,6 +111,20 @@
       <link>http://localhost:1313/tags/privacy/</link>
       <pubDate>Sun, 03 Aug 2025 10:30:00 +0530</pubDate>
       <guid>http://localhost:1313/tags/privacy/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Business</title>
+      <link>http://localhost:1313/tags/business/</link>
+      <pubDate>Mon, 27 Jan 2025 08:30:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/business/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Economics</title>
+      <link>http://localhost:1313/tags/economics/</link>
+      <pubDate>Mon, 27 Jan 2025 08:30:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/economics/</guid>
       <description></description>
     </item>
   </channel>
