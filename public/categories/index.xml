@@ -6,8 +6,22 @@
     <description>Recent content in Categories on IDEA LABS</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 26 Aug 2025 22:52:15 +0530</lastBuildDate>
+    <lastBuildDate>Sat, 30 Aug 2025 14:54:22 +0530</lastBuildDate>
     <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Business</title>
+      <link>http://localhost:1313/categories/business/</link>
+      <pubDate>Sun, 31 Aug 2025 08:30:00 +0530</pubDate>
+      <guid>http://localhost:1313/categories/business/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Technology</title>
+      <link>http://localhost:1313/categories/technology/</link>
+      <pubDate>Sun, 31 Aug 2025 08:30:00 +0530</pubDate>
+      <guid>http://localhost:1313/categories/technology/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Lifestyle</title>
       <link>http://localhost:1313/categories/lifestyle/</link>
@@ -20,13 +34,6 @@
       <link>http://localhost:1313/categories/mental-health/</link>
       <pubDate>Sun, 24 Aug 2025 10:30:00 +0530</pubDate>
       <guid>http://localhost:1313/categories/mental-health/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Technology</title>
-      <link>http://localhost:1313/categories/technology/</link>
-      <pubDate>Sun, 24 Aug 2025 10:30:00 +0530</pubDate>
-      <guid>http://localhost:1313/categories/technology/</guid>
       <description></description>
     </item>
     <item>
@@ -55,13 +62,6 @@
       <link>http://localhost:1313/categories/privacy/</link>
       <pubDate>Sun, 03 Aug 2025 10:30:00 +0530</pubDate>
       <guid>http://localhost:1313/categories/privacy/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Business</title>
-      <link>http://localhost:1313/categories/business/</link>
-      <pubDate>Mon, 27 Jan 2025 08:30:00 +0530</pubDate>
-      <guid>http://localhost:1313/categories/business/</guid>
       <description></description>
     </item>
   </channel>
