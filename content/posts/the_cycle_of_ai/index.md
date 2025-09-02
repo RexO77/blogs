@@ -129,4 +129,3 @@ Ship smarter. Spend slower. Save the poetry for launch day; bring a spreadsheet 
 [^19]: [Financial Times - What'll happen if we spend nearly $3tn on data centres no one needs?](https://www.ft.com/content/7052c560-4f31-4f45-bed0-cbc84453b3ce)
 [^20]: [Cursor - Pricing](https://cursor.com/pricing)
 [^21]: [IEA - Executive summary – Energy and AI](https://www.iea.org/reports/energy-and-ai/executive-summary)
-
