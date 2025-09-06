@@ -7,23 +7,40 @@ canonifyURLs = true
 
 # SEO and Performance
 [sitemap]
-  changefreq = "weekly"
-  priority = 0.5
+  changefreq = "daily"
+  priority = 0.8
   filename = "sitemap.xml"
+
+# Enhanced SEO Configuration
+[params.seo]
+  # Core Web Vitals optimization
+  enableCriticalCSS = true
+  enableImageOptimization = true
+  enableLazyLoading = true
+  
+  # Advanced meta tags
+  enableTwitterCards = true
+  enableOpenGraph = true
+  enableJsonLD = true
+  
+  # Search engine specific
+  enableGoogleSiteVerification = true
+  enableBingSiteVerification = true
+  enableYandexVerification = true
 
 [pagination]
   pagerSize = 5
 
 [params]
   # Basic Info
-  description = "Explore cutting-edge ideas in AI, technology, and design. Nischal Skanda shares insights on cognitive science, brain health, and the future of human-AI interaction."
-  keywords = ["AI", "Technology", "Cognitive Science", "Brain Health", "Design", "Innovation", "Nischal Skanda", "Portfolio", "Tech Blog"]
+  description = "Expert insights on AI economics, technology trends, and digital innovation. Discover how AI costs flow from subscriptions to hyperscalers, GPU economics, and the future of artificial intelligence business models."
+  keywords = ["AI economics", "artificial intelligence costs", "GPU pricing", "cloud computing economics", "AI business models", "hyperscaler economics", "data center costs", "AI infrastructure", "technology economics", "AI industry analysis", "NVIDIA GPU costs", "OpenAI pricing", "AI subscription models", "machine learning economics", "AI investment trends", "Nischal Skanda", "tech analysis", "AI market dynamics"]
   author = "Nischal Skanda"
   mainSiteURL = "https://www.nischalskanda.tech/"
   
   # SEO
-  metaTitle = "IDEA LABS - Tech Insights by Nischal Skanda"
-  metaDescription = "Discover innovative perspectives on AI, technology, and design from Nischal Skanda. Expert insights on cognitive science, brain health, and human-computer interaction."
+  metaTitle = "IDEA LABS - AI Economics & Technology Analysis by Nischal Skanda"
+  metaDescription = "Expert analysis of AI economics, GPU costs, and hyperscaler business models. Deep dive into artificial intelligence pricing, data center economics, and the future of AI infrastructure investments."
   
   # Social Media
   twitter = "@nischalskanda"  # Add your Twitter handle

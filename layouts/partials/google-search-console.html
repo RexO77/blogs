@@ -1,0 +1,117 @@
+<!-- Google Search Console Integration -->
+{{ if .Site.Params.googleSiteVerification }}
+<meta name="google-site-verification" content="{{ .Site.Params.googleSiteVerification }}">
+{{ end }}
+
+<!-- Enhanced Search Console Features -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{{ .Site.BaseURL }}"
+    }
+    {{ if .IsPage }}
+    ,{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "{{ .Section | title }}",
+      "item": "{{ .Site.BaseURL }}{{ .Section }}/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ .Title }}",
+      "item": "{{ .Permalink }}"
+    }
+    {{ end }}
+  ]
+}
+</script>
+
+<!-- FAQ Schema for AI Economics Content -->
+{{ if and .IsPage (in .Params.tags "AI Economics") }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much do AI subscriptions cost users?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AI subscriptions range from $25/month for basic plans to $200/month for premium compute-heavy services like Cursor Ultra. Enterprise plans can cost $40+ per user monthly."
+      }
+    },
+    {
+      "@type": "Question", 
+      "name": "What are GPU rental costs for AI workloads?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Azure H100 GPUs cost approximately $6.98 per hour, equaling $5,095 monthly per GPU for continuous usage. Enterprise AI workloads typically require multiple GPU clusters."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much are hyperscalers investing in AI infrastructure?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Big Tech's 2025 AI capital expenditure is projected at $344B, with forecasts approaching $400B+ by 2026. Microsoft alone allocated ~$30B in Q2 2025 for AI infrastructure."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What percentage of enterprise AI pilots show ROI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Recent MIT research indicates ~95% of enterprise generative AI pilots demonstrate no measurable return on investment, representing a significant gap between AI spending and business value."
+      }
+    }
+  ]
+}
+</script>
+{{ end }}
+
+<!-- Article Schema Enhancement -->
+{{ if .IsPage }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "{{ .Title }}",
+  "description": "{{ .Description }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ .Site.Params.author }}",
+    "url": "{{ .Site.Params.mainSiteURL }}",
+    "jobTitle": "Technology Analyst",
+    "knowsAbout": ["AI Economics", "Technology Analysis", "Business Strategy"]
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ .Site.Title }}",
+    "url": "{{ .Site.BaseURL }}"
+  },
+  "datePublished": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
+  "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
+  "mainEntityOfPage": "{{ .Permalink }}",
+  "wordCount": {{ .WordCount }},
+  "timeRequired": "PT{{ math.Ceil (div (countwords .Content) 200.0) }}M",
+  "inLanguage": "{{ .Site.LanguageCode }}",
+  "about": [
+    {{ range $index, $tag := .Params.tags }}
+    {{ if $index }}, {{ end }}
+    {
+      "@type": "Thing",
+      "name": "{{ $tag }}"
+    }
+    {{ end }}
+  ]
+}
+</script>
+{{ end }}

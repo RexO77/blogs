@@ -1,0 +1,81 @@
+<!-- Advanced SEO Meta Tags for AI Economics Content -->
+
+<!-- Article-specific meta tags -->
+{{ if .IsPage }}
+<meta name="article:author" content="{{ .Site.Params.author }}">
+<meta name="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+{{ if .Lastmod }}
+<meta name="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">
+{{ end }}
+<meta name="article:section" content="{{ .Section | title }}">
+{{ range .Params.tags }}
+<meta name="article:tag" content="{{ . }}">
+{{ end }}
+
+<!-- AI Economics specific meta tags -->
+{{ if in .Params.tags "AI Economics" }}
+<meta name="topic" content="Artificial Intelligence Economics">
+<meta name="subject" content="AI Infrastructure Costs, GPU Pricing, Cloud Computing Economics">
+<meta name="coverage" content="Worldwide">
+<meta name="audience" content="Technology Professionals, Business Analysts, AI Industry">
+{{ end }}
+
+<!-- Content classification -->
+<meta name="content-type" content="article">
+<meta name="content-language" content="{{ .Site.LanguageCode }}">
+<meta name="geo.region" content="IN">
+<meta name="geo.country" content="India">
+<meta name="geo.placename" content="India">
+
+<!-- Reading metrics -->
+<meta name="reading-time" content="{{ math.Ceil (div (countwords .Content) 200.0) }} minutes">
+<meta name="word-count" content="{{ .WordCount }}">
+{{ end }}
+
+<!-- Enhanced Open Graph for AI content -->
+{{ if .IsPage }}
+<meta property="og:type" content="article">
+<meta property="og:article:author" content="{{ .Site.Params.author }}">
+<meta property="og:article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+{{ if .Lastmod }}
+<meta property="og:article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">
+{{ end }}
+<meta property="og:article:section" content="{{ .Section | title }}">
+{{ range .Params.tags }}
+<meta property="og:article:tag" content="{{ . }}">
+{{ end }}
+{{ end }}
+
+<!-- Twitter Card enhancements -->
+<meta name="twitter:card" content="summary_large_image">
+{{ with .Site.Params.twitter }}
+<meta name="twitter:site" content="{{ . }}">
+<meta name="twitter:creator" content="{{ . }}">
+{{ end }}
+{{ if .IsPage }}
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="{{ math.Ceil (div (countwords .Content) 200.0) }} min read">
+<meta name="twitter:label2" content="Filed under">
+<meta name="twitter:data2" content="{{ range $index, $cat := .Params.categories }}{{ if $index }}, {{ end }}{{ $cat }}{{ end }}">
+{{ end }}
+
+<!-- LinkedIn specific -->
+<meta property="og:see_also" content="{{ .Site.Params.mainSiteURL }}">
+
+<!-- Additional SEO signals -->
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="date=no">
+<meta name="format-detection" content="address=no">
+<meta name="format-detection" content="email=no">
+
+<!-- Preload critical resources -->
+<link rel="preload" href="{{ .Site.BaseURL }}fonts/Satoshi-Regular.otf" as="font" type="font/otf" crossorigin>
+<link rel="preload" href="{{ .Site.BaseURL }}fonts/Unbounded-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+
+<!-- DNS prefetch for external resources -->
+<link rel="dns-prefetch" href="//fonts.gstatic.com">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="dns-prefetch" href="//vercel.com">
+<link rel="dns-prefetch" href="//github.com">
+<link rel="dns-prefetch" href="//linkedin.com">
+<link rel="dns-prefetch" href="//twitter.com">

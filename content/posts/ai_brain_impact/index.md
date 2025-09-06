@@ -1,6 +1,6 @@
 ---
 title: "Help! AI’s Turning Our Brains to Goo, and We’re Too Busy Swiping to Notice"
-date: 2025-07-27T08:30:00+05:30
+date: 2024-07-27T08:30:00+05:30
 draft: false
 description: "A deep dive into how AI overreliance is affecting our cognitive abilities, backed by MIT research and practical solutions to save our brains."
 tags: ["AI", "Cognitive Science", "Technology", "Brain Health", "Research"]

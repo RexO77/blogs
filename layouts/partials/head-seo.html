@@ -75,6 +75,25 @@
 <meta name="theme-color" content="#0099FF">
 <meta name="msapplication-TileColor" content="#0099FF">
 
+<!-- Search Engine Verification -->
+<meta name="google-site-verification" content="{{ .Site.Params.googleSiteVerification }}">
+<meta name="msvalidate.01" content="{{ .Site.Params.bingSiteVerification }}">
+<meta name="yandex-verification" content="{{ .Site.Params.yandexVerification }}">
+
+<!-- Enhanced Meta Tags for AI Content -->
+{{- if .IsPage -}}
+<meta name="article:reading_time" content="{{ math.Ceil (div (countwords .Content) 200.0) }}">
+<meta name="article:word_count" content="{{ .WordCount }}">
+{{- if .Params.keywords -}}
+<meta name="news_keywords" content="{{ delimit .Params.keywords ", " }}">
+{{- end -}}
+{{- end -}}
+
+<!-- Content Classification -->
+<meta name="rating" content="general">
+<meta name="distribution" content="global">
+<meta name="revisit-after" content="7 days">
+
 <!-- Performance & Crawling Hints -->
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -96,7 +115,7 @@
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 
-<!-- Structured Data (JSON-LD) -->
+<!-- Enhanced Structured Data (JSON-LD) -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -107,12 +126,21 @@
   "author": {
     "@type": "Person",
     "name": "{{ $author }}",
-    "url": "{{ .Site.Params.mainSiteURL }}"
+    "url": "{{ .Site.Params.mainSiteURL }}",
+    "sameAs": [
+      "https://twitter.com/{{ .Site.Params.twitter | strings.TrimPrefix "@" }}",
+      "https://linkedin.com/in/{{ .Site.Params.linkedin }}",
+      "https://github.com/{{ .Site.Params.github }}"
+    ]
   },
   "publisher": {
     "@type": "Organization",
     "name": "{{ .Site.Title }}",
-    "url": "{{ .Site.BaseURL }}"
+    "url": "{{ .Site.BaseURL }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ .Site.BaseURL }}images/logo.png"
+    }
   },
   "datePublished": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
   {{- if .Lastmod -}}
@@ -123,10 +151,22 @@
     "@id": "{{ .Permalink }}"
   },
   {{- if $ogImage -}}
-  "image": "{{ $ogImage | absURL }}",
+  "image": {
+    "@type": "ImageObject",
+    "url": "{{ $ogImage | absURL }}",
+    "width": 1200,
+    "height": 630
+  },
   {{- end -}}
   "keywords": [{{ range $index, $tag := .Params.tags }}{{ if $index }}, {{ end }}"{{ $tag }}"{{ end }}],
-  "articleSection": [{{ range $index, $cat := .Params.categories }}{{ if $index }}, {{ end }}"{{ $cat }}"{{ end }}]
+  "articleSection": [{{ range $index, $cat := .Params.categories }}{{ if $index }}, {{ end }}"{{ $cat }}"{{ end }}],
+  "wordCount": {{ .WordCount }},
+  "inLanguage": "{{ .Site.LanguageCode }}",
+  "copyrightYear": {{ .Date.Year }},
+  "copyrightHolder": {
+    "@type": "Person",
+    "name": "{{ $author }}"
+  }
   {{- else -}}
   "name": "{{ .Site.Title }}",
   "description": "{{ .Site.Params.description }}",
@@ -142,6 +182,49 @@
     "url": "{{ .Site.BaseURL }}"
   }
   {{- end -}}
+}
+</script>
+
+<!-- Organization Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "{{ .Site.Title }}",
+  "url": "{{ .Site.BaseURL }}",
+  "logo": "{{ .Site.BaseURL }}images/logo.png",
+  "sameAs": [
+    "https://twitter.com/{{ .Site.Params.twitter | strings.TrimPrefix "@" }}",
+    "https://linkedin.com/in/{{ .Site.Params.linkedin }}",
+    "https://github.com/{{ .Site.Params.github }}"
+  ],
+  "founder": {
+    "@type": "Person",
+    "name": "{{ .Site.Params.author }}"
+  }
+}
+</script>
+
+<!-- Website Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{ .Site.Title }}",
+  "url": "{{ .Site.BaseURL }}",
+  "description": "{{ .Site.Params.description }}",
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ .Site.Title }}"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "{{ .Site.BaseURL }}search?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
 }
 </script>
 

@@ -6,41 +6,76 @@
     <description>Recent content in Tags on IDEA LABS</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 30 Aug 2025 14:54:22 +0530</lastBuildDate>
+    <lastBuildDate>Tue, 02 Sep 2025 20:45:23 +0530</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>AI</title>
-      <link>http://localhost:1313/tags/ai/</link>
+      <title>AI Economics</title>
+      <link>http://localhost:1313/tags/ai-economics/</link>
       <pubDate>Sun, 31 Aug 2025 08:30:00 +0530</pubDate>
-      <guid>http://localhost:1313/tags/ai/</guid>
+      <guid>http://localhost:1313/tags/ai-economics/</guid>
       <description></description>
     </item>
     <item>
-      <title>Business</title>
-      <link>http://localhost:1313/tags/business/</link>
+      <title>Artificial Intelligence</title>
+      <link>http://localhost:1313/tags/artificial-intelligence/</link>
       <pubDate>Sun, 31 Aug 2025 08:30:00 +0530</pubDate>
-      <guid>http://localhost:1313/tags/business/</guid>
+      <guid>http://localhost:1313/tags/artificial-intelligence/</guid>
       <description></description>
     </item>
     <item>
-      <title>Economics</title>
-      <link>http://localhost:1313/tags/economics/</link>
+      <title>Business Analysis</title>
+      <link>http://localhost:1313/tags/business-analysis/</link>
       <pubDate>Sun, 31 Aug 2025 08:30:00 +0530</pubDate>
-      <guid>http://localhost:1313/tags/economics/</guid>
+      <guid>http://localhost:1313/tags/business-analysis/</guid>
       <description></description>
     </item>
     <item>
-      <title>Research</title>
-      <link>http://localhost:1313/tags/research/</link>
+      <title>Cloud Computing</title>
+      <link>http://localhost:1313/tags/cloud-computing/</link>
       <pubDate>Sun, 31 Aug 2025 08:30:00 +0530</pubDate>
-      <guid>http://localhost:1313/tags/research/</guid>
+      <guid>http://localhost:1313/tags/cloud-computing/</guid>
       <description></description>
     </item>
     <item>
-      <title>Technology</title>
-      <link>http://localhost:1313/tags/technology/</link>
+      <title>Data Center Costs</title>
+      <link>http://localhost:1313/tags/data-center-costs/</link>
       <pubDate>Sun, 31 Aug 2025 08:30:00 +0530</pubDate>
-      <guid>http://localhost:1313/tags/technology/</guid>
+      <guid>http://localhost:1313/tags/data-center-costs/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>GPU Costs</title>
+      <link>http://localhost:1313/tags/gpu-costs/</link>
+      <pubDate>Sun, 31 Aug 2025 08:30:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/gpu-costs/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Hyperscaler Economics</title>
+      <link>http://localhost:1313/tags/hyperscaler-economics/</link>
+      <pubDate>Sun, 31 Aug 2025 08:30:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/hyperscaler-economics/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>NVIDIA</title>
+      <link>http://localhost:1313/tags/nvidia/</link>
+      <pubDate>Sun, 31 Aug 2025 08:30:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/nvidia/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>OpenAI Pricing</title>
+      <link>http://localhost:1313/tags/openai-pricing/</link>
+      <pubDate>Sun, 31 Aug 2025 08:30:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/openai-pricing/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Technology Economics</title>
+      <link>http://localhost:1313/tags/technology-economics/</link>
+      <pubDate>Sun, 31 Aug 2025 08:30:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/technology-economics/</guid>
       <description></description>
     </item>
     <item>
@@ -72,6 +107,13 @@
       <description></description>
     </item>
     <item>
+      <title>AI</title>
+      <link>http://localhost:1313/tags/ai/</link>
+      <pubDate>Sun, 17 Aug 2025 10:30:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/ai/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Machine Learning</title>
       <link>http://localhost:1313/tags/machine-learning/</link>
       <pubDate>Sun, 17 Aug 2025 10:30:00 +0530</pubDate>
@@ -79,10 +121,24 @@
       <description></description>
     </item>
     <item>
+      <title>Research</title>
+      <link>http://localhost:1313/tags/research/</link>
+      <pubDate>Sun, 17 Aug 2025 10:30:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/research/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Silicon Valley</title>
       <link>http://localhost:1313/tags/silicon-valley/</link>
       <pubDate>Sun, 17 Aug 2025 10:30:00 +0530</pubDate>
       <guid>http://localhost:1313/tags/silicon-valley/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Technology</title>
+      <link>http://localhost:1313/tags/technology/</link>
+      <pubDate>Sun, 17 Aug 2025 10:30:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/technology/</guid>
       <description></description>
     </item>
     <item>

@@ -1,0 +1,127 @@
+<!-- Enhanced Google Analytics 4 with SEO Events -->
+{{ if .Site.Params.googleAnalytics }}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ .Site.Params.googleAnalytics }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ .Site.Params.googleAnalytics }}');
+</script>
+{{ end }}
+
+<!-- SEO Performance Tracking -->
+<script>
+  // Track scroll depth for engagement
+  let scrollDepth = 0;
+  window.addEventListener('scroll', function() {
+    const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+    if (scrollPercent > scrollDepth && scrollPercent % 25 === 0) {
+      scrollDepth = scrollPercent;
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'scroll', {
+          event_category: 'engagement',
+          event_label: scrollPercent + '%',
+          value: scrollPercent
+        });
+      }
+    }
+  });
+</script>
+
+<!-- Search Console Performance Tracking -->
+<script>
+  // Track internal link clicks for SEO
+  document.addEventListener('click', function(e) {
+    if (e.target.tagName === 'A' && e.target.href.includes('{{ .Site.BaseURL }}')) {
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'click', {
+          'event_category': 'internal_link',
+          'event_label': e.target.href,
+          'transport_type': 'beacon'
+        });
+      }
+    }
+  });
+
+  // Track time on page for SEO signals
+  let startTime = Date.now();
+  window.addEventListener('beforeunload', function() {
+    const timeOnPage = Math.round((Date.now() - startTime) / 1000);
+    if (typeof gtag !== 'undefined' && timeOnPage > 10) {
+      gtag('event', 'timing_complete', {
+        'name': 'time_on_page',
+        'value': timeOnPage,
+        'event_category': 'engagement'
+      });
+    }
+  });
+</script>
+
+<!-- Schema.org Event Tracking -->
+{{ if .IsPage }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "UserInteraction",
+  "interactionType": "https://schema.org/ReadAction",
+  "object": {
+    "@type": "Article",
+    "name": "{{ .Title }}",
+    "url": "{{ .Permalink }}"
+  },
+  "agent": {
+    "@type": "Person",
+    "name": "Reader"
+  }
+}
+</script>
+{{ end }}
+
+<!-- Structured Data for Search Features -->
+{{ if and .IsPage (in .Params.tags "AI Economics") }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Understanding AI Economics and Cost Flow",
+  "description": "Learn how AI subscription costs flow through the technology stack from users to infrastructure providers",
+  "totalTime": "PT{{ math.Ceil (div (countwords .Content) 200.0) }}M",
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "AI Subscription Data"
+    },
+    {
+      "@type": "HowToSupply", 
+      "name": "GPU Pricing Information"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "Infrastructure Cost Analysis"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Analyze User Subscription Costs",
+      "text": "Examine pricing models from $25/month basic plans to $200/month premium AI services"
+    },
+    {
+      "@type": "HowToStep", 
+      "name": "Calculate API Token Economics",
+      "text": "Understand how token pricing ($0.25-$10 per 1M tokens) impacts cost structure"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Evaluate Infrastructure Costs", 
+      "text": "Analyze GPU rental costs ($5,095/month per H100) and electricity consumption"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Assess Market Dynamics",
+      "text": "Review $344B projected AI capex and enterprise ROI challenges"
+    }
+  ]
+}
+</script>
+{{ end }}

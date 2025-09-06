@@ -3,6 +3,8 @@
 <head>
     <!-- SEO Meta Tags -->
     {{ partial "head-seo.html" . }}
+    {{ partial "google-search-console.html" . }}
+    {{ partial "seo-performance.html" . }}
     
     <!-- Optimized & fingerprinted CSS with preload -->
     {{ $style := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}
@@ -22,17 +24,8 @@
         })();
     </script>
     
-    <!-- Google Analytics -->
-    {{ if .Site.Params.googleAnalytics }}
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ .Site.Params.googleAnalytics }}"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '{{ .Site.Params.googleAnalytics }}');
-    </script>
-    {{ end }}
+    <!-- Enhanced Analytics -->
+    {{ partial "seo-analytics.html" . }}
 </head>
 <body>
     <div class="container">

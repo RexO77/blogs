@@ -1,0 +1,55 @@
+<!-- Performance Optimization for Core Web Vitals -->
+<link rel="preload" href="{{ .Site.BaseURL }}fonts/Satoshi-Regular.otf" as="font" type="font/otf" crossorigin>
+<link rel="preload" href="{{ .Site.BaseURL }}fonts/Unbounded-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+
+<!-- Critical Resource Hints -->
+<link rel="dns-prefetch" href="//fonts.gstatic.com">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="dns-prefetch" href="//vercel.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- Image Optimization -->
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="date=no">
+<meta name="format-detection" content="address=no">
+<meta name="format-detection" content="email=no">
+
+<!-- Performance Monitoring -->
+<script>
+  // Core Web Vitals tracking
+  function sendToAnalytics(metric) {
+    if (typeof gtag !== 'undefined') {
+      gtag('event', metric.name, {
+        event_category: 'Web Vitals',
+        event_label: metric.id,
+        value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
+        non_interaction: true,
+      });
+    }
+  }
+
+  // Load web-vitals library
+  import('https://unpkg.com/web-vitals@3/dist/web-vitals.js').then(({getCLS, getFID, getFCP, getLCP, getTTFB}) => {
+    getCLS(sendToAnalytics);
+    getFID(sendToAnalytics);
+    getFCP(sendToAnalytics);
+    getLCP(sendToAnalytics);
+    getTTFB(sendToAnalytics);
+  });
+</script>
+
+<!-- Lazy Loading Enhancement -->
+<script>
+  // Enhanced lazy loading for images
+  if ('loading' in HTMLImageElement.prototype) {
+    const images = document.querySelectorAll('img[loading="lazy"]');
+    images.forEach(img => {
+      img.src = img.dataset.src;
+    });
+  } else {
+    // Fallback for browsers that don't support lazy loading
+    const script = document.createElement('script');
+    script.src = 'https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver';
+    document.head.appendChild(script);
+  }
+</script>

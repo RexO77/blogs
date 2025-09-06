@@ -1,18 +1,49 @@
 User-agent: *
 Allow: /
 
-# Sitemap location
-Sitemap: http://localhost:1313/sitemap.xml
+# Allow all search engines
+User-agent: Googlebot
+Allow: /
 
-# Disallow admin areas (if any)
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# Disallow admin and private areas
 Disallow: /admin/
-Disallow: /*.json$
+Disallow: /.git/
+Disallow: /private/
+
+# Crawl delay for aggressive bots
+User-agent: *
+Crawl-delay: 1
+
+# Sitemaps
+Sitemap: http://localhost:1313/sitemap.xml
+Sitemap: http://localhost:1313/sitemap-news.xml
 
 # Allow important SEO paths
 Allow: /posts/
 Allow: /categories/
 Allow: /tags/
 Allow: /images/
-
-# Crawl delay (optional - adjust if needed)
-Crawl-delay: 1

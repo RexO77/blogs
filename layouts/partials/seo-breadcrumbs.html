@@ -1,0 +1,64 @@
+<!-- SEO Breadcrumbs Navigation -->
+<nav aria-label="Breadcrumb" class="breadcrumb-nav">
+  <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="{{ .Site.BaseURL }}" itemprop="item">
+        <span itemprop="name">Home</span>
+      </a>
+      <meta itemprop="position" content="1" />
+    </li>
+    
+    {{ if .IsPage }}
+    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="{{ .Site.BaseURL }}{{ .Section }}/" itemprop="item">
+        <span itemprop="name">{{ .Section | title }}</span>
+      </a>
+      <meta itemprop="position" content="2" />
+    </li>
+    
+    <li class="breadcrumb-item active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <span itemprop="name">{{ .Title }}</span>
+      <meta itemprop="position" content="3" />
+    </li>
+    {{ end }}
+  </ol>
+</nav>
+
+<style>
+.breadcrumb-nav {
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+  content: "›";
+  margin: 0 0.5rem;
+  color: #666;
+}
+
+.breadcrumb-item a {
+  color: #0099FF;
+  text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+  color: #666;
+}
+</style>
