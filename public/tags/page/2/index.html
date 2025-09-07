@@ -173,15 +173,8 @@
 
 <div class="post-list">
     
-        <article class="post-item">
-            <h2><a href="http://localhost:1313/tags/silicon-valley/">Silicon Valley</a></h2>
-            <time>August 17, 2025</time>
-        </article>
     
-        <article class="post-item">
-            <h2><a href="http://localhost:1313/tags/brain-health/">Brain Health</a></h2>
-            <time>August 10, 2025</time>
-        </article>
+    
     
         <article class="post-item">
             <h2><a href="http://localhost:1313/tags/cognitive-science/">Cognitive Science</a></h2>
@@ -209,6 +202,31 @@
         </article>
     
 </div>
+
+
+<nav class="pagination" aria-label="Pagination">
+    <div class="pagination-inner">
+        
+            <a class="pager pager-prev" href="http://localhost:1313/tags/" rel="prev">Newer</a>
+        
+        <span class="pager-pages">
+            
+                <a class="pager-number" href="http://localhost:1313/tags/">1</a>
+            
+                <a class="pager-number is-active" href="http://localhost:1313/tags/page/2/">2</a>
+            
+        </span>
+        
+    </div>
+    <style>
+        .pagination { margin: 2rem 0; display: flex; justify-content: center; }
+        .pagination-inner { display: flex; gap: 1rem; align-items: center; }
+        .pager, .pager-number { padding: 0.4rem 0.75rem; border: 1px solid currentColor; text-decoration: none; border-radius: 6px; }
+        .pager-number.is-active { font-weight: 700; }
+        .pager-pages { display: flex; gap: 0.5rem; }
+    </style>
+</nav>
+
 
         </main>
     </div>

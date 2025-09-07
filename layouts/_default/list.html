@@ -7,11 +7,41 @@
 </div>
 
 <div class="post-list">
-    {{ range .Paginator.Pages }}
+    {{ $pages := .Pages }}
+    {{ if .IsHome }}
+        {{ $pages = where .Site.RegularPages "Section" "posts" }}
+    {{ end }}
+    {{ $p := .Paginate $pages }}
+    {{ range $p.Pages }}
         <article class="post-item">
             <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
             <time>{{ .Date.Format "January 2, 2006" }}</time>
         </article>
     {{ end }}
 </div>
+
+{{ if gt .Paginator.TotalPages 1 }}
+<nav class="pagination" aria-label="Pagination">
+    <div class="pagination-inner">
+        {{ if .Paginator.HasPrev }}
+            <a class="pager pager-prev" href="{{ .Paginator.Prev.URL }}" rel="prev">Newer</a>
+        {{ end }}
+        <span class="pager-pages">
+            {{ range $.Paginator.Pagers }}
+                <a class="pager-number{{ if eq .PageNumber $.Paginator.PageNumber }} is-active{{ end }}" href="{{ .URL }}">{{ .PageNumber }}</a>
+            {{ end }}
+        </span>
+        {{ if .Paginator.HasNext }}
+            <a class="pager pager-next" href="{{ .Paginator.Next.URL }}" rel="next">Older</a>
+        {{ end }}
+    </div>
+    <style>
+        .pagination { margin: 2rem 0; display: flex; justify-content: center; }
+        .pagination-inner { display: flex; gap: 1rem; align-items: center; }
+        .pager, .pager-number { padding: 0.4rem 0.75rem; border: 1px solid currentColor; text-decoration: none; border-radius: 6px; }
+        .pager-number.is-active { font-weight: 700; }
+        .pager-pages { display: flex; gap: 0.5rem; }
+    </style>
+</nav>
+{{ end }}
 {{ end }}

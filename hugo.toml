@@ -12,7 +12,7 @@ canonifyURLs = true
   filename = "sitemap.xml"
 
 [pagination]
-  pagerSize = 10
+  pagerSize = 15
 
 [params]
   # Basic Info
