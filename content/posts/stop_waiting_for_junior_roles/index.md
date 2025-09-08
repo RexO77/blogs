@@ -17,7 +17,6 @@ Open your favorite job board. Notice the silence? It feels like wandering an aba
 Data backs it up: entry level tech hiring cratered **73% in 2025** across 1,400 companies[^1]. Seniors stayed, mid layers held, juniors vanished. That’s the **Hollow Pyramid**: solid top, dashed base.
 *(Visual: a pyramid with strong mid and top layers, but a hollow, dashed out base.)*
 
-
 ## Why the Base Got Hollowed Out
 
 Think of work as two piles:
