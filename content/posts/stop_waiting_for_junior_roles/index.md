@@ -80,7 +80,6 @@ Someone has to take your job later, or the whole ladder breaks.
 
 **What’s one “jagged” problem you’re tackling to build your own ladder? Share it, I’d love to see how others are navigating this shift.**
 ---
-
 ## References & Field Notes
 
 ### Market & Labor Data
