@@ -43,7 +43,6 @@ I’m not speaking from a pulpit, I’m a design intern. Here’s what actually 
 
 “You need experience to get experience” used to be an eye roll. Now it’s a structural failure. If every company outsources junior work to bots and poaches mid levels, we wake up in five years with no seniors to promote. Even automation maxi execs admit: pipelines matter. Without apprentices, industries collapse from the middle out[^4].
 ---
-
 ## The Playbook: What Works Now
 
 ### For Individuals
