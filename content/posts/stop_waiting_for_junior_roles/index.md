@@ -124,5 +124,3 @@ Someone has to take your job later, or the whole ladder breaks.
 [^4]: Axios / Fortune / Business Insider, exec viewpoints on AI and hiring.
 
 [^5]: PwC 2025 Global AI Jobs Barometer, AI wage premium.
-
-
