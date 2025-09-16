@@ -15,6 +15,7 @@ Delete the app. Touch some grass. Text humans you actually like. Your brain will
 
 Two years later, I can confirm: you’re not missing out. You’re just finally living life without caring about what others are doing. And honestly? That feels insaneeeee in the best way.
 
+---
 
 Instagram made me smarter, calmer, and infinitely happier.
 
