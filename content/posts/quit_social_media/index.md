@@ -27,7 +27,6 @@ So I deleted it. No detox weekend, no “DM me if you need me,” no soft launch
 
 ---
 
-
 Every morning used to start like this: alarm → Instagram → scroll → lose 30 minutes of my life to memes, reels, and people I didn’t even like. Multiply that by weeks and months. That wasn’t “keeping up with friends,” it was dopamine roulette.
 
 Then one day, I just nuked it.
