@@ -21,7 +21,7 @@ Instagram made me smarter, calmer, and infinitely happier.
 
 And McDonald’s salads are health food. on a serious note
 
-What Instagram *actually* did was fry my attention span, pump fake insecurities into my head, and convince me that watching a stranger’s Bali vacation was somehow the missing puzzle piece in my Tuesday afternoon. Spoiler: it wasn’t.
+What Instagram *actually* did was fry my attention span, pump fake shit into my head, and convince me that watching a stranger’s Bali vacation was somehow the missing puzzle piece in my Tuesday afternoon. Spoiler: it wasn’t.
 
 So I deleted it. No detox weekend, no “DM me if you need me,” no soft launch of my disappearance. Just *delete → gone*. And here’s the kicker: the world didn’t collapse. Nothing broke. In fact, it got… suspiciously better.
 
