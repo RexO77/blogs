@@ -9,7 +9,9 @@ author: "Nischal Skanda"
 keywords: ["entry level tech jobs", "AI displacement", "junior roles", "apprenticeships", "early career playbook"]
 slug: "stop-waiting-for-junior-roles"
 ---
-{{< img src="images/thumbnail.png" alt="Social media break" caption="Exp required for Junior level : 5 years" >}}
+
+{{< img src="images/thumbnail.png" alt="Experience required for Junior level: 5 years" caption="Exp required for Junior level : 5 years" >}}
+
 ## The Empty Mall Effect
 
 Open your favorite job board. Notice the silence? It feels like wandering an abandoned mall: the food court is still lit, a couple of anchor stores survive, but the ground floor, the kiosks, the first rung, is empty. Not because tech collapsed. Because the roles that used to teach beginners were the easiest to automate.
@@ -42,11 +44,15 @@ I’m not speaking from a pulpit, I’m a design intern. Here’s what actually 
 ## The Experience Paradox, Upgraded
 
 “You need experience to get experience” used to be an eye roll. Now it’s a structural failure. If every company outsources junior work to bots and poaches mid levels, we wake up in five years with no seniors to promote. Even automation maxi execs admit: pipelines matter. Without apprentices, industries collapse from the middle out[^4].
+
 ---
+
 ## The Playbook: What Works Now
 
 ### For Individuals
+
 {{< img src="images/meme1.webp" alt="meme" caption="Me literally" >}}
+
 **Pick AI human overlap problems.** Privacy flows, error recovery, explainability dashboards. Tacit, not trivial.
 **Build one flagship case study.** Problem, constraints, process, results. Proof > polish.
 **Run quick tests.** Three tasks, three users, three changes. Fast cycles build credibility.
@@ -54,7 +60,9 @@ I’m not speaking from a pulpit, I’m a design intern. Here’s what actually 
 **Outreach small and sharp.** Five sentences, one link, one question. Easy to answer. That’s how trust starts.
 
 ### For Companies
+
 {{< img src="images/meme2.png" alt="Unrealistic companies" caption="Please don't be this" >}}
+
 **Rebuild apprenticeships.** Ninety day tracks with real deliverables and AI mentors wired into your tools.
 **Instrument onboarding.** Track time to first PR, rework rate, question closure time. Surface patterns with AI.
 **Hire by skills, not pedigree.** Samples and rubrics scale better than prestige filters.
@@ -77,7 +85,9 @@ And if you lead? Rebuild the rung beneath you.
 Someone has to take your job later, or the whole ladder breaks.
 
 **What’s one “jagged” problem you’re tackling to build your own ladder? Share it, I’d love to see how others are navigating this shift.**
+
 ---
+
 ## References & Field Notes
 
 ### Market & Labor Data
