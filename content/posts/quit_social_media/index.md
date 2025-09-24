@@ -1,5 +1,5 @@
 ---
-title: "I Quit Instagram Two Years Ago — And Somehow, Life Still Exists"
+title: "I made the Biggest Social Experiment of my Life - I Quit Instagram"
 date: 2025-08-24T10:30:00+05:30
 draft: false
 description: "A raw, sarcastic, and personal account of quitting Instagram, the withdrawal symptoms, the unexpected benefits, and why you probably won't miss much if you quit too."
