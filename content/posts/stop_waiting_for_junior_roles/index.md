@@ -124,7 +124,6 @@ Someone has to take your job later, or the whole ladder breaks.
 [Google AI Essentials](https://grow.google/ai-essentials/)
 [Microsoft AI Skills Navigator](https://aiskillsnavigator.microsoft.com)
 
-
 [^1]: Ravio Tech Jobs Report 2025.
 
 [^2]: Stanford Digital Economy Lab, *Canaries in the Coal Mine?*
