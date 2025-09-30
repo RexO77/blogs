@@ -1,5 +1,5 @@
 ---
-title: "Stop Waiting for “Junior” Roles: AI Ate the First Rung"
+title: "Stop Waiting for “Junior” Roles: The graduate 'Jobpocalypse' "
 date: 2025-09-07T08:30:00+05:30
 draft: false
 description: "The first rung of tech careers didn’t vanish by accident. AI bulldozed the training wheels—and here’s how to build your own ladder."

@@ -6,13 +6,76 @@
     <description>Recent content in Tags on IDEA LABS</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 27 Sep 2025 20:42:46 +0530</lastBuildDate>
+    <lastBuildDate>Sun, 28 Sep 2025 17:52:02 +0530</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>AI</title>
       <link>http://localhost:1313/tags/ai/</link>
-      <pubDate>Sun, 07 Sep 2025 08:30:00 +0530</pubDate>
+      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/tags/ai/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Apple</title>
+      <link>http://localhost:1313/tags/apple/</link>
+      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/apple/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Artificial-Intelligence</title>
+      <link>http://localhost:1313/tags/artificial-intelligence/</link>
+      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/artificial-intelligence/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Memes</title>
+      <link>http://localhost:1313/tags/memes/</link>
+      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/memes/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Nvidia</title>
+      <link>http://localhost:1313/tags/nvidia/</link>
+      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/nvidia/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Silicon Valley</title>
+      <link>http://localhost:1313/tags/silicon-valley/</link>
+      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/silicon-valley/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Social Media</title>
+      <link>http://localhost:1313/tags/social-media/</link>
+      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/social-media/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Startup-Culture</title>
+      <link>http://localhost:1313/tags/startup-culture/</link>
+      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/startup-culture/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tech-Industry</title>
+      <link>http://localhost:1313/tags/tech-industry/</link>
+      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/tech-industry/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tesla</title>
+      <link>http://localhost:1313/tags/tesla/</link>
+      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/tesla/</guid>
       <description></description>
     </item>
     <item>
@@ -86,24 +149,10 @@
       <description></description>
     </item>
     <item>
-      <title>Social Media</title>
-      <link>http://localhost:1313/tags/social-media/</link>
-      <pubDate>Sun, 24 Aug 2025 10:30:00 +0530</pubDate>
-      <guid>http://localhost:1313/tags/social-media/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Machine Learning</title>
       <link>http://localhost:1313/tags/machine-learning/</link>
       <pubDate>Sun, 17 Aug 2025 10:30:00 +0530</pubDate>
       <guid>http://localhost:1313/tags/machine-learning/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Silicon Valley</title>
-      <link>http://localhost:1313/tags/silicon-valley/</link>
-      <pubDate>Sun, 17 Aug 2025 10:30:00 +0530</pubDate>
-      <guid>http://localhost:1313/tags/silicon-valley/</guid>
       <description></description>
     </item>
     <item>
@@ -146,55 +195,6 @@
       <link>http://localhost:1313/tags/privacy/</link>
       <pubDate>Sun, 03 Aug 2025 10:30:00 +0530</pubDate>
       <guid>http://localhost:1313/tags/privacy/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Apple</title>
-      <link>http://localhost:1313/tags/apple/</link>
-      <pubDate>Wed, 15 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/apple/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Artificial-Intelligence</title>
-      <link>http://localhost:1313/tags/artificial-intelligence/</link>
-      <pubDate>Wed, 15 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/artificial-intelligence/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Memes</title>
-      <link>http://localhost:1313/tags/memes/</link>
-      <pubDate>Wed, 15 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/memes/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Nvidia</title>
-      <link>http://localhost:1313/tags/nvidia/</link>
-      <pubDate>Wed, 15 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/nvidia/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Startup-Culture</title>
-      <link>http://localhost:1313/tags/startup-culture/</link>
-      <pubDate>Wed, 15 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/startup-culture/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Tech-Industry</title>
-      <link>http://localhost:1313/tags/tech-industry/</link>
-      <pubDate>Wed, 15 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/tech-industry/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Tesla</title>
-      <link>http://localhost:1313/tags/tesla/</link>
-      <pubDate>Wed, 15 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/tesla/</guid>
       <description></description>
     </item>
   </channel>
