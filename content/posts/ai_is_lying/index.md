@@ -6,6 +6,7 @@ description: "A raw, research-backed deep dive into how AI models simulate think
 tags: ["AI", "Technology", "Research", "Silicon Valley", "Machine Learning"]
 categories: ["Technology", "Research"]
 ---
+
 {{< img src="images/thumbnail.webp" alt="Image credits = Google Deepmind" caption="AI's been putting on a show this whole time" >}}
 
 ## The Illusion Revealed
