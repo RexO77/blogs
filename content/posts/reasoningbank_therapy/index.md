@@ -147,8 +147,6 @@ that's when it stops being a tool
 
 and starts being a thinker.
 
-{{ partial "portfolio-cta" (dict "text" "Want to see how I approach AI-powered design that thinks beyond the prompt?" "section" "projects") }}
-
 ---
 
 ## **References**
