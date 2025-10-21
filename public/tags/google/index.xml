@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>AI Impact on IDEA LABS</title>
-    <link>http://localhost:1313/categories/ai-impact/</link>
-    <description>Recent content in AI Impact on IDEA LABS</description>
+    <title>Google on IDEA LABS</title>
+    <link>http://localhost:1313/tags/google/</link>
+    <description>Recent content in Google on IDEA LABS</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 21 Oct 2025 10:00:00 +0530</lastBuildDate>
-    <atom:link href="http://localhost:1313/categories/ai-impact/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/google/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ReasoningBank: Therapy for Machines That Keep Messing Up</title>
       <link>http://localhost:1313/posts/reasoningbank_therapy/</link>
