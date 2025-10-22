@@ -155,4 +155,3 @@ and starts being a thinker.
 2. WebArena Benchmark - [GitHub Repository](https://github.com/web-arena-x/webarena)
 3. Mind2Web Dataset - [Official Site](https://osu-nlp-group.github.io/Mind2Web/)
 4. SWE-Bench-Verified - [GitHub Repository](https://github.com/princeton-nlp/SWE-bench)
-
