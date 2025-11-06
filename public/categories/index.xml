@@ -6,8 +6,29 @@
     <description>Recent content in Categories on IDEA LABS</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 21 Oct 2025 10:00:00 +0530</lastBuildDate>
+    <lastBuildDate>Thu, 06 Nov 2025 10:00:00 +0530</lastBuildDate>
     <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI Industry</title>
+      <link>http://localhost:1313/categories/ai-industry/</link>
+      <pubDate>Thu, 06 Nov 2025 10:00:00 +0530</pubDate>
+      <guid>http://localhost:1313/categories/ai-industry/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Business</title>
+      <link>http://localhost:1313/categories/business/</link>
+      <pubDate>Thu, 06 Nov 2025 10:00:00 +0530</pubDate>
+      <guid>http://localhost:1313/categories/business/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Technology</title>
+      <link>http://localhost:1313/categories/technology/</link>
+      <pubDate>Thu, 06 Nov 2025 10:00:00 +0530</pubDate>
+      <guid>http://localhost:1313/categories/technology/</guid>
+      <description></description>
+    </item>
     <item>
       <title>AI Impact</title>
       <link>http://localhost:1313/categories/ai-impact/</link>
@@ -23,20 +44,6 @@
       <description></description>
     </item>
     <item>
-      <title>Technology</title>
-      <link>http://localhost:1313/categories/technology/</link>
-      <pubDate>Tue, 21 Oct 2025 10:00:00 +0530</pubDate>
-      <guid>http://localhost:1313/categories/technology/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Ai-Industry</title>
-      <link>http://localhost:1313/categories/ai-industry/</link>
-      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/ai-industry/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Lifestyle</title>
       <link>http://localhost:1313/categories/lifestyle/</link>
       <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
@@ -48,13 +55,6 @@
       <link>http://localhost:1313/categories/career-advice/</link>
       <pubDate>Sun, 07 Sep 2025 08:30:00 +0530</pubDate>
       <guid>http://localhost:1313/categories/career-advice/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Business</title>
-      <link>http://localhost:1313/categories/business/</link>
-      <pubDate>Sun, 31 Aug 2025 08:30:00 +0530</pubDate>
-      <guid>http://localhost:1313/categories/business/</guid>
       <description></description>
     </item>
     <item>

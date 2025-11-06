@@ -6,20 +6,62 @@
     <description>Recent content in Tags on IDEA LABS</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 21 Oct 2025 10:00:00 +0530</lastBuildDate>
+    <lastBuildDate>Thu, 06 Nov 2025 10:00:00 +0530</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>AI</title>
       <link>http://localhost:1313/tags/ai/</link>
-      <pubDate>Tue, 21 Oct 2025 10:00:00 +0530</pubDate>
+      <pubDate>Thu, 06 Nov 2025 10:00:00 +0530</pubDate>
       <guid>http://localhost:1313/tags/ai/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Apple</title>
+      <link>http://localhost:1313/tags/apple/</link>
+      <pubDate>Thu, 06 Nov 2025 10:00:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/apple/</guid>
       <description></description>
     </item>
     <item>
       <title>Artificial Intelligence</title>
       <link>http://localhost:1313/tags/artificial-intelligence/</link>
-      <pubDate>Tue, 21 Oct 2025 10:00:00 +0530</pubDate>
+      <pubDate>Thu, 06 Nov 2025 10:00:00 +0530</pubDate>
       <guid>http://localhost:1313/tags/artificial-intelligence/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Business</title>
+      <link>http://localhost:1313/tags/business/</link>
+      <pubDate>Thu, 06 Nov 2025 10:00:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/business/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Google</title>
+      <link>http://localhost:1313/tags/google/</link>
+      <pubDate>Thu, 06 Nov 2025 10:00:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/google/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>OpenAI</title>
+      <link>http://localhost:1313/tags/openai/</link>
+      <pubDate>Thu, 06 Nov 2025 10:00:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/openai/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Privacy</title>
+      <link>http://localhost:1313/tags/privacy/</link>
+      <pubDate>Thu, 06 Nov 2025 10:00:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/privacy/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Technology Economics</title>
+      <link>http://localhost:1313/tags/technology-economics/</link>
+      <pubDate>Thu, 06 Nov 2025 10:00:00 +0530</pubDate>
+      <guid>http://localhost:1313/tags/technology-economics/</guid>
       <description></description>
     </item>
     <item>
@@ -27,13 +69,6 @@
       <link>http://localhost:1313/tags/chatgpt/</link>
       <pubDate>Tue, 21 Oct 2025 10:00:00 +0530</pubDate>
       <guid>http://localhost:1313/tags/chatgpt/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Google</title>
-      <link>http://localhost:1313/tags/google/</link>
-      <pubDate>Tue, 21 Oct 2025 10:00:00 +0530</pubDate>
-      <guid>http://localhost:1313/tags/google/</guid>
       <description></description>
     </item>
     <item>
@@ -48,13 +83,6 @@
       <link>http://localhost:1313/tags/research/</link>
       <pubDate>Tue, 21 Oct 2025 10:00:00 +0530</pubDate>
       <guid>http://localhost:1313/tags/research/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Apple</title>
-      <link>http://localhost:1313/tags/apple/</link>
-      <pubDate>Sun, 28 Sep 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/apple/</guid>
       <description></description>
     </item>
     <item>
@@ -135,13 +163,6 @@
       <description></description>
     </item>
     <item>
-      <title>Business</title>
-      <link>http://localhost:1313/tags/business/</link>
-      <pubDate>Sun, 31 Aug 2025 08:30:00 +0530</pubDate>
-      <guid>http://localhost:1313/tags/business/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Economics</title>
       <link>http://localhost:1313/tags/economics/</link>
       <pubDate>Sun, 31 Aug 2025 08:30:00 +0530</pubDate>
@@ -195,13 +216,6 @@
       <link>http://localhost:1313/tags/ollama/</link>
       <pubDate>Sun, 03 Aug 2025 10:30:00 +0530</pubDate>
       <guid>http://localhost:1313/tags/ollama/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Privacy</title>
-      <link>http://localhost:1313/tags/privacy/</link>
-      <pubDate>Sun, 03 Aug 2025 10:30:00 +0530</pubDate>
-      <guid>http://localhost:1313/tags/privacy/</guid>
       <description></description>
     </item>
   </channel>
