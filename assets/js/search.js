@@ -45,20 +45,42 @@
             return;
         }
         
-        searchResults.innerHTML = results.map(post => {
-            const tags = post.tags ? post.tags.slice(0, 3).map(tag => 
-                `<span class="search-result-tag">${tag}</span>`
-            ).join('') : '';
-            
-            return `
-                <a href="${post.permalink}" class="search-result-item">
-                    <h3 class="search-result-title">${post.title}</h3>
-                    <div class="search-result-meta">${post.date}</div>
-                    <p class="search-result-description">${post.description || post.content}</p>
-                    ${tags ? `<div class="search-result-tags">${tags}</div>` : ''}
-                </a>
-            `;
-        }).join('');
+        // Clear previous results
+        searchResults.innerHTML = '';
+        results.forEach(post => {
+            const item = document.createElement('a');
+            item.className = 'search-result-item';
+            item.href = post.permalink;
+
+            const title = document.createElement('h3');
+            title.className = 'search-result-title';
+            title.textContent = post.title;
+            item.appendChild(title);
+
+            const meta = document.createElement('div');
+            meta.className = 'search-result-meta';
+            meta.textContent = post.date;
+            item.appendChild(meta);
+
+            const desc = document.createElement('p');
+            desc.className = 'search-result-description';
+            desc.textContent = post.description || post.content;
+            item.appendChild(desc);
+
+            if (post.tags && post.tags.length > 0) {
+                const tagsDiv = document.createElement('div');
+                tagsDiv.className = 'search-result-tags';
+                post.tags.slice(0, 3).forEach(tag => {
+                    const tagSpan = document.createElement('span');
+                    tagSpan.className = 'search-result-tag';
+                    tagSpan.textContent = tag;
+                    tagsDiv.appendChild(tagSpan);
+                });
+                item.appendChild(tagsDiv);
+            }
+
+            searchResults.appendChild(item);
+        });
     }
     
     // Open search modal
