@@ -21,5 +21,5 @@ else
     # Show a sample of URLs to verify (optimized to extract only needed data)
     echo ""
     echo "📋 Sample URLs found:"
-    grep -rh "blog.nischalskanda.tech" public/ 2>/dev/null | grep -o 'https://[^"]*' | head -3
+    grep -roh 'https://[^"[:space:]]*' public/ 2>/dev/null | grep "blog.nischalskanda.tech" | head -3
 fi

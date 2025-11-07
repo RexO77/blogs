@@ -44,9 +44,9 @@ else
     echo "✅ All pages have meta descriptions"
 fi
 
-# Check for missing alt tags (optimized to count only, not print matches)
+# Check for missing alt tags (optimized to find all img tags first, then check for alt)
 echo "🖼️  Checking image alt tags..."
-missing_alt=$(grep -roh '<img[^>]*src=' public --include="*.html" | grep -cv 'alt=')
+missing_alt=$(grep -roh '<img[^>]*>' public --include="*.html" | grep -cv 'alt=')
 if [ $missing_alt -gt 0 ]; then
     echo "⚠️  Found $missing_alt images without alt tags"
 else
@@ -81,7 +81,7 @@ fi
 
 # Portfolio link check (optimized to count only)
 echo "🔗 Checking portfolio links..."
-portfolio_links=$(grep -rc "nischalskanda.tech" public --include="*.html" | awk -F: '{sum+=$2} END {print sum}')
+portfolio_links=$(grep -roh "nischalskanda.tech" public --include="*.html" | wc -l)
 echo "✅ Found $portfolio_links references to portfolio site"
 
 echo ""
