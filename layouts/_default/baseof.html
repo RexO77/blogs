@@ -59,10 +59,6 @@
     {{ $js := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint }}
     <script src="{{ $js.RelPermalink }}" defer integrity="{{ $js.Data.Integrity }}"></script>
     
-    <!-- Analytics Test Script (remove in production) -->
-    {{ $analyticsTest := resources.Get "js/analytics-test.js" | resources.Minify }}
-    <script src="{{ $analyticsTest.RelPermalink }}" defer></script>
-
     <!-- Vercel Analytics -->
     {{ if .Site.Params.vercelAnalytics }}
     <script defer src="/_vercel/insights/script.js"></script>

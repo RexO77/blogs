@@ -86,11 +86,12 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="{{ .Site.Title }}">
 
-<!-- Performance Hints -->
+<!-- Performance Hints - DNS Prefetch and Preconnect (consolidated) -->
 <meta http-equiv="x-dns-prefetch-control" content="on">
+<link rel="dns-prefetch" href="//vercel.com">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
 <link rel="preconnect" href="{{ .Site.Params.mainSiteURL }}" crossorigin>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+<link rel="preconnect" href="https://vercel.com" crossorigin>
 
 <!-- Security Headers -->
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -144,13 +145,6 @@
   {{- end -}}
 }
 </script>
-
-<!-- Performance Hints -->
-<link rel="dns-prefetch" href="//vercel.com">
-<link rel="dns-prefetch" href="//fonts.googleapis.com">
-<link rel="dns-prefetch" href="//www.google-analytics.com">
-<link rel="preconnect" href="{{ .Site.Params.mainSiteURL }}">
-<link rel="preconnect" href="https://vercel.com" crossorigin>
 
 <!-- Critical CSS inlining hint -->
 <style>
