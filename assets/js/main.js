@@ -39,23 +39,6 @@
         threshold: 0.1
     };
     
-    // Performance: Preload critical resources
-    function preloadCriticalResources() {
-        const criticalResources = [
-            '/fonts/Satoshi-Regular.otf',
-            '/fonts/Unbounded-VariableFont_wght.ttf'
-        ];
-        
-        criticalResources.forEach(resource => {
-            const link = document.createElement('link');
-            link.rel = 'preload';
-            link.as = resource.endsWith('.css') ? 'style' : 'font';
-            link.href = resource;
-            link.crossOrigin = 'anonymous';
-            document.head.appendChild(link);
-        });
-    }
-    
     // Performance: Optimize font loading
     function optimizeFontLoading() {
         if ('fonts' in document) {
@@ -73,6 +56,7 @@
     
     // Performance: Smooth scroll for anchor links
     function initSmoothScroll() {
+        // Cache anchor links query
         const links = document.querySelectorAll('a[href^="#"]');
         links.forEach(link => {
             link.addEventListener('click', function(e) {
@@ -94,9 +78,6 @@
     // Performance: Add loading states
     function initLoadingStates() {
         const elements = document.querySelectorAll('.hero-headline, .post-item');
-        elements.forEach(element => {
-            element.classList.add('loading');
-        });
         
         // Use Intersection Observer for progressive loading
         const observer = new IntersectionObserver((entries) => {
@@ -110,6 +91,7 @@
         }, observerOptions);
         
         elements.forEach(element => {
+            element.classList.add('loading');
             observer.observe(element);
         });
     }
@@ -117,9 +99,11 @@
     // Performance: Optimize images
     function optimizeImages() {
         const images = document.querySelectorAll('img');
+        const viewportHeight = window.innerHeight;
+        
         images.forEach(img => {
             // Add loading="lazy" for images below the fold
-            if (img.getBoundingClientRect().top > window.innerHeight) {
+            if (img.getBoundingClientRect().top > viewportHeight) {
                 img.loading = 'lazy';
             }
             
@@ -128,21 +112,6 @@
                 this.style.display = 'none';
             });
         });
-    }
-    
-    // Performance: Service Worker registration (if available)
-    function registerServiceWorker() {
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('SW registered: ', registration);
-                    })
-                    .catch(registrationError => {
-                        console.log('SW registration failed: ', registrationError);
-                    });
-            });
-        }
     }
     
     // Optimized theme management - instant switching
@@ -187,24 +156,7 @@
         }
     }
     
-    // Performance: Analytics optimization
-    function optimizeAnalytics() {
-        // Defer analytics loading
-        const analyticsScript = document.querySelector('script[src*="vercel.com/analytics"]');
-        if (analyticsScript) {
-            analyticsScript.setAttribute('data-defer', 'true');
-        }
-    }
-    
-    // Performance: Memory management
-    function cleanup() {
-        // Clean up event listeners when page unloads
-        window.addEventListener('beforeunload', () => {
-            // Cleanup code here if needed
-        });
-    }
-    
-    // Performance: Sticky header scroll effect
+    // Performance: Sticky header scroll effect (cached header element)
     function initStickyHeader() {
         const header = document.querySelector('.site-header');
         if (header) {
@@ -218,7 +170,7 @@
         }
     }
     
-    // Performance: Reading progress indicator
+    // Performance: Reading progress indicator (cached elements)
     function initReadingProgress() {
         const article = document.querySelector('.post-content .content');
         if (!article) return;
@@ -230,10 +182,10 @@
         document.body.appendChild(progressBar);
         
         const progressFill = progressBar.querySelector('.reading-progress-fill');
+        const articleTop = article.offsetTop;
+        const articleHeight = article.offsetHeight;
         
         function updateProgress() {
-            const articleTop = article.offsetTop;
-            const articleHeight = article.offsetHeight;
             const windowHeight = window.innerHeight;
             const scrollTop = window.pageYOffset;
             
@@ -249,9 +201,6 @@
     
     // Performance: Initialize everything when DOM is ready
     function init() {
-        // Preload critical resources
-        preloadCriticalResources();
-        
         // Optimize font loading
         optimizeFontLoading();
         
@@ -269,15 +218,6 @@
         
         // Optimize images
         optimizeImages();
-        
-        // Register service worker
-        registerServiceWorker();
-        
-        // Optimize analytics
-        optimizeAnalytics();
-        
-        // Setup cleanup
-        cleanup();
         
         // Performance: Mark page as loaded
         window.addEventListener('load', () => {
