@@ -1,0 +1,83 @@
+{{- if .Site.Params.comments.enabled -}}
+<div class="comments-section post-section post-divider">
+    <h3 class="comments-title">Comments</h3>
+    
+    {{- if eq .Site.Params.comments.system "giscus" -}}
+    <!-- Giscus Comments -->
+    <script src="https://giscus.app/client.js"
+            data-repo="{{ .Site.Params.comments.giscus.repo }}"
+            data-repo-id="{{ .Site.Params.comments.giscus.repoId }}"
+            data-category="{{ .Site.Params.comments.giscus.category }}"
+            data-category-id="{{ .Site.Params.comments.giscus.categoryId }}"
+            data-mapping="{{ .Site.Params.comments.giscus.mapping | default "pathname" }}"
+            data-strict="{{ .Site.Params.comments.giscus.strict | default "0" }}"
+            data-reactions-enabled="{{ .Site.Params.comments.giscus.reactionsEnabled | default "1" }}"
+            data-emit-metadata="{{ .Site.Params.comments.giscus.emitMetadata | default "0" }}"
+            data-input-position="{{ .Site.Params.comments.giscus.inputPosition | default "bottom" }}"
+            data-theme="{{ .Site.Params.comments.giscus.theme | default "preferred_color_scheme" }}"
+            data-lang="{{ .Site.Params.comments.giscus.lang | default "en" }}"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    
+    <!-- Theme sync for Giscus -->
+    <script>
+        // Sync theme with site theme
+        function updateGiscusTheme() {
+            const theme = document.documentElement.getAttribute('data-theme') || 'light';
+            const giscusTheme = theme === 'dark' ? 'dark' : 'light';
+            
+            const iframe = document.querySelector('iframe.giscus-frame');
+            if (iframe) {
+                iframe.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme: giscusTheme } } },
+                    'https://giscus.app'
+                );
+            }
+        }
+        
+        // Update on theme change
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                setTimeout(updateGiscusTheme, 100);
+            });
+        }
+        
+        // Update on initial load
+        setTimeout(updateGiscusTheme, 1000);
+    </script>
+    {{- end -}}
+    
+    {{- if eq .Site.Params.comments.system "utterances" -}}
+    <!-- Utterances Comments -->
+    <script src="https://utteranc.es/client.js"
+            repo="{{ .Site.Params.comments.utterances.repo }}"
+            issue-term="{{ .Site.Params.comments.utterances.issueTerm | default "pathname" }}"
+            theme="{{ .Site.Params.comments.utterances.theme | default "github-light" }}"
+            crossorigin="anonymous"
+            async>
+    </script>
+    {{- end -}}
+    
+    {{- if eq .Site.Params.comments.system "disqus" -}}
+    <!-- Disqus Comments -->
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function () {
+            this.page.url = "{{ .Permalink }}";
+            this.page.identifier = "{{ .RelPermalink }}";
+        };
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.src = 'https://{{ .Site.Params.comments.disqus.shortname }}.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    {{- end -}}
+</div>
+{{- end -}}
+
