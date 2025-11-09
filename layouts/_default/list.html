@@ -13,9 +13,72 @@
     {{ end }}
     {{ $p := .Paginate $pages }}
     {{ range $p.Pages }}
-        <article class="post-item">
-            <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-            <time>{{ .Date.Format "January 2, 2006" }}</time>
+        <article class="post-card">
+            <a href="{{ .Permalink }}" class="post-card-link">
+                {{- $thumbnail := "" }}
+                {{- if .Params.thumbnail }}
+                    {{- $thumbnail = .Params.thumbnail }}
+                {{- else }}
+                    {{- /* Look for a file with "thumbnail" in the name first */ -}}
+                    {{- range .Resources.ByType "image" }}
+                        {{- if or (in .Name "thumbnail") (in .Name "Thumbnail") }}
+                            {{- $thumbnail = .RelPermalink }}
+                            {{- break }}
+                        {{- end }}
+                    {{- end }}
+                    {{- /* If no thumbnail found, use the first image */ -}}
+                    {{- if not $thumbnail }}
+                        {{- $images := .Resources.ByType "image" }}
+                        {{- if $images }}
+                            {{- with index $images 0 }}
+                                {{- $thumbnail = .RelPermalink }}
+                            {{- end }}
+                        {{- end }}
+                    {{- end }}
+                {{- end }}
+                
+                {{- if $thumbnail }}
+                    <div class="post-card-image">
+                        {{- if .Params.thumbnail }}
+                            <img src="{{ .Permalink }}{{ $thumbnail }}" alt="{{ .Title }}" loading="lazy">
+                        {{- else }}
+                            <img src="{{ $thumbnail }}" alt="{{ .Title }}" loading="lazy">
+                        {{- end }}
+                    </div>
+                {{- else }}
+                    <div class="post-card-image post-card-image-placeholder">
+                        <div class="post-card-placeholder-content">
+                            <span class="post-card-placeholder-icon">📝</span>
+                        </div>
+                    </div>
+                {{- end }}
+                
+                <div class="post-card-content">
+                    {{- if .Params.categories }}
+                    <div class="post-card-categories">
+                        {{- range first 2 .Params.categories }}
+                            <span class="post-card-category">{{ . }}</span>
+                        {{- end }}
+                    </div>
+                    {{- end }}
+                    
+                    <h2 class="post-card-title">{{ .Title }}</h2>
+                    
+                    {{- if .Description }}
+                    <p class="post-card-description">{{ .Description | truncate 150 }}</p>
+                    {{- else }}
+                    <p class="post-card-description">{{ .Summary | truncate 150 }}</p>
+                    {{- end }}
+                    
+                    <div class="post-card-meta">
+                        <time class="post-card-date" datetime="{{ .Date.Format "2006-01-02" }}">
+                            {{ .Date.Format "Jan 2, 2006" }}
+                        </time>
+                        <span class="post-card-separator">•</span>
+                        <span class="post-card-reading-time">{{ .ReadingTime }} min read</span>
+                    </div>
+                </div>
+            </a>
         </article>
     {{ end }}
 </div>

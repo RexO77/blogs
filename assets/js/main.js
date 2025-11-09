@@ -77,7 +77,7 @@
     
     // Performance: Add loading states
     function initLoadingStates() {
-        const elements = document.querySelectorAll('.hero-headline, .post-item');
+        const elements = document.querySelectorAll('.hero-headline, .post-item, .post-card');
         
         // Use Intersection Observer for progressive loading
         const observer = new IntersectionObserver((entries) => {

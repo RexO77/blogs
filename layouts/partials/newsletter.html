@@ -1,0 +1,99 @@
+{{- if .Site.Params.newsletter.enabled -}}
+<div class="newsletter-section">
+    <div class="newsletter-container">
+        <h3 class="newsletter-title">{{ .Site.Params.newsletter.title | default "Stay Updated" }}</h3>
+        <p class="newsletter-description">
+            {{ .Site.Params.newsletter.description | default "Get the latest posts delivered right to your inbox. No spam, unsubscribe anytime." }}
+        </p>
+        
+        {{- if eq .Site.Params.newsletter.provider "mailchimp" -}}
+        <!-- Mailchimp Form -->
+        <form action="{{ .Site.Params.newsletter.mailchimp.action }}" method="post" class="newsletter-form" target="_blank" novalidate>
+            <div class="newsletter-form-group">
+                <input type="email" name="EMAIL" class="newsletter-input" placeholder="Enter your email" required>
+                <button type="submit" class="newsletter-button">Subscribe</button>
+            </div>
+            <!-- Real people should not fill this in -->
+            <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                <input type="text" name="{{ .Site.Params.newsletter.mailchimp.hiddenField }}" tabindex="-1" value="">
+            </div>
+        </form>
+        {{- end -}}
+        
+        {{- if eq .Site.Params.newsletter.provider "convertkit" -}}
+        <!-- ConvertKit Form -->
+        <form action="{{ .Site.Params.newsletter.convertkit.action }}" method="post" class="newsletter-form" data-sv-form="{{ .Site.Params.newsletter.convertkit.formId }}" data-uid="{{ .Site.Params.newsletter.convertkit.uid }}">
+            <div class="newsletter-form-group">
+                <input type="email" name="email_address" class="newsletter-input" placeholder="Enter your email" required>
+                <button type="submit" class="newsletter-button">Subscribe</button>
+            </div>
+        </form>
+        {{- end -}}
+        
+        {{- if eq .Site.Params.newsletter.provider "substack" -}}
+        <!-- Substack Form -->
+        <form action="{{ .Site.Params.newsletter.substack.url }}/subscribe" method="post" class="newsletter-form" target="_blank">
+            <div class="newsletter-form-group">
+                <input type="email" name="email" class="newsletter-input" placeholder="Enter your email" required>
+                <button type="submit" class="newsletter-button">Subscribe</button>
+            </div>
+        </form>
+        {{- end -}}
+        
+        {{- if eq .Site.Params.newsletter.provider "custom" -}}
+        <!-- Custom Form (can integrate with your own backend) -->
+        <form action="{{ .Site.Params.newsletter.custom.action }}" method="post" class="newsletter-form" id="custom-newsletter-form">
+            <div class="newsletter-form-group">
+                <input type="email" name="email" class="newsletter-input" placeholder="Enter your email" required>
+                <button type="submit" class="newsletter-button">Subscribe</button>
+            </div>
+            <div class="newsletter-message" id="newsletter-message" style="display: none;"></div>
+        </form>
+        
+        <script>
+            document.getElementById('custom-newsletter-form').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const form = e.target;
+                const email = form.querySelector('input[name="email"]').value;
+                const message = document.getElementById('newsletter-message');
+                const button = form.querySelector('button');
+                
+                button.disabled = true;
+                button.textContent = 'Subscribing...';
+                
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ email: email })
+                    });
+                    
+                    if (response.ok) {
+                        message.textContent = 'Thanks for subscribing! Check your email.';
+                        message.className = 'newsletter-message newsletter-message-success';
+                        message.style.display = 'block';
+                        form.reset();
+                    } else {
+                        throw new Error('Subscription failed');
+                    }
+                } catch (error) {
+                    message.textContent = 'Something went wrong. Please try again.';
+                    message.className = 'newsletter-message newsletter-message-error';
+                    message.style.display = 'block';
+                } finally {
+                    button.disabled = false;
+                    button.textContent = 'Subscribe';
+                }
+            });
+        </script>
+        {{- end -}}
+        
+        <p class="newsletter-privacy">
+            We respect your privacy. Unsubscribe at any time.
+        </p>
+    </div>
+</div>
+{{- end -}}
+

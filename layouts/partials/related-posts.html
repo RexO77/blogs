@@ -1,0 +1,68 @@
+{{- $related := .Site.RegularPages.Related . | first 3 -}}
+{{- if $related -}}
+<section class="related-posts post-section post-divider">
+    <h3 class="related-posts-title">You Might Also Like</h3>
+    <div class="related-posts-grid">
+        {{- range $related -}}
+        <article class="related-post-card">
+            <a href="{{ .Permalink }}" class="related-post-link">
+                {{- $thumbnail := "" }}
+                {{- if .Params.thumbnail }}
+                    {{- $thumbnail = .Params.thumbnail }}
+                {{- else }}
+                    {{- /* Look for a file with "thumbnail" in the name first */ -}}
+                    {{- range .Resources.ByType "image" }}
+                        {{- if or (in .Name "thumbnail") (in .Name "Thumbnail") }}
+                            {{- $thumbnail = .RelPermalink }}
+                            {{- break }}
+                        {{- end }}
+                    {{- end }}
+                    {{- /* If no thumbnail found, use the first image */ -}}
+                    {{- if not $thumbnail }}
+                        {{- $images := .Resources.ByType "image" }}
+                        {{- if $images }}
+                            {{- with index $images 0 }}
+                                {{- $thumbnail = .RelPermalink }}
+                            {{- end }}
+                        {{- end }}
+                    {{- end }}
+                {{- end }}
+                
+                {{- if $thumbnail }}
+                    <div class="related-post-image">
+                        {{- if .Params.thumbnail }}
+                            <img src="{{ .Permalink }}{{ $thumbnail }}" alt="{{ .Title }}" loading="lazy">
+                        {{- else }}
+                            <img src="{{ $thumbnail }}" alt="{{ .Title }}" loading="lazy">
+                        {{- end }}
+                    </div>
+                {{- else }}
+                    <div class="related-post-image related-post-image-placeholder">
+                        <div class="related-post-placeholder-icon">📝</div>
+                    </div>
+                {{- end }}
+                
+                <div class="related-post-content">
+                    {{- if .Params.categories }}
+                    <div class="related-post-category">
+                        {{ index .Params.categories 0 }}
+                    </div>
+                    {{- end }}
+                    
+                    <h4 class="related-post-title">{{ .Title }}</h4>
+                    
+                    <div class="related-post-meta">
+                        <time datetime="{{ .Date.Format "2006-01-02" }}">
+                            {{ .Date.Format "Jan 2, 2006" }}
+                        </time>
+                        <span class="related-post-separator">•</span>
+                        <span class="related-post-reading-time">{{ .ReadingTime }} min</span>
+                    </div>
+                </div>
+            </a>
+        </article>
+        {{- end -}}
+    </div>
+</section>
+{{- end -}}
+

@@ -5,6 +5,11 @@ enableRobotsTXT = true
 enableGitInfo = true
 canonifyURLs = true
 
+# Output formats for search
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+  section = ["HTML", "RSS"]
+
 # SEO and Performance
 [sitemap]
   changefreq = "weekly"
@@ -42,6 +47,63 @@ canonifyURLs = true
   # Analytics (add your tracking IDs)
   googleAnalytics = ""  # Add your GA4 tracking ID
   vercelAnalytics = true  # Enable Vercel Analytics
+  
+  # Comments System Configuration
+  [params.comments]
+    enabled = false
+    system = "giscus"  # Options: "giscus", "utterances", "disqus"
+    
+    # Giscus Configuration (GitHub Discussions)
+    # To set up: Visit https://giscus.app/ and follow the setup guide
+    # You'll need to enable Discussions on your GitHub repo
+    [params.comments.giscus]
+      repo = "RexO77/blogs"  # Your GitHub repo
+      repoId = "R_kgDOPTHrAg"  # From giscus.app
+      category = "Ideas"  # Discussion category name
+      categoryId = "DIC_kwDOPTHrAs4CxjGf"  # From giscus.app
+      mapping = "pathname"  # How to map posts to discussions
+      strict = "0"
+      reactionsEnabled = "1"
+      emitMetadata = "0"
+      inputPosition = "bottom"
+      theme = "preferred_color_scheme"
+      lang = "en"
+    
+    # Alternative: Utterances (GitHub Issues)
+    [params.comments.utterances]
+      repo = ""  # Your GitHub username/repo
+      issueTerm = "pathname"
+      theme = "github-light"
+    
+    # Alternative: Disqus
+    [params.comments.disqus]
+      shortname = ""  # Your Disqus shortname
+  
+  # Newsletter Configuration
+  [params.newsletter]
+    enabled = true
+    title = "Stay in the Loop"
+    description = "Get weekly insights on AI, tech, and career advice. Join readers who stay ahead of the curve."
+    provider = "mailchimp"  # Options: "mailchimp", "convertkit", "substack", "custom"
+    
+    # Mailchimp Configuration
+    [params.newsletter.mailchimp]
+      action = "https://tech.us21.list-manage.com/subscribe/post?u=YOUR_USER_ID&id=YOUR_LIST_ID"  # UPDATE THIS!
+      hiddenField = "b_YOUR_USER_ID_YOUR_LIST_ID"  # Anti-bot field name
+    
+    # ConvertKit Configuration
+    [params.newsletter.convertkit]
+      action = "https://app.convertkit.com/forms/YOUR_FORM_ID/subscriptions"  # UPDATE THIS!
+      formId = "YOUR_FORM_ID"
+      uid = "YOUR_UID"
+    
+    # Substack Configuration
+    [params.newsletter.substack]
+      url = "https://yoursubstack.substack.com"  # UPDATE THIS!
+    
+    # Custom Configuration (for your own backend)
+    [params.newsletter.custom]
+      action = "/api/newsletter/subscribe"  # Your API endpoint
   
 # Performance
   lazyLoading = true
@@ -110,3 +172,18 @@ canonifyURLs = true
   category = "categories"
   tag = "tags"
   series = "series"
+
+# Related content configuration
+[related]
+  threshold = 80
+  includeNewer = true
+  toLower = true
+  [[related.indices]]
+    name = "tags"
+    weight = 100
+  [[related.indices]]
+    name = "categories"
+    weight = 80
+  [[related.indices]]
+    name = "date"
+    weight = 10

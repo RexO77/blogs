@@ -44,6 +44,12 @@
     </div>
     {{- end }}
     
+    <!-- Related Posts -->
+    {{ partial "related-posts.html" . }}
+    
+    <!-- Newsletter Signup -->
+    {{ partial "newsletter.html" . }}
+    
     <!-- Social sharing -->
     <div class="social-sharing post-section post-divider text-center">
         <h3 class="social-sharing-title">Share this post:</h3>
@@ -80,5 +86,8 @@
             {{- end }}
         </div>
     </nav>
+    
+    <!-- Comments -->
+    {{ partial "comments.html" . }}
 </article>
 {{ end }}
