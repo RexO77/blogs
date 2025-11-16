@@ -1430,15 +1430,6 @@ html, body {
     max-height: calc(80vh - 100px);
 }
 
-.search-result-count {
-    font-size: var(--text-sm);
-    color: var(--text-color);
-    opacity: 0.6;
-    padding: var(--space-sm) var(--space-md);
-    margin-bottom: var(--space-xs);
-    text-align: center;
-}
-
 .search-result-item {
     padding: var(--space-md);
     border-radius: 8px;
@@ -1510,15 +1501,6 @@ html, body {
 .search-no-results-icon {
     font-size: 3rem;
     margin-bottom: var(--space-md);
-}
-
-/* Pagefind search term highlighting */
-.search-result-description mark {
-    background-color: var(--accent-color-blue);
-    color: var(--bg-color);
-    padding: 0.1em 0.2em;
-    border-radius: 3px;
-    font-weight: 500;
 }
 
 /* --- Comments Section --- */

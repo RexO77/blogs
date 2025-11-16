@@ -5,9 +5,9 @@ enableRobotsTXT = true
 enableGitInfo = true
 canonifyURLs = true
 
-# Output formats (JSON removed - Pagefind handles search indexing)
+# Output formats for search
 [outputs]
-  home = ["HTML", "RSS"]
+  home = ["HTML", "RSS", "JSON"]
   section = ["HTML", "RSS"]
 
 # SEO and Performance
