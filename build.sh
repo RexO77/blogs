@@ -10,6 +10,11 @@ echo ""
 # Clean and build for production with explicit baseURL
 hugo --cleanDestinationDir --minify --baseURL="https://blog.nischalskanda.tech/"
 
+# Build Pagefind search index
+echo ""
+echo "🔍 Building search index with Pagefind..."
+npx --yes pagefind@latest --site public
+
 echo ""
 echo "✅ Production build complete!"
 echo "📁 Files are ready in ./public/ directory"
