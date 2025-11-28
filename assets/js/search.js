@@ -51,7 +51,7 @@
             displayResults(results, search.results.length);
         } catch (error) {
             console.error('Search error:', error);
-            searchResults.innerHTML = '<div class="search-no-results"><div class="search-no-results-icon">⚠️</div><p>Search error. Please try again.</p></div>';
+            searchResults.innerHTML = `<div class="search-no-results"><div class="search-no-results-icon">⚠️</div><p>Unable to load search results. Please check your internet connection or refresh the page and try again.</p>${error && error.message ? `<div class="search-error-details">Error: ${error.message}</div>` : ''}</div>`;
         }
     }
     
