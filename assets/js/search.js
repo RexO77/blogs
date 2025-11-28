@@ -122,7 +122,6 @@
         searchResults = document.getElementById('search-results');
         searchClose = document.getElementById('search-close');
         const searchTrigger = document.getElementById('search-trigger');
-        const searchHintText = document.getElementById('search-hint-text');
         
         if (!searchModal || !searchInput || !searchResults) return;
         
