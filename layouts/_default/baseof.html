@@ -48,6 +48,15 @@
             
             <!-- Main site link -->
             <a class="main-site-link" href="https://www.nischalskanda.tech" target="_blank" rel="noopener noreferrer">Main Site</a>
+            
+            <!-- Search trigger pill -->
+            <button id="search-trigger" class="search-trigger-pill" aria-label="Open search">
+                <span class="search-trigger-icon">🔍</span>
+                <span class="search-trigger-text">Search</span>
+                <span class="search-tooltip">
+                    Press <kbd>⌘ K</kbd> or <kbd>Ctrl K</kbd>
+                </span>
+            </button>
         </header>
         
         <!-- Search Modal -->
@@ -61,6 +70,9 @@
                             <line x1="6" y1="6" x2="18" y2="18"></line>
                         </svg>
                     </button>
+                </div>
+                <div class="search-hint">
+                    <span id="search-hint-text">Press <kbd>⌘ K</kbd> or <kbd>Ctrl K</kbd> anywhere to search</span>
                 </div>
                 <div id="search-results" class="search-results"></div>
             </div>

@@ -55,13 +55,13 @@
         }
     }
     
-    // Display search results
+    // Display search results with staggered animation
     function displayResults(results, totalCount) {
         const resultCount = totalCount > results.length 
             ? `<div class="search-result-count">Showing ${results.length} of ${totalCount} results</div>`
             : `<div class="search-result-count">${results.length} result${results.length !== 1 ? 's' : ''}</div>`;
         
-        const resultsHtml = results.map(result => {
+        const resultsHtml = results.map((result, index) => {
             // Extract tags from meta if available
             const tags = result.meta.tags ? 
                 result.meta.tags.slice(0, 3).map(tag => 
@@ -69,7 +69,7 @@
                 ).join('') : '';
             
             return `
-                <a href="${result.url}" class="search-result-item">
+                <a href="${result.url}" class="search-result-item" style="animation-delay: ${index * 0.05}s">
                     <h3 class="search-result-title">${result.meta.title || 'Untitled'}</h3>
                     <div class="search-result-meta">${result.meta.date || ''}</div>
                     <p class="search-result-description">${result.excerpt}</p>
@@ -81,11 +81,17 @@
         searchResults.innerHTML = resultCount + resultsHtml;
     }
     
-    // Open search modal
+    // Open search modal with animation
     function openSearch() {
         searchModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
-        setTimeout(() => searchInput.focus(), 100);
+        
+        // Trigger animation
+        requestAnimationFrame(() => {
+            searchModal.classList.add('visible');
+        });
+        
+        setTimeout(() => searchInput.focus(), 150);
         
         // Preload Pagefind when modal opens (lazy load)
         if (!pagefindLoaded) {
@@ -95,12 +101,18 @@
         }
     }
     
-    // Close search modal
+    // Close search modal with animation
     function closeSearch() {
-        searchModal.style.display = 'none';
+        searchModal.classList.remove('visible');
+        
+        // Wait for animation to complete before hiding
+        setTimeout(() => {
+            searchModal.style.display = 'none';
+            searchInput.value = '';
+            searchResults.innerHTML = '<div class="search-no-results"><div class="search-no-results-icon">🔍</div><p>Start typing to search posts...</p></div>';
+        }, 200);
+        
         document.body.style.overflow = '';
-        searchInput.value = '';
-        searchResults.innerHTML = '<div class="search-no-results"><div class="search-no-results-icon">🔍</div><p>Start typing to search posts...</p></div>';
     }
     
     // Initialize search
@@ -109,8 +121,18 @@
         searchInput = document.getElementById('search-input');
         searchResults = document.getElementById('search-results');
         searchClose = document.getElementById('search-close');
+        const searchTrigger = document.getElementById('search-trigger');
+        const searchHintText = document.getElementById('search-hint-text');
         
         if (!searchModal || !searchInput || !searchResults) return;
+        
+        // Keep the hint showing both shortcuts - works for everyone
+        // No need to change it, the HTML already has both ⌘ K and Ctrl K
+        
+        // Wire up search trigger button
+        if (searchTrigger) {
+            searchTrigger.addEventListener('click', openSearch);
+        }
         
         // Event listeners
         searchClose.addEventListener('click', closeSearch);
