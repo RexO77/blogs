@@ -1,113 +1,118 @@
-// Simple client-side search functionality
+// Pagefind search integration
 (function() {
     'use strict';
     
-    let searchIndex = [];
+    let pagefind;
+    let pagefindLoaded = false;
     let searchModal, searchInput, searchResults, searchClose;
     
-    // Simple fuzzy search function
-    function fuzzySearch(query, text) {
-        if (!query || !text) return false;
+    // Lazy load Pagefind only when needed
+    async function ensurePagefind() {
+        if (pagefindLoaded) return;
         
-        query = query.toLowerCase();
-        text = text.toLowerCase();
-        
-        // Direct match gets highest priority
-        if (text.includes(query)) return true;
-        
-        // Fuzzy match - all query chars appear in order
-        let queryIndex = 0;
-        for (let i = 0; i < text.length && queryIndex < query.length; i++) {
-            if (text[i] === query[queryIndex]) {
-                queryIndex++;
-            }
+        try {
+            pagefind = await import('/pagefind/pagefind.js');
+            pagefindLoaded = true;
+        } catch (error) {
+            console.error('Error loading Pagefind:', error);
+            throw error;
         }
-        return queryIndex === query.length;
     }
     
-    // Search function
-    function performSearch(query) {
+    // Perform search with Pagefind
+    async function performSearch(query) {
         if (!query || query.length < 2) {
             searchResults.innerHTML = '<div class="search-no-results"><div class="search-no-results-icon">🔍</div><p>Start typing to search posts...</p></div>';
             return;
         }
         
-        const results = searchIndex.filter(post => {
-            return fuzzySearch(query, post.title) ||
-                   fuzzySearch(query, post.description) ||
-                   fuzzySearch(query, post.content) ||
-                   (post.tags && post.tags.some(tag => fuzzySearch(query, tag))) ||
-                   (post.categories && post.categories.some(cat => fuzzySearch(query, cat)));
-        });
+        // Show loading state immediately
+        searchResults.innerHTML = '<div class="search-no-results"><div class="search-no-results-icon">⏳</div><p>Searching...</p></div>';
         
-        if (results.length === 0) {
-            searchResults.innerHTML = '<div class="search-no-results"><div class="search-no-results-icon">😕</div><p>No posts found matching your search.</p></div>';
-            return;
-        }
-        
-        // Clear previous results
-        searchResults.innerHTML = '';
-        results.forEach(post => {
-            const item = document.createElement('a');
-            item.className = 'search-result-item';
-            item.href = post.permalink;
-
-            const title = document.createElement('h3');
-            title.className = 'search-result-title';
-            title.textContent = post.title;
-            item.appendChild(title);
-
-            const meta = document.createElement('div');
-            meta.className = 'search-result-meta';
-            meta.textContent = post.date;
-            item.appendChild(meta);
-
-            const desc = document.createElement('p');
-            desc.className = 'search-result-description';
-            desc.textContent = post.description || post.content;
-            item.appendChild(desc);
-
-            if (post.tags && post.tags.length > 0) {
-                const tagsDiv = document.createElement('div');
-                tagsDiv.className = 'search-result-tags';
-                post.tags.slice(0, 3).forEach(tag => {
-                    const tagSpan = document.createElement('span');
-                    tagSpan.className = 'search-result-tag';
-                    tagSpan.textContent = tag;
-                    tagsDiv.appendChild(tagSpan);
-                });
-                item.appendChild(tagsDiv);
+        try {
+            // Ensure Pagefind is loaded
+            await ensurePagefind();
+            
+            const search = await pagefind.search(query);
+            
+            if (search.results.length === 0) {
+                searchResults.innerHTML = '<div class="search-no-results"><div class="search-no-results-icon">😕</div><p>No posts found matching your search.</p></div>';
+                return;
             }
-
-            searchResults.appendChild(item);
-        });
+            
+            // Limit to first 10 results for speed
+            const limitedResults = search.results.slice(0, 10);
+            
+            // Load data for limited results
+            const results = await Promise.all(
+                limitedResults.map(r => r.data())
+            );
+            
+            displayResults(results, search.results.length);
+        } catch (error) {
+            console.error('Search error:', error);
+            searchResults.innerHTML = `<div class="search-no-results"><div class="search-no-results-icon">⚠️</div><p>Unable to load search results. Please check your internet connection or refresh the page and try again.</p>${error && error.message ? `<div class="search-error-details">Error: ${error.message}</div>` : ''}</div>`;
+        }
     }
     
-    // Open search modal
+    // Display search results with staggered animation
+    function displayResults(results, totalCount) {
+        const resultCount = totalCount > results.length 
+            ? `<div class="search-result-count">Showing ${results.length} of ${totalCount} results</div>`
+            : `<div class="search-result-count">${results.length} result${results.length !== 1 ? 's' : ''}</div>`;
+        
+        const resultsHtml = results.map((result, index) => {
+            // Extract tags from meta if available
+            const tags = result.meta.tags ? 
+                result.meta.tags.slice(0, 3).map(tag => 
+                    `<span class="search-result-tag">${tag}</span>`
+                ).join('') : '';
+            
+            return `
+                <a href="${result.url}" class="search-result-item" style="animation-delay: ${index * 0.05}s">
+                    <h3 class="search-result-title">${result.meta.title || 'Untitled'}</h3>
+                    <div class="search-result-meta">${result.meta.date || ''}</div>
+                    <p class="search-result-description">${result.excerpt}</p>
+                    ${tags ? `<div class="search-result-tags">${tags}</div>` : ''}
+                </a>
+            `;
+        }).join('');
+        
+        searchResults.innerHTML = resultCount + resultsHtml;
+    }
+    
+    // Open search modal with animation
     function openSearch() {
         searchModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
-        setTimeout(() => searchInput.focus(), 100);
+        
+        // Trigger animation
+        requestAnimationFrame(() => {
+            searchModal.classList.add('visible');
+        });
+        
+        setTimeout(() => searchInput.focus(), 150);
+        
+        // Preload Pagefind when modal opens (lazy load)
+        if (!pagefindLoaded) {
+            ensurePagefind().catch(err => 
+                console.error('Failed to preload Pagefind:', err)
+            );
+        }
     }
     
-    // Close search modal
+    // Close search modal with animation
     function closeSearch() {
-        searchModal.style.display = 'none';
+        searchModal.classList.remove('visible');
+        
+        // Wait for animation to complete before hiding
+        setTimeout(() => {
+            searchModal.style.display = 'none';
+            searchInput.value = '';
+            searchResults.innerHTML = '<div class="search-no-results"><div class="search-no-results-icon">🔍</div><p>Start typing to search posts...</p></div>';
+        }, 200);
+        
         document.body.style.overflow = '';
-        searchInput.value = '';
-        searchResults.innerHTML = '';
-    }
-    
-    // Load search index
-    function loadSearchIndex() {
-        fetch('/index.json')
-            .then(response => response.json())
-            .then(data => {
-                searchIndex = data;
-            })
-            .catch(error => {
-                console.error('Error loading search index:', error);
-            });
     }
     
     // Initialize search
@@ -116,11 +121,17 @@
         searchInput = document.getElementById('search-input');
         searchResults = document.getElementById('search-results');
         searchClose = document.getElementById('search-close');
+        const searchTrigger = document.getElementById('search-trigger');
         
         if (!searchModal || !searchInput || !searchResults) return;
         
-        // Load search index
-        loadSearchIndex();
+        // Keep the hint showing both shortcuts - works for everyone
+        // No need to change it, the HTML already has both ⌘ K and Ctrl K
+        
+        // Wire up search trigger button
+        if (searchTrigger) {
+            searchTrigger.addEventListener('click', openSearch);
+        }
         
         // Event listeners
         searchClose.addEventListener('click', closeSearch);
@@ -144,13 +155,13 @@
             }
         });
         
-        // Perform search as user types
+        // Perform search as user types (reduced debounce for faster response)
         let searchTimeout;
         searchInput.addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
                 performSearch(e.target.value);
-            }, 200);
+            }, 150);
         });
         
         // Show initial message
@@ -165,4 +176,3 @@
     }
     
 })();
-
