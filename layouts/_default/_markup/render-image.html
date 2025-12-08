@@ -1,0 +1,46 @@
+{{- $src := .Destination -}}
+{{- $alt := .Text -}}
+{{- $title := .Title -}}
+
+{{- /* Check if the image is local */ -}}
+{{- if not (urls.Parse $src).Scheme -}}
+{{- /* Try to find the image resource */ -}}
+{{- $img := .Page.Resources.GetMatch $src -}}
+{{- if not $img -}}
+{{- $img = resources.Get $src -}}
+{{- end -}}
+
+{{- if $img -}}
+{{- /* Check for WebP version */ -}}
+{{- $webpSrc := replace $img.RelPermalink (path.Ext $img.RelPermalink) ".webp" -}}
+{{- $webpResource := resources.Get (replace $src (path.Ext $src) ".webp") -}}
+
+{{- /* If resource.Get failed, try Page Resources */ -}}
+{{- if not $webpResource -}}
+{{- $webpResource = .Page.Resources.GetMatch (replace $src (path.Ext $src) ".webp") -}}
+{{- end -}}
+
+{{- if $webpResource -}}
+<picture>
+    <source srcset="{{ $webpResource.RelPermalink }}" type="image/webp">
+    <img src="{{ $img.RelPermalink }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}" {{ end }} loading="lazy">
+</picture>
+{{- else -}}
+<img src="{{ $img.RelPermalink }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}" {{ end }} loading="lazy">
+{{- end -}}
+{{- else -}}
+{{- /* Image not found as resource, fallback to static path check */ -}}
+{{- $staticWebP := replace $src (path.Ext $src) ".webp" -}}
+{{- if (fileExists (printf "static%s" $staticWebP)) -}}
+<picture>
+    <source srcset="{{ $staticWebP }}" type="image/webp">
+    <img src="{{ $src }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}" {{ end }} loading="lazy">
+</picture>
+{{- else -}}
+<img src="{{ $src }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}" {{ end }} loading="lazy">
+{{- end -}}
+{{- end -}}
+{{- else -}}
+{{- /* Remote image */ -}}
+<img src="{{ $src }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}" {{ end }} loading="lazy">
+{{- end -}}

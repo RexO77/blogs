@@ -1,78 +1,104 @@
 {{ define "main" }}
 <div data-pagefind-ignore>
-<div class="hero-section">
-    <h1 class="hero-headline">
-        THE ONLY BLOGS <span class="interactive-o"></span> YOU<br>
-        WOULD LOVE TO READ <span class="interactive-arrow"></span>
-    </h1>
-</div>
+    <div class="hero-section">
+        <h1 class="hero-headline">
+            THE ONLY BLOGS <span class="interactive-o"></span> YOU<br>
+            WOULD LOVE TO READ <span class="interactive-arrow"></span>
+        </h1>
+    </div>
 
-<div class="post-list">
-    {{ $pages := .Pages }}
-    {{ if .IsHome }}
+    <div class="post-list">
+        {{ $pages := .Pages }}
+        {{ if .IsHome }}
         {{ $pages = where .Site.RegularPages "Section" "posts" }}
-    {{ end }}
-    {{ $p := .Paginate $pages }}
-    {{ range $p.Pages }}
+        {{ end }}
+        {{ $p := .Paginate $pages }}
+        {{ range $p.Pages }}
         <article class="post-card">
             <a href="{{ .Permalink }}" class="post-card-link">
-                {{- $thumbnail := "" }}
+                {{- $thumbnailSrc := "" }}
+                {{- $thumbnailResource := "" }}
+
                 {{- if .Params.thumbnail }}
-                    {{- $thumbnail = .Params.thumbnail }}
+                {{- $thumbnailSrc = .Params.thumbnail }}
                 {{- else }}
-                    {{- /* Look for a file with "thumbnail" in the name first */ -}}
-                    {{- range .Resources.ByType "image" }}
-                        {{- if or (in .Name "thumbnail") (in .Name "Thumbnail") }}
-                            {{- $thumbnail = .RelPermalink }}
-                            {{- break }}
-                        {{- end }}
-                    {{- end }}
-                    {{- /* If no thumbnail found, use the first image */ -}}
-                    {{- if not $thumbnail }}
-                        {{- $images := .Resources.ByType "image" }}
-                        {{- if $images }}
-                            {{- with index $images 0 }}
-                                {{- $thumbnail = .RelPermalink }}
-                            {{- end }}
-                        {{- end }}
-                    {{- end }}
+                {{- /* Look for a file with "thumbnail" in the name first */ -}}
+                {{- range .Resources.ByType "image" }}
+                {{- if or (in .Name "thumbnail") (in .Name "Thumbnail") }}
+                {{- $thumbnailResource = . }}
+                {{- $thumbnailSrc = .RelPermalink }}
+                {{- break }}
                 {{- end }}
-                
-                {{- if $thumbnail }}
-                    <div class="post-card-image">
-                        {{- if .Params.thumbnail }}
-                            <img src="{{ .Permalink }}{{ $thumbnail }}" alt="{{ .Title }}" loading="lazy">
-                        {{- else }}
-                            <img src="{{ $thumbnail }}" alt="{{ .Title }}" loading="lazy">
-                        {{- end }}
-                    </div>
+                {{- end }}
+                {{- /* If no thumbnail found, use the first image */ -}}
+                {{- if not $thumbnailSrc }}
+                {{- $images := .Resources.ByType "image" }}
+                {{- if $images }}
+                {{- with index $images 0 }}
+                {{- $thumbnailResource = . }}
+                {{- $thumbnailSrc = .RelPermalink }}
+                {{- end }}
+                {{- end }}
+                {{- end }}
+                {{- end }}
+
+                {{- if $thumbnailSrc }}
+                <div class="post-card-image">
+                    {{- $webpSrc := "" }}
+                    {{- if $thumbnailResource }}
+                    {{- /* If we have a resource, try to find the WebP resource */ -}}
+                    {{- $webpName := replace $thumbnailResource.Name (path.Ext $thumbnailResource.Name) ".webp" -}}
+                    {{- $webpResource := .Resources.GetMatch $webpName -}}
+                    {{- if $webpResource }}
+                    {{- $webpSrc = $webpResource.RelPermalink }}
+                    {{- end }}
+                    {{- else }}
+                    {{- /* If it's a string param, try to guess the WebP path */ -}}
+                    {{- $ext := path.Ext $thumbnailSrc -}}
+                    {{- if $ext }}
+                    {{- $webpSrc = replace $thumbnailSrc $ext ".webp" -}}
+                    {{- end }}
+                    {{- end }}
+
+                    {{- if $webpSrc }}
+                    <picture>
+                        <source srcset="{{ if .Params.thumbnail }}{{ .Permalink }}{{ end }}{{ $webpSrc }}"
+                            type="image/webp">
+                        <img src="{{ if .Params.thumbnail }}{{ .Permalink }}{{ end }}{{ $thumbnailSrc }}"
+                            alt="{{ .Title }}" loading="lazy">
+                    </picture>
+                    {{- else }}
+                    <img src="{{ if .Params.thumbnail }}{{ .Permalink }}{{ end }}{{ $thumbnailSrc }}" alt="{{ .Title }}"
+                        loading="lazy">
+                    {{- end }}
+                </div>
                 {{- else }}
-                    <div class="post-card-image post-card-image-placeholder">
-                        <div class="post-card-placeholder-content">
-                            <span class="post-card-placeholder-icon">📝</span>
-                        </div>
+                <div class="post-card-image post-card-image-placeholder">
+                    <div class="post-card-placeholder-content">
+                        <span class="post-card-placeholder-icon">📝</span>
                     </div>
+                </div>
                 {{- end }}
-                
+
                 <div class="post-card-content">
                     {{- if .Params.categories }}
                     <div class="post-card-categories">
                         {{- range first 2 .Params.categories }}
-                            <span class="post-card-category">{{ . }}</span>
+                        <span class="post-card-category">{{ . }}</span>
                         {{- end }}
                     </div>
                     {{- end }}
-                    
+
                     <h2 class="post-card-title">{{ .Title }}</h2>
-                    
+
                     {{- if .Description }}
                     <p class="post-card-description">{{ .Description | truncate 150 }}</p>
                     {{- else }}
                     <p class="post-card-description">{{ .Summary | truncate 150 }}</p>
                     {{- end }}
-                    
+
                     <div class="post-card-meta">
-                        <time class="post-card-date" datetime="{{ .Date.Format "2006-01-02" }}">
+                        <time class="post-card-date" datetime="{{ .Date.Format " 2006-01-02" }}">
                             {{ .Date.Format "Jan 2, 2006" }}
                         </time>
                         <span class="post-card-separator">•</span>
@@ -81,32 +107,56 @@
                 </div>
             </a>
         </article>
-    {{ end }}
-</div>
-
-{{ if gt .Paginator.TotalPages 1 }}
-<nav class="pagination" aria-label="Pagination">
-    <div class="pagination-inner">
-        {{ if .Paginator.HasPrev }}
-            <a class="pager pager-prev" href="{{ .Paginator.Prev.URL }}" rel="prev">Newer</a>
-        {{ end }}
-        <span class="pager-pages">
-            {{ range $.Paginator.Pagers }}
-                <a class="pager-number{{ if eq .PageNumber $.Paginator.PageNumber }} is-active{{ end }}" href="{{ .URL }}">{{ .PageNumber }}</a>
-            {{ end }}
-        </span>
-        {{ if .Paginator.HasNext }}
-            <a class="pager pager-next" href="{{ .Paginator.Next.URL }}" rel="next">Older</a>
         {{ end }}
     </div>
-    <style>
-        .pagination { margin: 2rem 0; display: flex; justify-content: center; }
-        .pagination-inner { display: flex; gap: 1rem; align-items: center; }
-        .pager, .pager-number { padding: 0.4rem 0.75rem; border: 1px solid currentColor; text-decoration: none; border-radius: 6px; }
-        .pager-number.is-active { font-weight: 700; }
-        .pager-pages { display: flex; gap: 0.5rem; }
-    </style>
-</nav>
-{{ end }}
+
+    {{ if gt .Paginator.TotalPages 1 }}
+    <nav class="pagination" aria-label="Pagination">
+        <div class="pagination-inner">
+            {{ if .Paginator.HasPrev }}
+            <a class="pager pager-prev" href="{{ .Paginator.Prev.URL }}" rel="prev">Newer</a>
+            {{ end }}
+            <span class="pager-pages">
+                {{ range $.Paginator.Pagers }}
+                <a class="pager-number{{ if eq .PageNumber $.Paginator.PageNumber }} is-active{{ end }}"
+                    href="{{ .URL }}">{{ .PageNumber }}</a>
+                {{ end }}
+            </span>
+            {{ if .Paginator.HasNext }}
+            <a class="pager pager-next" href="{{ .Paginator.Next.URL }}" rel="next">Older</a>
+            {{ end }}
+        </div>
+        <style>
+            .pagination {
+                margin: 2rem 0;
+                display: flex;
+                justify-content: center;
+            }
+
+            .pagination-inner {
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+            }
+
+            .pager,
+            .pager-number {
+                padding: 0.4rem 0.75rem;
+                border: 1px solid currentColor;
+                text-decoration: none;
+                border-radius: 6px;
+            }
+
+            .pager-number.is-active {
+                font-weight: 700;
+            }
+
+            .pager-pages {
+                display: flex;
+                gap: 0.5rem;
+            }
+        </style>
+    </nav>
+    {{ end }}
 </div>
 {{ end }}

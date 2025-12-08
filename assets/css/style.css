@@ -73,6 +73,7 @@
     --transition-fast: 0.1s ease;
     --transition-normal: 0.15s ease;
     --transition-slow: 0.3s ease;
+    --transition-spring: 400ms cubic-bezier(0.16, 1, 0.3, 1);
 
     /* Design System - Breakpoints */
     --breakpoint-sm: 480px;
@@ -591,13 +592,19 @@ a {
     left: 20px;
     top: 50%;
     transform: translateY(-50%);
-    transition: none !important;
+    transition: all var(--transition-spring) !important;
     /* No transitions on the button itself */
     z-index: 1001;
 }
 
 .theme-toggle:hover {
     color: var(--accent-color-blue);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.theme-toggle:active {
+    transform: translateY(-50%) scale(0.96);
+    transition-duration: 60ms !important;
 }
 
 [data-theme="dark"] .theme-toggle:hover {
@@ -649,8 +656,20 @@ a {
     transform: translateY(-50%);
     padding: 8px 12px;
     border-radius: 4px;
-    transition: color 0.1s ease, background-color 0.1s ease;
+    border-radius: 4px;
+    transition: all var(--transition-spring);
     z-index: 1001;
+}
+
+.main-site-link:hover {
+    color: var(--accent-color-blue);
+    background-color: rgba(0, 153, 255, 0.1);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.main-site-link:active {
+    transform: translateY(-50%) scale(0.96);
+    transition-duration: 60ms;
 }
 
 .main-site-link:hover {
@@ -694,8 +713,9 @@ a {
     font-family: var(--font-body);
     font-size: 13px;
     font-weight: 500;
+    font-weight: 500;
     color: var(--text-color);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all var(--transition-spring);
     z-index: 999;
     opacity: 0.9;
 }
@@ -711,7 +731,8 @@ a {
 }
 
 .search-trigger-pill:active {
-    transform: translateY(0);
+    transform: translateY(0) scale(0.96);
+    transition-duration: 60ms;
     box-shadow:
         0 2px 8px rgba(0, 0, 0, 0.1),
         0 0 0 1px rgba(255, 255, 255, 0.5),
@@ -900,8 +921,26 @@ a {
 }
 
 .post-item {
-    padding: 20px 0;
+    padding: 20px;
+    margin: 0 -20px;
     border-bottom: 1px solid var(--post-border);
+    border-radius: 12px;
+    transition: all var(--transition-spring);
+    background: transparent;
+}
+
+.post-item:hover {
+    background: var(--surface-color);
+    transform: scale(1.02);
+    border-color: transparent;
+    box-shadow: 0 8px 24px var(--shadow-color);
+    z-index: 1;
+    position: relative;
+}
+
+.post-item:active {
+    transform: scale(0.98);
+    transition-duration: 60ms;
 }
 
 .post-item h2 a {
@@ -1205,7 +1244,7 @@ a {
     border-radius: 20px;
     text-decoration: none;
     font-size: var(--text-sm);
-    transition: all var(--transition-normal);
+    transition: all var(--transition-spring);
     border-bottom: none;
     font-weight: 500;
     box-shadow: 0 2px 4px rgba(0, 153, 255, 0.2);
@@ -1475,7 +1514,7 @@ body {
     width: 100%;
     height: auto;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform var(--transition-spring);
 }
 
 .responsive-image:hover img {
@@ -1883,9 +1922,13 @@ body {
         0 20px 60px rgba(0, 0, 0, 0.1),
         0 0 0 1px rgba(255, 255, 255, 0.5),
         inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    transform: translateY(24px) scale(0.95);
+    transform: translateY(24px) scale(0.92);
     opacity: 0;
-    transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
+    filter: blur(4px);
+    transition:
+        transform 400ms cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 400ms ease,
+        filter 250ms ease;
 }
 
 [data-theme="dark"] .search-modal-content {
@@ -1902,6 +1945,7 @@ body {
 .search-modal.visible .search-modal-content {
     transform: translateY(0) scale(1);
     opacity: 1;
+    filter: blur(0px);
 }
 
 .search-header {
