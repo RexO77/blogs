@@ -1,5 +1,5 @@
 ---
-title: "The \"Free\" AI Hoax: Why Google/OpenAI Wants 1.4 Billion Indians (And Apple Is Proof)"
+title: "The \"Free\" AI Hoax: Why Google & OpenAI Wants 1.4 Billion Indians"
 date: 2025-11-06T10:00:00+05:30
 draft: false
 description: "When trillion-dollar companies give you their most advanced AI for free, they're not being generous—they're desperate. You're not the customer. You're the factory. And Apple's $1 billion deal with Google proves it."

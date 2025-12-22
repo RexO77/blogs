@@ -962,7 +962,7 @@ a {
 }
 
 .post-title {
-    font-family: var(--font-heading);
+    font-family: var(--font-body);
     font-size: var(--text-5xl);
     margin-bottom: var(--space-sm);
 }
@@ -1045,6 +1045,7 @@ a {
 }
 
 .post-content h2 {
+    font-family: var(--font-body);
     font-size: var(--text-3xl);
 }
 
