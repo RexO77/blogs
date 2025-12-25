@@ -9,7 +9,7 @@ author: "Nischal Skanda"
 keywords: ["AI privacy", "surveillance pricing", "personalization", "data extraction", "AI data", "dynamic pricing", "consumer privacy", "AI surveillance", "data privacy"]
 ---
 
-{{< img src="images/thumbnail.jpg" alt="Privacy in the Age of AI" caption="You're not being watched. You're being priced." >}}
+{{< img src="images/thumbnail.png" alt="Privacy in the Age of AI" caption="You're not being watched. You're being priced." >}}
 
 ## You're not being watched. You're being priced.
 
@@ -115,6 +115,8 @@ Consumer Reports documented cases where **online grocery prices differed between
 
 And Reuters reported the U.S. Federal Trade Commission is **investigating Instacart's AI pricing tool**. That's not "Twitter paranoia." That's federal scrutiny.
 
+{{< img src="images/zepto-variable -pricing.png" alt="Zepto showing different prices for the same product to different users" caption="Real-world evidence: Zepto showing variable pricing for identical grocery items to different users" >}}
+
 This matters because groceries aren't luxury goods.
 
 They're baseline survival.
@@ -122,6 +124,8 @@ They're baseline survival.
 If pricing is personalized there, it's not "innovation." It's a new way to tax the most predictable parts of your life.
 
 Meanwhile, airlines have been flirting openly with AI driven pricing tools and triggering backlash and scrutiny around whether these systems enable unfair individualized fares.
+
+{{< img src="images/uber-varable-price.png" alt="Uber showing different prices for the same route to different users" caption="Ride-sharing apps like Uber also use dynamic pricing that can vary based on user behavior and willingness to pay" >}}
 
 So no, this isn't a dystopian thought experiment.
 
