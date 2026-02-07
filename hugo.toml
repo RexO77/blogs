@@ -36,7 +36,7 @@ canonifyURLs = true
   github = "RexO77"          # Your GitHub username
   
   # Open Graph / Social Media
-  ogImage = "/images/og-image.jpg"  # We'll create this
+  ogImage = "/apple-touch-icon.png"  # Existing fallback social image
   twitterCard = "summary_large_image"
   
   # Schema.org

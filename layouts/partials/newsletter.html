@@ -1,4 +1,19 @@
 {{- if .Site.Params.newsletter.enabled -}}
+{{- $provider := .Site.Params.newsletter.provider | default "mailchimp" -}}
+{{- $mailchimpAction := .Site.Params.newsletter.mailchimp.action | default "" -}}
+{{- $mailchimpHidden := .Site.Params.newsletter.mailchimp.hiddenField | default "" -}}
+{{- $convertkitAction := .Site.Params.newsletter.convertkit.action | default "" -}}
+{{- $convertkitFormID := .Site.Params.newsletter.convertkit.formId | default "" -}}
+{{- $convertkitUID := .Site.Params.newsletter.convertkit.uid | default "" -}}
+{{- $substackURL := .Site.Params.newsletter.substack.url | default "" -}}
+{{- $customAction := .Site.Params.newsletter.custom.action | default "" -}}
+
+{{- $mailchimpReady := and (eq $provider "mailchimp") (not (or (eq $mailchimpAction "") (eq $mailchimpHidden "") (in $mailchimpAction "YOUR_") (in $mailchimpHidden "YOUR_"))) -}}
+{{- $convertkitReady := and (eq $provider "convertkit") (not (or (eq $convertkitAction "") (eq $convertkitFormID "") (eq $convertkitUID "") (in $convertkitAction "YOUR_") (in $convertkitFormID "YOUR_") (in $convertkitUID "YOUR_"))) -}}
+{{- $substackReady := and (eq $provider "substack") (not (or (eq $substackURL "") (in $substackURL "yoursubstack"))) -}}
+{{- $customReady := and (eq $provider "custom") (ne $customAction "") -}}
+{{- $newsletterReady := or $mailchimpReady $convertkitReady $substackReady $customReady -}}
+
 <div class="newsletter-section">
     <div class="newsletter-container">
         <h3 class="newsletter-title">{{ .Site.Params.newsletter.title | default "Stay Updated" }}</h3>
@@ -6,23 +21,23 @@
             {{ .Site.Params.newsletter.description | default "Get the latest posts delivered right to your inbox. No spam, unsubscribe anytime." }}
         </p>
         
-        {{- if eq .Site.Params.newsletter.provider "mailchimp" -}}
+        {{- if $mailchimpReady -}}
         <!-- Mailchimp Form -->
-        <form action="{{ .Site.Params.newsletter.mailchimp.action }}" method="post" class="newsletter-form" target="_blank" novalidate>
+        <form action="{{ $mailchimpAction }}" method="post" class="newsletter-form" target="_blank" novalidate>
             <div class="newsletter-form-group">
                 <input type="email" name="EMAIL" class="newsletter-input" placeholder="Enter your email" required>
                 <button type="submit" class="newsletter-button">Subscribe</button>
             </div>
             <!-- Real people should not fill this in -->
             <div style="position: absolute; left: -5000px;" aria-hidden="true">
-                <input type="text" name="{{ .Site.Params.newsletter.mailchimp.hiddenField }}" tabindex="-1" value="">
+                <input type="text" name="{{ $mailchimpHidden }}" tabindex="-1" value="">
             </div>
         </form>
         {{- end -}}
         
-        {{- if eq .Site.Params.newsletter.provider "convertkit" -}}
+        {{- if $convertkitReady -}}
         <!-- ConvertKit Form -->
-        <form action="{{ .Site.Params.newsletter.convertkit.action }}" method="post" class="newsletter-form" data-sv-form="{{ .Site.Params.newsletter.convertkit.formId }}" data-uid="{{ .Site.Params.newsletter.convertkit.uid }}">
+        <form action="{{ $convertkitAction }}" method="post" class="newsletter-form" data-sv-form="{{ $convertkitFormID }}" data-uid="{{ $convertkitUID }}">
             <div class="newsletter-form-group">
                 <input type="email" name="email_address" class="newsletter-input" placeholder="Enter your email" required>
                 <button type="submit" class="newsletter-button">Subscribe</button>
@@ -30,9 +45,9 @@
         </form>
         {{- end -}}
         
-        {{- if eq .Site.Params.newsletter.provider "substack" -}}
+        {{- if $substackReady -}}
         <!-- Substack Form -->
-        <form action="{{ .Site.Params.newsletter.substack.url }}/subscribe" method="post" class="newsletter-form" target="_blank">
+        <form action="{{ $substackURL }}/subscribe" method="post" class="newsletter-form" target="_blank">
             <div class="newsletter-form-group">
                 <input type="email" name="email" class="newsletter-input" placeholder="Enter your email" required>
                 <button type="submit" class="newsletter-button">Subscribe</button>
@@ -40,9 +55,9 @@
         </form>
         {{- end -}}
         
-        {{- if eq .Site.Params.newsletter.provider "custom" -}}
+        {{- if $customReady -}}
         <!-- Custom Form (can integrate with your own backend) -->
-        <form action="{{ .Site.Params.newsletter.custom.action }}" method="post" class="newsletter-form" id="custom-newsletter-form">
+        <form action="{{ $customAction }}" method="post" class="newsletter-form" id="custom-newsletter-form">
             <div class="newsletter-form-group">
                 <input type="email" name="email" class="newsletter-input" placeholder="Enter your email" required>
                 <button type="submit" class="newsletter-button">Subscribe</button>
@@ -89,6 +104,12 @@
             });
         </script>
         {{- end -}}
+
+        {{- if not $newsletterReady -}}
+        <div class="newsletter-message newsletter-message-error" style="display: block;">
+            Newsletter signup is temporarily unavailable while provider settings are being configured.
+        </div>
+        {{- end -}}
         
         <p class="newsletter-privacy">
             We respect your privacy. Unsubscribe at any time.
@@ -96,4 +117,3 @@
     </div>
 </div>
 {{- end -}}
-

@@ -1,25 +1,54 @@
 {{- $title := .Title -}}
-{{- $description := .Description -}}
+{{- $description := .Description | default .Params.description -}}
 {{- $author := .Site.Params.author | default "Nischal Skanda" -}}
 {{- $keywords := .Site.Params.keywords -}}
 
 {{- if .IsHome -}}
-    {{- $title = .Site.Params.metaTitle | default .Site.Title -}}
-    {{- $description = .Site.Params.metaDescription | default .Site.Params.description -}}
+  {{- $title = .Site.Params.metaTitle | default .Site.Title -}}
+  {{- $description = .Site.Params.metaDescription | default .Site.Params.description -}}
 {{- else if .IsPage -}}
-    {{- $title = printf "%s | %s" .Title .Site.Title -}}
-    {{- if not $description -}}
-        {{- $description = .Summary | plainify | truncate 160 -}}
+  {{- $title = printf "%s | %s" .Title .Site.Title -}}
+  {{- if not $description -}}
+    {{- $description = .Summary | plainify | truncate 160 -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if not $description -}}
+  {{- $description = .Site.Params.description | default .Site.Title -}}
+{{- end -}}
+
+{{- $keywordContent := delimit $keywords ", " -}}
+{{- if .IsPage -}}
+  {{- $pageKeywordContent := "" -}}
+  {{- with .Params.tags -}}
+    {{- $pageKeywordContent = delimit . ", " -}}
+  {{- end -}}
+  {{- with .Params.categories -}}
+    {{- if $pageKeywordContent -}}
+      {{- $pageKeywordContent = printf "%s, %s" $pageKeywordContent (delimit . ", ") -}}
+    {{- else -}}
+      {{- $pageKeywordContent = delimit . ", " -}}
     {{- end -}}
+  {{- end -}}
+  {{- if $pageKeywordContent -}}
+    {{- $keywordContent = $pageKeywordContent -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $ogImage := .Site.Params.ogImage | default "/apple-touch-icon.png" -}}
+{{- with .Params.featured_image -}}
+  {{- if ne . "" -}}
+    {{- $ogImage = . -}}
+  {{- end -}}
 {{- end -}}
 
 <!-- Basic Meta Tags -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="{{ $description }}">
-<meta name="keywords" content="{{ delimit $keywords ", " }}">
+<meta name="keywords" content="{{ $keywordContent }}">
 <meta name="author" content="{{ $author }}">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="language" content="{{ .Site.LanguageCode }}">
 
 <!-- Title -->
@@ -57,15 +86,6 @@
 <meta name="twitter:description" content="{{ $description }}">
 
 <!-- Images for social media -->
-{{- $ogImage := "" -}}
-{{- if .Params.featured_image -}}
-    {{- $ogImage = .Params.featured_image -}}
-{{- else if .Site.Params.ogImage -}}
-    {{- $ogImage = .Site.Params.ogImage -}}
-{{- else -}}
-    {{- $ogImage = "/images/og-default.jpg" -}}
-{{- end -}}
-
 {{- if $ogImage -}}
 <meta property="og:image" content="{{ $ogImage | absURL }}">
 <meta name="twitter:image" content="{{ $ogImage | absURL }}">
@@ -76,7 +96,6 @@
 <meta name="msapplication-TileColor" content="#0099FF">
 
 <!-- Performance & Crawling Hints -->
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 
@@ -93,54 +112,50 @@
 <link rel="preconnect" href="{{ .Site.Params.mainSiteURL }}" crossorigin>
 <link rel="preconnect" href="https://vercel.com" crossorigin>
 
-<!-- Security Headers -->
-<meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-
 <!-- Structured Data (JSON-LD) -->
+{{- $schemaTags := .Params.tags | default (slice) -}}
+{{- $schemaCategories := .Params.categories | default (slice) -}}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "{{ if .IsPage }}BlogPosting{{ else }}Blog{{ end }}",
+  "@type": {{ if .IsPage }}"BlogPosting"{{ else }}"Blog"{{ end }},
   {{- if .IsPage -}}
-  "headline": "{{ .Title }}",
-  "description": "{{ $description }}",
+  "headline": {{ .Title | jsonify | safeJS }},
+  "description": {{ $description | jsonify | safeJS }},
   "author": {
     "@type": "Person",
-    "name": "{{ $author }}",
-    "url": "{{ .Site.Params.mainSiteURL }}"
+    "name": {{ $author | jsonify | safeJS }},
+    "url": {{ .Site.Params.mainSiteURL | jsonify | safeJS }}
   },
   "publisher": {
     "@type": "Organization",
-    "name": "{{ .Site.Title }}",
-    "url": "{{ .Site.BaseURL }}"
+    "name": {{ .Site.Title | jsonify | safeJS }},
+    "url": {{ .Site.BaseURL | jsonify | safeJS }}
   },
-  "datePublished": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
+  "datePublished": {{ .Date.Format "2006-01-02T15:04:05Z07:00" | jsonify | safeJS }},
   {{- if .Lastmod -}}
-  "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
+  "dateModified": {{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" | jsonify | safeJS }},
   {{- end -}}
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "{{ .Permalink }}"
+    "@id": {{ .Permalink | jsonify | safeJS }}
   },
-  {{- if $ogImage -}}
-  "image": "{{ $ogImage | absURL }}",
-  {{- end -}}
-  "keywords": [{{ range $index, $tag := .Params.tags }}{{ if $index }}, {{ end }}"{{ $tag }}"{{ end }}],
-  "articleSection": [{{ range $index, $cat := .Params.categories }}{{ if $index }}, {{ end }}"{{ $cat }}"{{ end }}]
+  "image": {{ ($ogImage | absURL) | jsonify | safeJS }},
+  "keywords": {{ $schemaTags | jsonify | safeJS }},
+  "articleSection": {{ $schemaCategories | jsonify | safeJS }}
   {{- else -}}
-  "name": "{{ .Site.Title }}",
-  "description": "{{ .Site.Params.description }}",
-  "url": "{{ .Site.BaseURL }}",
+  "name": {{ .Site.Title | jsonify | safeJS }},
+  "description": {{ (.Site.Params.description | default .Site.Title) | jsonify | safeJS }},
+  "url": {{ .Site.BaseURL | jsonify | safeJS }},
   "author": {
     "@type": "Person",
-    "name": "{{ $author }}",
-    "url": "{{ .Site.Params.mainSiteURL }}"
+    "name": {{ $author | jsonify | safeJS }},
+    "url": {{ .Site.Params.mainSiteURL | jsonify | safeJS }}
   },
   "publisher": {
     "@type": "Organization",
-    "name": "{{ .Site.Title }}",
-    "url": "{{ .Site.BaseURL }}"
+    "name": {{ .Site.Title | jsonify | safeJS }},
+    "url": {{ .Site.BaseURL | jsonify | safeJS }}
   }
   {{- end -}}
 }

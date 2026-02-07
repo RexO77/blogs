@@ -20,7 +20,11 @@
                 {{- $thumbnailResource := "" }}
 
                 {{- if .Params.thumbnail }}
-                {{- $thumbnailSrc = .Params.thumbnail }}
+                {{- if or (hasPrefix .Params.thumbnail "http://") (hasPrefix .Params.thumbnail "https://") (hasPrefix .Params.thumbnail "/") -}}
+                {{- $thumbnailSrc = .Params.thumbnail -}}
+                {{- else -}}
+                {{- $thumbnailSrc = printf "%s%s" .RelPermalink .Params.thumbnail -}}
+                {{- end -}}
                 {{- else }}
                 {{- /* Look for a file with "thumbnail" in the name first */ -}}
                 {{- range .Resources.ByType "image" }}
@@ -62,13 +66,13 @@
 
                     {{- if $webpSrc }}
                     <picture>
-                        <source srcset="{{ if .Params.thumbnail }}{{ .Permalink }}{{ end }}{{ $webpSrc }}"
+                        <source srcset="{{ $webpSrc }}"
                             type="image/webp">
-                        <img src="{{ if .Params.thumbnail }}{{ .Permalink }}{{ end }}{{ $thumbnailSrc }}"
+                        <img src="{{ $thumbnailSrc }}"
                             alt="{{ .Title }}" loading="lazy">
                     </picture>
                     {{- else }}
-                    <img src="{{ if .Params.thumbnail }}{{ .Permalink }}{{ end }}{{ $thumbnailSrc }}" alt="{{ .Title }}"
+                    <img src="{{ $thumbnailSrc }}" alt="{{ .Title }}"
                         loading="lazy">
                     {{- end }}
                 </div>
@@ -92,13 +96,13 @@
                     <h2 class="post-card-title">{{ .Title }}</h2>
 
                     {{- if .Description }}
-                    <p class="post-card-description">{{ .Description | truncate 150 }}</p>
+                    <p class="post-card-description">{{ .Description | plainify | truncate 150 }}</p>
                     {{- else }}
-                    <p class="post-card-description">{{ .Summary | truncate 150 }}</p>
+                    <p class="post-card-description">{{ .Summary | plainify | truncate 150 }}</p>
                     {{- end }}
 
                     <div class="post-card-meta">
-                        <time class="post-card-date" datetime="{{ .Date.Format " 2006-01-02" }}">
+                        <time class="post-card-date" datetime="{{ .Date.Format "2006-01-02" }}">
                             {{ .Date.Format "Jan 2, 2006" }}
                         </time>
                         <span class="post-card-separator">•</span>
@@ -110,20 +114,20 @@
         {{ end }}
     </div>
 
-    {{ if gt .Paginator.TotalPages 1 }}
+    {{ if gt $p.TotalPages 1 }}
     <nav class="pagination" aria-label="Pagination">
         <div class="pagination-inner">
-            {{ if .Paginator.HasPrev }}
-            <a class="pager pager-prev" href="{{ .Paginator.Prev.URL }}" rel="prev">Newer</a>
+            {{ if $p.HasPrev }}
+            <a class="pager pager-prev" href="{{ $p.Prev.URL }}" rel="prev">Newer</a>
             {{ end }}
             <span class="pager-pages">
-                {{ range $.Paginator.Pagers }}
-                <a class="pager-number{{ if eq .PageNumber $.Paginator.PageNumber }} is-active{{ end }}"
+                {{ range $p.Pagers }}
+                <a class="pager-number{{ if eq .PageNumber $p.PageNumber }} is-active{{ end }}"
                     href="{{ .URL }}">{{ .PageNumber }}</a>
                 {{ end }}
             </span>
-            {{ if .Paginator.HasNext }}
-            <a class="pager pager-next" href="{{ .Paginator.Next.URL }}" rel="next">Older</a>
+            {{ if $p.HasNext }}
+            <a class="pager pager-next" href="{{ $p.Next.URL }}" rel="next">Older</a>
             {{ end }}
         </div>
         <style>

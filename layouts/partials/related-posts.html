@@ -8,7 +8,11 @@
             <a href="{{ .Permalink }}" class="related-post-link">
                 {{- $thumbnail := "" }}
                 {{- if .Params.thumbnail }}
-                    {{- $thumbnail = .Params.thumbnail }}
+                    {{- if or (hasPrefix .Params.thumbnail "http://") (hasPrefix .Params.thumbnail "https://") (hasPrefix .Params.thumbnail "/") -}}
+                        {{- $thumbnail = .Params.thumbnail -}}
+                    {{- else -}}
+                        {{- $thumbnail = printf "%s%s" .RelPermalink .Params.thumbnail -}}
+                    {{- end -}}
                 {{- else }}
                     {{- /* Look for a file with "thumbnail" in the name first */ -}}
                     {{- range .Resources.ByType "image" }}
@@ -30,11 +34,7 @@
                 
                 {{- if $thumbnail }}
                     <div class="related-post-image">
-                        {{- if .Params.thumbnail }}
-                            <img src="{{ .Permalink }}{{ $thumbnail }}" alt="{{ .Title }}" loading="lazy">
-                        {{- else }}
-                            <img src="{{ $thumbnail }}" alt="{{ .Title }}" loading="lazy">
-                        {{- end }}
+                        <img src="{{ $thumbnail }}" alt="{{ .Title }}" loading="lazy">
                     </div>
                 {{- else }}
                     <div class="related-post-image related-post-image-placeholder">
@@ -65,4 +65,3 @@
     </div>
 </section>
 {{- end -}}
-

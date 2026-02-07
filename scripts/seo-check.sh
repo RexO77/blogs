@@ -33,11 +33,11 @@ echo ""
 echo "🔍 Checking for SEO issues..."
 
 # Count total HTML files once for efficiency
-total_html=$(find public -name "*.html" -type f | wc -l)
+total_html=$(find public -name "*.html" -type f | wc -l | tr -d ' ')
 
 # Check for missing meta descriptions (optimized with single pass)
 echo "📝 Checking meta descriptions..."
-missing_desc=$(find public -name "*.html" -type f -print0 | xargs -0 grep -L "meta name=\"description\"" | wc -l)
+missing_desc=$(find public -name "*.html" -type f -print0 | xargs -0 grep -LE 'name=("description"|'\'description\'\''|description)' | wc -l | tr -d ' ')
 if [ $missing_desc -gt 0 ]; then
     echo "⚠️  Found $missing_desc pages without meta descriptions"
 else
@@ -46,7 +46,7 @@ fi
 
 # Check for missing alt tags (optimized to find all img tags first, then check for alt)
 echo "🖼️  Checking image alt tags..."
-missing_alt=$(grep -roh '<img[^>]*>' public --include="*.html" | grep -cv 'alt=')
+missing_alt=$(grep -roh '<img[^>]*>' public --include="*.html" | grep -cvi 'alt=')
 if [ $missing_alt -gt 0 ]; then
     echo "⚠️  Found $missing_alt images without alt tags"
 else
@@ -55,7 +55,7 @@ fi
 
 # Check for missing canonical URLs (optimized with single pass)
 echo "🔗 Checking canonical URLs..."
-missing_canonical=$(find public -name "*.html" -type f -print0 | xargs -0 grep -L "rel=\"canonical\"" | wc -l)
+missing_canonical=$(find public -name "*.html" -type f -print0 | xargs -0 grep -LE 'rel=("canonical"|'\'canonical\'\''|canonical)' | wc -l | tr -d ' ')
 if [ $missing_canonical -gt 0 ]; then
     echo "⚠️  Found $missing_canonical pages without canonical URLs"
 else
@@ -65,7 +65,7 @@ fi
 # Check sitemap (optimized with -f for file test)
 echo "🗺️  Checking sitemap..."
 if [ -f "public/sitemap.xml" ]; then
-    sitemap_pages=$(grep -c "<url>" public/sitemap.xml)
+    sitemap_pages=$(grep -o "<url>" public/sitemap.xml | wc -l | tr -d ' ')
     echo "✅ Sitemap found with $sitemap_pages pages"
 else
     echo "❌ Sitemap not found"
@@ -81,7 +81,7 @@ fi
 
 # Portfolio link check (optimized to count only)
 echo "🔗 Checking portfolio links..."
-portfolio_links=$(grep -roh "nischalskanda.tech" public --include="*.html" | wc -l)
+portfolio_links=$(grep -roh "nischalskanda.tech" public --include="*.html" | wc -l | tr -d ' ')
 echo "✅ Found $portfolio_links references to portfolio site"
 
 echo ""

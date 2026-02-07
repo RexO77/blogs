@@ -1,0 +1,449 @@
+{
+  "summary": {
+    "total_posts": 12,
+    "avg_score": 58.0,
+    "top_3": [
+      {
+        "file": "content/posts/free_ai_hoax/index.md",
+        "title": "The \\\"Free\\\" AI Hoax: Why Google & OpenAI Wants 1.4 Billion Indians",
+        "overall_score": 71.0,
+        "headline_score": 50,
+        "seo_score": 100,
+        "structure_score": 70,
+        "reading_ease": 56.7,
+        "word_count": 713,
+        "recommendations": [
+          {
+            "priority": "high",
+            "issue": "Headline needs improvement",
+            "fix": "Add power words and numbers"
+          },
+          {
+            "priority": "medium",
+            "issue": "H1 count is 0",
+            "fix": "Use exactly one H1 heading"
+          }
+        ]
+      },
+      {
+        "file": "content/posts/you_should'nt_share/index.md",
+        "title": "Stop Oversharing With AI: Your Deepest Secrets Don\u2019t Belong on Google",
+        "overall_score": 68.0,
+        "headline_score": 35,
+        "seo_score": 100,
+        "structure_score": 70,
+        "reading_ease": 54.9,
+        "word_count": 861,
+        "recommendations": [
+          {
+            "priority": "high",
+            "issue": "Headline needs improvement",
+            "fix": "Try: 10 Essential Tips: Stop Oversharing With AI: Your Deepest Secrets Don\u2019t Belong on Google"
+          },
+          {
+            "priority": "medium",
+            "issue": "H1 count is 0",
+            "fix": "Use exactly one H1 heading"
+          }
+        ]
+      },
+      {
+        "file": "content/posts/reasoningbank_therapy/index.md",
+        "title": "ReasoningBank: Therapy for Machines That Keep Messing Up",
+        "overall_score": 66.0,
+        "headline_score": 30,
+        "seo_score": 100,
+        "structure_score": 70,
+        "reading_ease": 52.8,
+        "word_count": 917,
+        "recommendations": [
+          {
+            "priority": "high",
+            "issue": "Headline needs improvement",
+            "fix": "Try: The Ultimate Guide to ReasoningBank: Therapy for Machines That Keep Messing Up"
+          },
+          {
+            "priority": "medium",
+            "issue": "H1 count is 0",
+            "fix": "Use exactly one H1 heading"
+          }
+        ]
+      }
+    ],
+    "bottom_3": [
+      {
+        "file": "content/posts/my-first-post.md",
+        "title": "My First Post on This Awesome New Blog",
+        "overall_score": 33.0,
+        "headline_score": 10,
+        "seo_score": 0,
+        "structure_score": 70,
+        "reading_ease": 56.0,
+        "word_count": 36,
+        "recommendations": [
+          {
+            "priority": "high",
+            "issue": "Headline needs improvement",
+            "fix": "Try: My First Post on This Awesome New Blog - Complete Guide"
+          },
+          {
+            "priority": "high",
+            "issue": "Keywords not in first 100 words",
+            "fix": "Include primary keyword in introduction"
+          },
+          {
+            "priority": "medium",
+            "issue": "H1 count is 0",
+            "fix": "Use exactly one H1 heading"
+          },
+          {
+            "priority": "low",
+            "issue": "Content is too short",
+            "fix": "Aim for at least 1000 words for SEO"
+          }
+        ]
+      },
+      {
+        "file": "content/posts/stop_waiting_for_junior_roles/index.md",
+        "title": "Stop Waiting for \u201cJunior\u201d Roles: The graduate 'Jobpocalypse' ",
+        "overall_score": 47.0,
+        "headline_score": 35,
+        "seo_score": 60,
+        "structure_score": 60,
+        "reading_ease": 31.9,
+        "word_count": 858,
+        "recommendations": [
+          {
+            "priority": "high",
+            "issue": "Headline needs improvement",
+            "fix": "Try: 10 Essential Tips: Stop Waiting for \u201cJunior\u201d Roles: The graduate 'Jobpocalypse' "
+          },
+          {
+            "priority": "high",
+            "issue": "Keywords not in first 100 words",
+            "fix": "Include primary keyword in introduction"
+          },
+          {
+            "priority": "medium",
+            "issue": "H1 count is 0",
+            "fix": "Use exactly one H1 heading"
+          }
+        ]
+      },
+      {
+        "file": "content/posts/brain_rot/index.md",
+        "title": "The Dopamine Brain Rot",
+        "overall_score": 51.0,
+        "headline_score": 10,
+        "seo_score": 50,
+        "structure_score": 70,
+        "reading_ease": 67.5,
+        "word_count": 618,
+        "recommendations": [
+          {
+            "priority": "high",
+            "issue": "Headline needs improvement",
+            "fix": "Try: The Dopamine Brain Rot - Complete Guide"
+          },
+          {
+            "priority": "high",
+            "issue": "Keywords not in first 100 words",
+            "fix": "Include primary keyword in introduction"
+          },
+          {
+            "priority": "medium",
+            "issue": "H1 count is 0",
+            "fix": "Use exactly one H1 heading"
+          }
+        ]
+      }
+    ],
+    "posts_below_60": 5
+  },
+  "results": [
+    {
+      "file": "content/posts/ai_brain_impact/index.md",
+      "title": "Help! AI\u2019s Turning Our Brains to Goo, and We\u2019re Too Busy Swiping to Notice",
+      "overall_score": 60.0,
+      "headline_score": 10,
+      "seo_score": 80,
+      "structure_score": 70,
+      "reading_ease": 64.8,
+      "word_count": 1545,
+      "recommendations": [
+        {
+          "priority": "high",
+          "issue": "Headline needs improvement",
+          "fix": "Try: The Ultimate Guide to Help! AI\u2019s Turning Our Brains to Goo, and We\u2019re Too Busy Swiping to Notice"
+        },
+        {
+          "priority": "medium",
+          "issue": "H1 count is 0",
+          "fix": "Use exactly one H1 heading"
+        }
+      ]
+    },
+    {
+      "file": "content/posts/ai_infinity_glitch/index.md",
+      "title": "You Don't Know You're Living in the AI Meme Bubble (But You Are)",
+      "overall_score": 62.0,
+      "headline_score": 35,
+      "seo_score": 90,
+      "structure_score": 70,
+      "reading_ease": 45.0,
+      "word_count": 854,
+      "recommendations": [
+        {
+          "priority": "high",
+          "issue": "Headline needs improvement",
+          "fix": "Try: 10 Essential Tips: You Don't Know You're Living in the AI Meme Bubble (But You Are)"
+        },
+        {
+          "priority": "medium",
+          "issue": "H1 count is 0",
+          "fix": "Use exactly one H1 heading"
+        }
+      ]
+    },
+    {
+      "file": "content/posts/ai_is_lying/index.md",
+      "title": "Everything We Know About AI Is a Lie (And Silicon Valley Hopes You Never Find Out)",
+      "overall_score": 61.0,
+      "headline_score": 25,
+      "seo_score": 90,
+      "structure_score": 70,
+      "reading_ease": 51.1,
+      "word_count": 969,
+      "recommendations": [
+        {
+          "priority": "high",
+          "issue": "Headline needs improvement",
+          "fix": "Try: 10 Essential Tips: Everything We Know About AI Is a Lie (And Silicon Valley Hopes You Never Find Out)"
+        },
+        {
+          "priority": "medium",
+          "issue": "H1 count is 0",
+          "fix": "Use exactly one H1 heading"
+        }
+      ]
+    },
+    {
+      "file": "content/posts/brain_rot/index.md",
+      "title": "The Dopamine Brain Rot",
+      "overall_score": 51.0,
+      "headline_score": 10,
+      "seo_score": 50,
+      "structure_score": 70,
+      "reading_ease": 67.5,
+      "word_count": 618,
+      "recommendations": [
+        {
+          "priority": "high",
+          "issue": "Headline needs improvement",
+          "fix": "Try: The Dopamine Brain Rot - Complete Guide"
+        },
+        {
+          "priority": "high",
+          "issue": "Keywords not in first 100 words",
+          "fix": "Include primary keyword in introduction"
+        },
+        {
+          "priority": "medium",
+          "issue": "H1 count is 0",
+          "fix": "Use exactly one H1 heading"
+        }
+      ]
+    },
+    {
+      "file": "content/posts/free_ai_hoax/index.md",
+      "title": "The \\\"Free\\\" AI Hoax: Why Google & OpenAI Wants 1.4 Billion Indians",
+      "overall_score": 71.0,
+      "headline_score": 50,
+      "seo_score": 100,
+      "structure_score": 70,
+      "reading_ease": 56.7,
+      "word_count": 713,
+      "recommendations": [
+        {
+          "priority": "high",
+          "issue": "Headline needs improvement",
+          "fix": "Add power words and numbers"
+        },
+        {
+          "priority": "medium",
+          "issue": "H1 count is 0",
+          "fix": "Use exactly one H1 heading"
+        }
+      ]
+    },
+    {
+      "file": "content/posts/my-first-post.md",
+      "title": "My First Post on This Awesome New Blog",
+      "overall_score": 33.0,
+      "headline_score": 10,
+      "seo_score": 0,
+      "structure_score": 70,
+      "reading_ease": 56.0,
+      "word_count": 36,
+      "recommendations": [
+        {
+          "priority": "high",
+          "issue": "Headline needs improvement",
+          "fix": "Try: My First Post on This Awesome New Blog - Complete Guide"
+        },
+        {
+          "priority": "high",
+          "issue": "Keywords not in first 100 words",
+          "fix": "Include primary keyword in introduction"
+        },
+        {
+          "priority": "medium",
+          "issue": "H1 count is 0",
+          "fix": "Use exactly one H1 heading"
+        },
+        {
+          "priority": "low",
+          "issue": "Content is too short",
+          "fix": "Aim for at least 1000 words for SEO"
+        }
+      ]
+    },
+    {
+      "file": "content/posts/privacy_in_ai_age/index.md",
+      "title": "Privacy in the Age of AI",
+      "overall_score": 62.0,
+      "headline_score": 10,
+      "seo_score": 100,
+      "structure_score": 60,
+      "reading_ease": 59.9,
+      "word_count": 1102,
+      "recommendations": [
+        {
+          "priority": "high",
+          "issue": "Headline needs improvement",
+          "fix": "Try: Privacy in the Age of AI - Complete Guide"
+        },
+        {
+          "priority": "medium",
+          "issue": "H1 count is 0",
+          "fix": "Use exactly one H1 heading"
+        }
+      ]
+    },
+    {
+      "file": "content/posts/quit_social_media/index.md",
+      "title": "I made the Biggest Social Experiment of my Life - I Quit Instagram",
+      "overall_score": 58.0,
+      "headline_score": 20,
+      "seo_score": 70,
+      "structure_score": 70,
+      "reading_ease": 64.6,
+      "word_count": 976,
+      "recommendations": [
+        {
+          "priority": "high",
+          "issue": "Headline needs improvement",
+          "fix": "Try: The Ultimate Guide to I made the Biggest Social Experiment of my Life - I Quit Instagram"
+        },
+        {
+          "priority": "medium",
+          "issue": "H1 count is 0",
+          "fix": "Use exactly one H1 heading"
+        }
+      ]
+    },
+    {
+      "file": "content/posts/reasoningbank_therapy/index.md",
+      "title": "ReasoningBank: Therapy for Machines That Keep Messing Up",
+      "overall_score": 66.0,
+      "headline_score": 30,
+      "seo_score": 100,
+      "structure_score": 70,
+      "reading_ease": 52.8,
+      "word_count": 917,
+      "recommendations": [
+        {
+          "priority": "high",
+          "issue": "Headline needs improvement",
+          "fix": "Try: The Ultimate Guide to ReasoningBank: Therapy for Machines That Keep Messing Up"
+        },
+        {
+          "priority": "medium",
+          "issue": "H1 count is 0",
+          "fix": "Use exactly one H1 heading"
+        }
+      ]
+    },
+    {
+      "file": "content/posts/stop_waiting_for_junior_roles/index.md",
+      "title": "Stop Waiting for \u201cJunior\u201d Roles: The graduate 'Jobpocalypse' ",
+      "overall_score": 47.0,
+      "headline_score": 35,
+      "seo_score": 60,
+      "structure_score": 60,
+      "reading_ease": 31.9,
+      "word_count": 858,
+      "recommendations": [
+        {
+          "priority": "high",
+          "issue": "Headline needs improvement",
+          "fix": "Try: 10 Essential Tips: Stop Waiting for \u201cJunior\u201d Roles: The graduate 'Jobpocalypse' "
+        },
+        {
+          "priority": "high",
+          "issue": "Keywords not in first 100 words",
+          "fix": "Include primary keyword in introduction"
+        },
+        {
+          "priority": "medium",
+          "issue": "H1 count is 0",
+          "fix": "Use exactly one H1 heading"
+        }
+      ]
+    },
+    {
+      "file": "content/posts/the_cycle_of_ai/index.md",
+      "title": "The Cycle of AI: How Your \u20b92,000 Subscription Funds a $5,000/Month GPU",
+      "overall_score": 57.0,
+      "headline_score": 35,
+      "seo_score": 80,
+      "structure_score": 70,
+      "reading_ease": 38.8,
+      "word_count": 1468,
+      "recommendations": [
+        {
+          "priority": "high",
+          "issue": "Headline needs improvement",
+          "fix": "Try: The Ultimate Guide to The Cycle of AI: How Your \u20b92,000 Subscription Funds a $5,000/Month GPU"
+        },
+        {
+          "priority": "medium",
+          "issue": "H1 count is 0",
+          "fix": "Use exactly one H1 heading"
+        }
+      ]
+    },
+    {
+      "file": "content/posts/you_should'nt_share/index.md",
+      "title": "Stop Oversharing With AI: Your Deepest Secrets Don\u2019t Belong on Google",
+      "overall_score": 68.0,
+      "headline_score": 35,
+      "seo_score": 100,
+      "structure_score": 70,
+      "reading_ease": 54.9,
+      "word_count": 861,
+      "recommendations": [
+        {
+          "priority": "high",
+          "issue": "Headline needs improvement",
+          "fix": "Try: 10 Essential Tips: Stop Oversharing With AI: Your Deepest Secrets Don\u2019t Belong on Google"
+        },
+        {
+          "priority": "medium",
+          "issue": "H1 count is 0",
+          "fix": "Use exactly one H1 heading"
+        }
+      ]
+    }
+  ]
+}

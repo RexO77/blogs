@@ -2,21 +2,8 @@
 (function () {
     'use strict';
 
-    // Performance: Use requestAnimationFrame for smooth animations
-    const raf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame;
-
-    // Performance: Debounce function for scroll events
-    function debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
+    // requestAnimationFrame alias with fallback
+    const raf = window.requestAnimationFrame || ((cb) => setTimeout(cb, 16));
 
     // Performance: Throttle function for resize events
     function throttle(func, limit) {
@@ -126,6 +113,9 @@
         function setupThemeToggle() {
             const themeToggle = document.getElementById('theme-toggle');
             if (themeToggle) {
+                if (themeToggle.dataset.bound === 'true') {
+                    return;
+                }
                 themeToggle.addEventListener('click', function () {
                     // Toggle theme instantly
                     currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -133,10 +123,8 @@
                     // Apply theme change immediately - no delays or transitions
                     html.setAttribute('data-theme', currentTheme);
                     localStorage.setItem('theme', currentTheme);
-
-                    // Force repaint for instant visual change
-                    html.offsetHeight;
                 });
+                themeToggle.dataset.bound = 'true';
             }
         }
 
@@ -145,7 +133,6 @@
             if (!localStorage.getItem('theme')) {
                 currentTheme = e.matches ? 'dark' : 'light';
                 html.setAttribute('data-theme', currentTheme);
-                html.offsetHeight; // Force repaint
             }
         });
 
@@ -166,7 +153,7 @@
                 } else {
                     header.classList.remove('scrolled');
                 }
-            }, 10));
+            }, 10), { passive: true });
         }
     }
 
@@ -238,9 +225,16 @@
         resizeObserver.observe(article);
         if (header) resizeObserver.observe(header);
 
+        let scrollTicking = false;
         window.addEventListener('scroll', () => {
-            // Use requestAnimationFrame for smooth UI updates during scroll
-            window.requestAnimationFrame(updateProgress);
+            if (scrollTicking) {
+                return;
+            }
+            scrollTicking = true;
+            raf(() => {
+                updateProgress();
+                scrollTicking = false;
+            });
         }, { passive: true });
 
         window.addEventListener('resize', throttle(updateMetrics, 100));

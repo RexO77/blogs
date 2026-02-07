@@ -83,6 +83,8 @@
 
     // Open search modal with animation
     function openSearch() {
+        if (searchModal.style.display === 'flex') return;
+
         searchModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
 
@@ -103,6 +105,8 @@
 
     // Close search modal with animation
     function closeSearch() {
+        if (searchModal.style.display !== 'flex') return;
+
         searchModal.classList.remove('visible');
 
         // Wait for animation to complete before hiding
@@ -149,7 +153,7 @@
                 closeSearch();
             }
             // Open with Cmd/Ctrl + K
-            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
                 e.preventDefault();
                 openSearch();
             }
