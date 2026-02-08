@@ -35,6 +35,7 @@
     {{ end }}
 </head>
 <body>
+    <a href="#main-content" class="skip-link" data-no-smooth>Skip to main content</a>
     <div class="container">
         <header class="site-header">
             <!-- Theme toggle with CSS-controlled text -->
@@ -50,7 +51,7 @@
             <a class="main-site-link" href="https://www.nischalskanda.tech" target="_blank" rel="noopener noreferrer">Main Site</a>
             
             <!-- Search trigger pill -->
-            <button id="search-trigger" class="search-trigger-pill" aria-label="Open search">
+            <button id="search-trigger" class="search-trigger-pill" aria-label="Open search" aria-controls="search-modal" aria-expanded="false">
                 <span class="search-trigger-icon">🔍</span>
                 <span class="search-trigger-text">Search</span>
                 <span class="search-tooltip">
@@ -60,10 +61,11 @@
         </header>
         
         <!-- Search Modal -->
-        <div id="search-modal" class="search-modal" style="display: none;">
+        <div id="search-modal" class="search-modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="search-dialog-title" aria-hidden="true">
             <div class="search-modal-content">
+                <h2 id="search-dialog-title" class="sr-only">Search posts</h2>
                 <div class="search-header">
-                    <input type="text" id="search-input" class="search-input" placeholder="Search posts..." autocomplete="off">
+                    <input type="text" id="search-input" class="search-input" placeholder="Search posts..." autocomplete="off" aria-describedby="search-hint-text">
                     <button id="search-close" class="search-close" aria-label="Close search">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -78,7 +80,7 @@
             </div>
         </div>
         
-        <main>
+        <main id="main-content" tabindex="-1">
             <!-- Page content will be injected here -->
             {{ block "main" . }}{{ end }}
         </main>

@@ -47,6 +47,9 @@
         const links = document.querySelectorAll('a[href^="#"]');
         links.forEach(link => {
             link.addEventListener('click', function (e) {
+                if (this.hasAttribute('data-no-smooth')) {
+                    return;
+                }
                 const targetId = this.getAttribute('href');
                 if (targetId.length > 1) {
                     e.preventDefault();
@@ -60,6 +63,149 @@
                 }
             });
         });
+    }
+
+    function initReaderMode() {
+        const toggle = document.getElementById('reader-mode-toggle');
+        if (!toggle) return;
+
+        const key = 'reader-mode-enabled';
+        const body = document.body;
+
+        function applyReaderMode(enabled) {
+            body.classList.toggle('reader-mode', enabled);
+            toggle.setAttribute('aria-pressed', enabled ? 'true' : 'false');
+            toggle.textContent = enabled ? 'Exit Reader Mode' : 'Reader Mode';
+        }
+
+        applyReaderMode(localStorage.getItem(key) === 'true');
+
+        toggle.addEventListener('click', () => {
+            const enabled = !body.classList.contains('reader-mode');
+            applyReaderMode(enabled);
+            localStorage.setItem(key, String(enabled));
+        });
+    }
+
+    function initReadingRail() {
+        const content = document.querySelector('.post-content .content');
+        const rail = document.getElementById('reading-rail');
+        const railLines = document.getElementById('reading-rail-lines');
+        const railTooltip = document.getElementById('reading-rail-tooltip');
+
+        if (!content || !rail || !railLines || !railTooltip) return;
+
+        const headings = Array.from(content.querySelectorAll('h2, h3'))
+            .filter((heading) => heading.textContent.trim().length > 0);
+
+        if (headings.length < 2) {
+            rail.hidden = true;
+            return;
+        }
+
+        const usedIds = new Set();
+
+        function toSlug(text) {
+            return text
+                .toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .trim()
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-');
+        }
+
+        function uniqueId(base) {
+            let candidate = base || 'section';
+            let counter = 2;
+            while (usedIds.has(candidate) || document.getElementById(candidate)) {
+                candidate = `${base}-${counter++}`;
+            }
+            usedIds.add(candidate);
+            return candidate;
+        }
+
+        headings.forEach((heading, index) => {
+            if (!heading.id) {
+                heading.id = uniqueId(toSlug(heading.textContent) || `section-${index + 1}`);
+            } else {
+                usedIds.add(heading.id);
+            }
+        });
+
+        railLines.replaceChildren();
+        let hideTooltipTimer;
+
+        const links = headings.map((heading) => {
+            const link = document.createElement('a');
+            link.className = 'reading-rail-line';
+            link.href = `#${heading.id}`;
+            link.dataset.targetId = heading.id;
+            link.dataset.level = heading.tagName.toLowerCase();
+            link.setAttribute('aria-label', heading.textContent.trim());
+
+            const showLabel = () => {
+                if (hideTooltipTimer) {
+                    window.clearTimeout(hideTooltipTimer);
+                }
+                railTooltip.textContent = heading.textContent.trim();
+                rail.classList.add('is-tooltip-visible');
+            };
+
+            const maybeHideLabel = () => {
+                if (hideTooltipTimer) {
+                    window.clearTimeout(hideTooltipTimer);
+                }
+                hideTooltipTimer = window.setTimeout(() => {
+                    const railHovered = rail.matches(':hover');
+                    const railFocused = rail.contains(document.activeElement);
+                    if (!railHovered && !railFocused) {
+                        rail.classList.remove('is-tooltip-visible');
+                    }
+                }, 120);
+            };
+
+            link.addEventListener('mouseenter', showLabel);
+            link.addEventListener('focus', showLabel);
+            link.addEventListener('mouseleave', maybeHideLabel);
+            link.addEventListener('blur', maybeHideLabel);
+            link.addEventListener('click', showLabel);
+
+            railLines.appendChild(link);
+            return link;
+        });
+
+        rail.hidden = false;
+
+        function setActiveRailLine(id) {
+            let activeLink = null;
+            links.forEach((link) => {
+                const active = link.dataset.targetId === id;
+                link.classList.toggle('is-active', active);
+                if (active) {
+                    activeLink = link;
+                }
+            });
+
+            if (activeLink) {
+                railTooltip.textContent = activeLink.getAttribute('aria-label') || '';
+            }
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            const visible = entries
+                .filter((entry) => entry.isIntersecting)
+                .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+            if (visible.length > 0) {
+                setActiveRailLine(visible[0].target.id);
+            }
+        }, {
+            rootMargin: '-20% 0px -65% 0px',
+            threshold: [0, 1]
+        });
+
+        headings.forEach((heading) => observer.observe(heading));
+        setActiveRailLine(headings[0].id);
     }
 
     // Performance: Add loading states
@@ -143,18 +289,89 @@
         }
     }
 
-    // Performance: Sticky header scroll effect (cached header element)
-    function initStickyHeader() {
+    function initSmartHeaderReveal() {
         const header = document.querySelector('.site-header');
-        if (header) {
-            window.addEventListener('scroll', throttle(() => {
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-            }, 10), { passive: true });
+        if (!header) return;
+
+        const body = document.body;
+        const root = document.documentElement;
+        let lastScrollY = window.scrollY;
+        let upDistance = 0;
+        let downDistance = 0;
+        let floating = false;
+
+        function updateHeaderOffset() {
+            root.style.setProperty('--floating-header-height', `${header.offsetHeight}px`);
         }
+
+        function setFloating(nextState) {
+            if (floating === nextState) return;
+            floating = nextState;
+            header.classList.toggle('is-floating', nextState);
+            body.classList.toggle('has-floating-header', nextState);
+
+            if (nextState) {
+                updateHeaderOffset();
+            } else {
+                header.classList.remove('is-hidden');
+                root.style.setProperty('--floating-header-height', '0px');
+            }
+        }
+
+        function update() {
+            const currentY = window.scrollY;
+            const delta = currentY - lastScrollY;
+            const activationPoint = header.offsetHeight + 24;
+
+            if (currentY <= activationPoint) {
+                setFloating(false);
+                upDistance = 0;
+                downDistance = 0;
+                lastScrollY = currentY;
+                return;
+            }
+
+            if (!floating) {
+                setFloating(true);
+                if (delta >= 0) {
+                    header.classList.add('is-hidden');
+                }
+            }
+
+            if (delta > 0) {
+                downDistance += delta;
+                upDistance = 0;
+                if (downDistance > 10) {
+                    header.classList.add('is-hidden');
+                }
+            } else if (delta < 0) {
+                upDistance += Math.abs(delta);
+                downDistance = 0;
+                if (upDistance > 34) {
+                    header.classList.remove('is-hidden');
+                }
+            }
+
+            lastScrollY = currentY;
+        }
+
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (ticking) return;
+            ticking = true;
+            raf(() => {
+                update();
+                ticking = false;
+            });
+        }, { passive: true });
+
+        window.addEventListener('resize', throttle(() => {
+            if (floating) {
+                updateHeaderOffset();
+            }
+        }, 120));
+
+        update();
     }
 
     // Performance: Reading progress indicator (Robust Implementation)
@@ -181,7 +398,14 @@
 
         function updateMetrics() {
             articleHeight = article.offsetHeight;
-            headerHeight = header ? header.offsetHeight : 0;
+            if (header) {
+                const headerPosition = window.getComputedStyle(header).position;
+                headerHeight = (headerPosition === 'fixed' || headerPosition === 'sticky')
+                    ? header.offsetHeight
+                    : 0;
+            } else {
+                headerHeight = 0;
+            }
             windowHeight = window.innerHeight;
             updateProgress();
         }
@@ -254,11 +478,17 @@
         // Initialize loading states
         initLoadingStates();
 
-        // Initialize sticky header
-        initStickyHeader();
+        // Reveal header when scrolling up
+        initSmartHeaderReveal();
 
         // Initialize reading progress
         initReadingProgress();
+
+        // Initialize reader mode controls
+        initReaderMode();
+
+        // Generate left-edge heading rail navigation
+        initReadingRail();
 
         // Optimize images
         optimizeImages();

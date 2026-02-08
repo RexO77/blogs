@@ -21,18 +21,34 @@
             {{ .Description }}
         </div>
         {{- end }}
+        <div class="post-reading-tools" data-reader-ignore>
+            <button id="reader-mode-toggle" class="reader-mode-toggle" type="button" aria-pressed="false">
+                Reader Mode
+            </button>
+        </div>
     </header>
-    
-    <div class="content" itemprop="articleBody">
-        {{ .Content }}
+
+    <nav class="reading-rail" id="reading-rail" data-reader-ignore hidden aria-label="Section navigation">
+        <div class="reading-rail-lines" id="reading-rail-lines"></div>
+        <p class="reading-rail-tooltip" id="reading-rail-tooltip"></p>
+    </nav>
+
+    <div class="post-layout">
+        <div class="post-main">
+            <div class="content" itemprop="articleBody">
+                {{ .Content }}
+            </div>
+        </div>
     </div>
     
     <!-- Author bio -->
-    {{ partial "author-bio.html" . }}
+    <div class="reader-mode-secondary">
+        {{ partial "author-bio.html" . }}
+    </div>
     
     <!-- Tags -->
     {{- if .Params.tags }}
-    <div class="post-tags post-section post-divider">
+    <div class="post-tags post-section post-divider reader-mode-secondary">
         <h3 class="post-tags-title">Tagged with:</h3>
         <div class="post-tags-list">
             {{- range .Params.tags }}
@@ -45,13 +61,17 @@
     {{- end }}
     
     <!-- Related Posts -->
-    {{ partial "related-posts.html" . }}
+    <div class="reader-mode-secondary">
+        {{ partial "related-posts.html" . }}
+    </div>
     
     <!-- Newsletter Signup -->
-    {{ partial "newsletter.html" . }}
+    <div class="reader-mode-secondary">
+        {{ partial "newsletter.html" . }}
+    </div>
     
     <!-- Social sharing -->
-    <div class="social-sharing post-section post-divider text-center">
+    <div class="social-sharing post-section post-divider text-center reader-mode-secondary">
         <h3 class="social-sharing-title">Share this post:</h3>
         <div class="social-sharing-buttons">
             <a href="https://twitter.com/intent/tweet?url={{ .Permalink }}&text={{ .Title }}&via={{ .Site.Params.twitter | strings.TrimPrefix "@" }}" 
@@ -66,7 +86,7 @@
     </div>
     
     <!-- Navigation to other posts -->
-    <nav class="post-navigation post-section post-divider">
+    <nav class="post-navigation post-section post-divider reader-mode-secondary">
         <div class="post-navigation-container">
             {{- if .PrevInSection }}
             <div class="post-nav-item post-nav-prev">
@@ -88,6 +108,8 @@
     </nav>
     
     <!-- Comments -->
-    {{ partial "comments.html" . }}
+    <div class="reader-mode-secondary">
+        {{ partial "comments.html" . }}
+    </div>
 </article>
 {{ end }}

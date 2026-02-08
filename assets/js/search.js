@@ -4,7 +4,9 @@
 
     let pagefind;
     let pagefindLoaded = false;
-    let searchModal, searchInput, searchResults, searchClose;
+    let searchModal, searchInput, searchResults, searchClose, searchTrigger;
+    let lastFocusedElement = null;
+    const focusableSelector = 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
     // Lazy load Pagefind only when needed
     async function ensurePagefind() {
@@ -85,7 +87,10 @@
     function openSearch() {
         if (searchModal.style.display === 'flex') return;
 
+        lastFocusedElement = document.activeElement;
         searchModal.style.display = 'flex';
+        searchModal.setAttribute('aria-hidden', 'false');
+        if (searchTrigger) searchTrigger.setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden';
 
         // Trigger animation
@@ -108,6 +113,8 @@
         if (searchModal.style.display !== 'flex') return;
 
         searchModal.classList.remove('visible');
+        searchModal.setAttribute('aria-hidden', 'true');
+        if (searchTrigger) searchTrigger.setAttribute('aria-expanded', 'false');
 
         // Wait for animation to complete before hiding
         setTimeout(() => {
@@ -117,6 +124,30 @@
         }, 450);
 
         document.body.style.overflow = '';
+
+        if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+            lastFocusedElement.focus();
+        }
+    }
+
+    function trapFocus(event) {
+        if (event.key !== 'Tab' || searchModal.style.display !== 'flex') return;
+
+        const focusableElements = Array.from(searchModal.querySelectorAll(focusableSelector))
+            .filter((el) => !el.hasAttribute('disabled') && el.getAttribute('aria-hidden') !== 'true');
+
+        if (focusableElements.length === 0) return;
+
+        const first = focusableElements[0];
+        const last = focusableElements[focusableElements.length - 1];
+
+        if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+        }
     }
 
     // Initialize search
@@ -125,9 +156,10 @@
         searchInput = document.getElementById('search-input');
         searchResults = document.getElementById('search-results');
         searchClose = document.getElementById('search-close');
-        const searchTrigger = document.getElementById('search-trigger');
+        searchTrigger = document.getElementById('search-trigger');
 
         if (!searchModal || !searchInput || !searchResults) return;
+        searchModal.setAttribute('aria-hidden', 'true');
 
         // Keep the hint showing both shortcuts - works for everyone
         // No need to change it, the HTML already has both ⌘ K and Ctrl K
@@ -139,6 +171,7 @@
 
         // Event listeners
         searchClose.addEventListener('click', closeSearch);
+        searchModal.addEventListener('keydown', trapFocus);
 
         // Close on background click
         searchModal.addEventListener('click', (e) => {
