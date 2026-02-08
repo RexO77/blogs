@@ -65,35 +65,16 @@
         });
     }
 
-    function initReaderMode() {
-        const toggle = document.getElementById('reader-mode-toggle');
-        if (!toggle) return;
-
-        const key = 'reader-mode-enabled';
-        const body = document.body;
-
-        function applyReaderMode(enabled) {
-            body.classList.toggle('reader-mode', enabled);
-            toggle.setAttribute('aria-pressed', enabled ? 'true' : 'false');
-            toggle.textContent = enabled ? 'Exit Reader Mode' : 'Reader Mode';
-        }
-
-        applyReaderMode(localStorage.getItem(key) === 'true');
-
-        toggle.addEventListener('click', () => {
-            const enabled = !body.classList.contains('reader-mode');
-            applyReaderMode(enabled);
-            localStorage.setItem(key, String(enabled));
-        });
-    }
-
     function initReadingRail() {
         const content = document.querySelector('.post-content .content');
         const rail = document.getElementById('reading-rail');
         const railLines = document.getElementById('reading-rail-lines');
         const railTooltip = document.getElementById('reading-rail-tooltip');
+        const railTooltipIndex = document.getElementById('reading-rail-tooltip-index');
+        const railTooltipTitle = document.getElementById('reading-rail-tooltip-title');
+        const railTooltipMeta = document.getElementById('reading-rail-tooltip-meta');
 
-        if (!content || !rail || !railLines || !railTooltip) return;
+        if (!content || !rail || !railLines || !railTooltip || !railTooltipIndex || !railTooltipTitle || !railTooltipMeta) return;
 
         const headings = Array.from(content.querySelectorAll('h2, h3'))
             .filter((heading) => heading.textContent.trim().length > 0);
@@ -134,60 +115,119 @@
 
         railLines.replaceChildren();
         let hideTooltipTimer;
+        railTooltip.setAttribute('aria-hidden', 'true');
+
+        function clearPendingHide() {
+            if (hideTooltipTimer) {
+                window.clearTimeout(hideTooltipTimer);
+                hideTooltipTimer = null;
+            }
+        }
+
+        function setTooltipContent(link) {
+            railTooltipIndex.textContent = link.dataset.section || '';
+            railTooltipTitle.textContent = link.getAttribute('aria-label') || '';
+            railTooltipMeta.textContent = link.dataset.level === 'h2' ? 'Section' : 'Subsection';
+        }
+
+        function setTooltipPosition(link) {
+            const railRect = rail.getBoundingClientRect();
+            const linkRect = link.getBoundingClientRect();
+            const rawY = (linkRect.top - railRect.top) + (linkRect.height / 2);
+            const clampedY = Math.max(18, Math.min(railRect.height - 18, rawY));
+            rail.style.setProperty('--rail-tooltip-y', `${clampedY}px`);
+        }
+
+        function setHoverState(link) {
+            rail.classList.toggle('is-interacting', Boolean(link));
+            links.forEach((item) => {
+                item.classList.toggle('is-emphasis', item === link);
+            });
+        }
+
+        function showTooltip(link, options = {}) {
+            clearPendingHide();
+            if (!options.keepInteraction) {
+                setHoverState(link);
+            }
+            setTooltipContent(link);
+            setTooltipPosition(link);
+            rail.classList.add('is-tooltip-visible');
+            railTooltip.setAttribute('aria-hidden', 'false');
+        }
+
+        function scheduleHideTooltip() {
+            clearPendingHide();
+            hideTooltipTimer = window.setTimeout(() => {
+                const railHovered = rail.matches(':hover');
+                const railFocused = rail.contains(document.activeElement);
+                if (!railHovered && !railFocused) {
+                    rail.classList.remove('is-tooltip-visible');
+                    railTooltip.setAttribute('aria-hidden', 'true');
+                    setHoverState(null);
+                }
+            }, 140);
+        }
+
+        let h2Counter = 0;
+        let h3Counter = 0;
 
         const links = headings.map((heading) => {
+            if (heading.tagName === 'H2') {
+                h2Counter += 1;
+                h3Counter = 0;
+            } else {
+                if (h2Counter === 0) {
+                    h2Counter = 1;
+                }
+                h3Counter += 1;
+            }
+
+            const sectionLabel = heading.tagName === 'H2'
+                ? String(h2Counter).padStart(2, '0')
+                : `${String(h2Counter).padStart(2, '0')}.${h3Counter}`;
+
             const link = document.createElement('a');
             link.className = 'reading-rail-line';
             link.href = `#${heading.id}`;
             link.dataset.targetId = heading.id;
             link.dataset.level = heading.tagName.toLowerCase();
+            link.dataset.section = sectionLabel;
             link.setAttribute('aria-label', heading.textContent.trim());
 
-            const showLabel = () => {
-                if (hideTooltipTimer) {
-                    window.clearTimeout(hideTooltipTimer);
-                }
-                railTooltip.textContent = heading.textContent.trim();
-                rail.classList.add('is-tooltip-visible');
-            };
-
-            const maybeHideLabel = () => {
-                if (hideTooltipTimer) {
-                    window.clearTimeout(hideTooltipTimer);
-                }
-                hideTooltipTimer = window.setTimeout(() => {
-                    const railHovered = rail.matches(':hover');
-                    const railFocused = rail.contains(document.activeElement);
-                    if (!railHovered && !railFocused) {
-                        rail.classList.remove('is-tooltip-visible');
-                    }
-                }, 120);
-            };
-
-            link.addEventListener('mouseenter', showLabel);
-            link.addEventListener('focus', showLabel);
-            link.addEventListener('mouseleave', maybeHideLabel);
-            link.addEventListener('blur', maybeHideLabel);
-            link.addEventListener('click', showLabel);
+            link.addEventListener('mouseenter', () => showTooltip(link));
+            link.addEventListener('focus', () => showTooltip(link));
+            link.addEventListener('mouseleave', scheduleHideTooltip);
+            link.addEventListener('blur', scheduleHideTooltip);
+            link.addEventListener('click', () => showTooltip(link, { keepInteraction: true }));
 
             railLines.appendChild(link);
             return link;
         });
 
         rail.hidden = false;
+        rail.addEventListener('mouseleave', scheduleHideTooltip);
+        rail.addEventListener('focusout', scheduleHideTooltip);
+        railLines.addEventListener('scroll', () => {
+            const current = rail.querySelector('.reading-rail-line.is-emphasis') || rail.querySelector('.reading-rail-line.is-active');
+            if (current) {
+                setTooltipPosition(current);
+            }
+        }, { passive: true });
 
         function setActiveRailLine(id) {
-            let activeLink = null;
+            let active = null;
             links.forEach((link) => {
-                const active = link.dataset.targetId === id;
-                link.classList.toggle('is-active', active);
-                if (active) {
-                    activeLink = link;
+                const isActive = link.dataset.targetId === id;
+                link.classList.toggle('is-active', isActive);
+                if (isActive) {
+                    active = link;
                 }
             });
 
-            if (activeLink) {
-                railTooltip.textContent = activeLink.getAttribute('aria-label') || '';
+            if (active && !rail.classList.contains('is-tooltip-visible')) {
+                setTooltipContent(active);
+                setTooltipPosition(active);
             }
         }
 
@@ -483,9 +523,6 @@
 
         // Initialize reading progress
         initReadingProgress();
-
-        // Initialize reader mode controls
-        initReaderMode();
 
         // Generate left-edge heading rail navigation
         initReadingRail();
