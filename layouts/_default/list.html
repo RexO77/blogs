@@ -15,7 +15,7 @@
         {{ $p := .Paginate $pages }}
         {{ range $p.Pages }}
         <article class="post-card">
-            <a href="{{ .Permalink }}" class="post-card-link">
+            <a href="{{ .Permalink }}" class="post-card-link" aria-label="Open article: {{ .Title }}">
                 {{- $thumbnailSrc := "" }}
                 {{- $thumbnailResource := "" }}
 
@@ -85,29 +85,15 @@
                 {{- end }}
 
                 <div class="post-card-content">
-                    {{- if .Params.categories }}
-                    <div class="post-card-categories">
-                        {{- range first 2 .Params.categories }}
-                        <span class="post-card-category">{{ . }}</span>
-                        {{- end }}
-                    </div>
-                    {{- end }}
-
                     <h2 class="post-card-title">{{ .Title }}</h2>
 
                     {{- if .Description }}
-                    <p class="post-card-description">{{ .Description | plainify | truncate 150 }}</p>
+                    <p class="post-card-description">{{ .Description | plainify | truncate 120 }}</p>
                     {{- else }}
-                    <p class="post-card-description">{{ .Summary | plainify | truncate 150 }}</p>
+                    <p class="post-card-description">{{ .Summary | plainify | truncate 120 }}</p>
                     {{- end }}
 
-                    <div class="post-card-meta">
-                        <time class="post-card-date" datetime="{{ .Date.Format "2006-01-02" }}">
-                            {{ .Date.Format "Jan 2, 2006" }}
-                        </time>
-                        <span class="post-card-separator">•</span>
-                        <span class="post-card-reading-time">{{ .ReadingTime }} min read</span>
-                    </div>
+                    <span class="post-card-read-hint" aria-hidden="true">Open article</span>
                 </div>
             </a>
         </article>
