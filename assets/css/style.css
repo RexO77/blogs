@@ -89,31 +89,31 @@
 
 /* Dark Theme Colors */
 [data-theme="dark"] {
-    --background-color: #0a0a0a;
-    --text-color: #f5f5f5;
+    --background-color: #171717;
+    --text-color: #e8e8e8;
     --accent-color-yellow: #FFD700;
     --accent-color-blue: #00B4FF;
-    --surface-color: #1a1a1a;
-    --border-color: rgba(255, 255, 255, 0.1);
+    --surface-color: #1f1f1f;
+    --border-color: rgba(240, 240, 240, 0.14);
     --shadow-color: rgba(0, 0, 0, 0.3);
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --post-border: #333333;
+    --glass-bg: rgba(31, 31, 31, 0.72);
+    --glass-border: rgba(240, 240, 240, 0.16);
+    --post-border: #303030;
 }
 
 /* System Theme Detection */
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme]) {
-        --background-color: #0a0a0a;
-        --text-color: #f5f5f5;
+        --background-color: #171717;
+        --text-color: #e8e8e8;
         --accent-color-yellow: #FFD700;
         --accent-color-blue: #00B4FF;
-        --surface-color: #1a1a1a;
-        --border-color: rgba(255, 255, 255, 0.1);
+        --surface-color: #1f1f1f;
+        --border-color: rgba(240, 240, 240, 0.14);
         --shadow-color: rgba(0, 0, 0, 0.3);
-        --glass-bg: rgba(255, 255, 255, 0.05);
-        --glass-border: rgba(255, 255, 255, 0.1);
-        --post-border: #333333;
+        --glass-bg: rgba(31, 31, 31, 0.72);
+        --glass-border: rgba(240, 240, 240, 0.16);
+        --post-border: #303030;
     }
 }
 
@@ -508,6 +508,13 @@ body.has-floating-header {
     padding-top: var(--floating-header-height);
 }
 
+/* Focus visuals disabled per current UX preference */
+*:focus,
+*:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
 /* Accessibility helpers */
 .sr-only {
     position: absolute;
@@ -540,8 +547,6 @@ body.has-floating-header {
 
 .skip-link:focus-visible {
     transform: translateY(0);
-    outline: 2px solid var(--accent-color-blue);
-    outline-offset: 3px;
 }
 
 .container {
@@ -594,7 +599,7 @@ a {
 
 /* Dark mode header adjustments */
 [data-theme="dark"] .site-header {
-    background: rgba(10, 10, 10, 0.95);
+    background: rgba(23, 23, 23, 0.95);
 }
 
 /* Header reveal effect (appears while scrolling up) */
@@ -613,7 +618,7 @@ a {
 }
 
 [data-theme="dark"] .site-header.is-floating {
-    background: rgba(10, 10, 10, 0.98);
+    background: rgba(23, 23, 23, 0.98);
 }
 
 .site-header.is-floating.is-hidden {
@@ -692,16 +697,6 @@ a {
     display: none;
 }
 
-/* Focus states for accessibility */
-.theme-toggle:focus {
-    outline: none;
-}
-
-.theme-toggle:focus-visible {
-    outline: 2px solid var(--accent-color-blue);
-    outline-offset: 3px;
-}
-
 /* Main site link styling */
 .main-site-link {
     font-family: var(--font-heading);
@@ -740,16 +735,6 @@ a {
 [data-theme="dark"] .main-site-link:hover {
     color: var(--accent-color-yellow);
     background-color: rgba(255, 215, 0, 0.1);
-}
-
-/* Focus states for accessibility */
-.main-site-link:focus {
-    outline: none;
-}
-
-.main-site-link:focus-visible {
-    outline: 2px solid var(--accent-color-blue);
-    outline-offset: 3px;
 }
 
 /* Search trigger pill - glassmorphic floating button */
@@ -893,11 +878,6 @@ a {
     transform: translateX(-50%) translateY(0);
 }
 
-.search-trigger-pill:focus-visible {
-    outline: 2px solid var(--accent-color-blue);
-    outline-offset: 3px;
-}
-
 .search-tooltip kbd {
     display: inline-flex;
     align-items: center;
@@ -1015,6 +995,7 @@ a {
 
 /* --- Single Post Content --- */
 .post-content {
+    --reading-column-width: 42rem;
     max-width: min(1120px, calc(100vw - 2rem));
     margin: var(--space-3xl) auto;
 }
@@ -1284,6 +1265,10 @@ a {
 
 /* Post Content */
 .post-content .content {
+    width: 100%;
+    max-width: min(var(--reading-column-width), 100%);
+    margin-left: auto;
+    margin-right: auto;
     font-size: var(--text-lg);
     line-height: 1.75;
     font-family: var(--font-body);
@@ -1350,10 +1335,6 @@ a {
 /* Paragraph spacing for better readability */
 .post-content p {
     margin-bottom: var(--space-md);
-    max-width: 68ch;
-    /* Optimal reading line length */
-    margin-left: auto;
-    margin-right: auto;
 }
 
 /* Enhanced blockquote styling */
@@ -1403,7 +1384,7 @@ a {
 .post-content ul,
 .post-content ol {
     margin: var(--space-md) 0;
-    padding-left: var(--space-lg);
+    padding-left: 1.35em;
 }
 
 .post-content li {
@@ -1492,21 +1473,6 @@ a {
             0 0 32px rgba(0, 180, 255, 0.4),
             0 2px 12px rgba(0, 180, 255, 0.5);
     }
-}
-
-/* Focus styles for accessibility */
-.post-content a:focus,
-.post-content button:focus {
-    outline: 2px solid var(--accent-color-blue);
-    outline-offset: 2px;
-    border-radius: 2px;
-}
-
-.search-close:focus-visible,
-.search-input:focus-visible,
-.reading-rail-line:focus-visible {
-    outline: 2px solid var(--accent-color-blue);
-    outline-offset: 3px;
 }
 
 /* Post Tags */
@@ -1723,7 +1689,7 @@ body {
     }
 
     .post-content p {
-        max-width: none;
+        margin-bottom: var(--space-sm);
     }
 }
 
@@ -2051,16 +2017,20 @@ body {
     flex-direction: column;
 }
 
-.post-card:hover,
-.post-card:focus-within {
+.post-card:hover {
     transform: translateY(-3px);
     border-color: rgba(0, 153, 255, 0.28);
     box-shadow: 0 12px 26px var(--shadow-color);
 }
 
-[data-theme="dark"] .post-card:hover,
-[data-theme="dark"] .post-card:focus-within {
+[data-theme="dark"] .post-card:hover {
     border-color: rgba(0, 180, 255, 0.36);
+}
+
+.post-card:focus-within {
+    transform: translateY(-3px);
+    border-color: var(--border-color);
+    box-shadow: 0 12px 26px var(--shadow-color);
 }
 
 .post-card-link {
@@ -2242,7 +2212,7 @@ body {
 }
 
 [data-theme="dark"] .search-modal {
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(23, 23, 23, 0.78);
 }
 
 .search-modal.visible {
@@ -2890,8 +2860,8 @@ body {
 }
 
 .newsletter-input:focus {
-    border-color: var(--accent-color-blue);
-    box-shadow: 0 0 0 3px rgba(0, 153, 255, 0.1);
+    border-color: var(--border-color);
+    box-shadow: none;
 }
 
 .newsletter-input::placeholder {
