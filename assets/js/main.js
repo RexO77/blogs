@@ -84,6 +84,7 @@
             return;
         }
 
+        // ── Generate unique heading IDs ──
         const usedIds = new Set();
 
         function toSlug(text) {
@@ -113,7 +114,9 @@
             }
         });
 
+        // ── Build rail lines ──
         railLines.replaceChildren();
+
         let hideTooltipTimer;
         railTooltip.setAttribute('aria-hidden', 'true');
 
@@ -145,7 +148,8 @@
             });
         }
 
-        function showTooltip(link, options = {}) {
+        function showTooltip(link, options) {
+            options = options || {};
             clearPendingHide();
             if (!options.keepInteraction) {
                 setHoverState(link);
@@ -158,71 +162,81 @@
 
         function scheduleHideTooltip() {
             clearPendingHide();
-            hideTooltipTimer = window.setTimeout(() => {
-                const railHovered = rail.matches(':hover');
-                const railFocused = rail.contains(document.activeElement);
+            hideTooltipTimer = window.setTimeout(function () {
+                var railHovered = rail.matches(':hover');
+                var railFocused = rail.contains(document.activeElement);
                 if (!railHovered && !railFocused) {
                     rail.classList.remove('is-tooltip-visible');
                     railTooltip.setAttribute('aria-hidden', 'true');
                     setHoverState(null);
                 }
-            }, 140);
+            }, 160);
         }
 
+        // ── Create line elements with staggered entrance ──
         let h2Counter = 0;
         let h3Counter = 0;
 
-        const links = headings.map((heading) => {
+        const links = headings.map(function (heading, index) {
             if (heading.tagName === 'H2') {
                 h2Counter += 1;
                 h3Counter = 0;
             } else {
-                if (h2Counter === 0) {
-                    h2Counter = 1;
-                }
+                if (h2Counter === 0) h2Counter = 1;
                 h3Counter += 1;
             }
 
             const sectionLabel = heading.tagName === 'H2'
                 ? String(h2Counter).padStart(2, '0')
-                : `${String(h2Counter).padStart(2, '0')}.${h3Counter}`;
+                : String(h2Counter).padStart(2, '0') + '.' + h3Counter;
 
             const link = document.createElement('a');
             link.className = 'reading-rail-line';
-            link.href = `#${heading.id}`;
+            link.href = '#' + heading.id;
             link.dataset.targetId = heading.id;
             link.dataset.level = heading.tagName.toLowerCase();
             link.dataset.section = sectionLabel;
             link.setAttribute('aria-label', heading.textContent.trim());
 
-            link.addEventListener('mouseenter', () => showTooltip(link));
-            link.addEventListener('focus', () => showTooltip(link));
+            // Stagger entrance delay
+            link.style.setProperty('--rail-enter-delay', (80 + index * 45) + 'ms');
+
+            link.addEventListener('mouseenter', function () { showTooltip(link); });
+            link.addEventListener('focus', function () { showTooltip(link); });
             link.addEventListener('mouseleave', scheduleHideTooltip);
             link.addEventListener('blur', scheduleHideTooltip);
-            link.addEventListener('click', () => showTooltip(link, { keepInteraction: true }));
+            link.addEventListener('click', function () { showTooltip(link, { keepInteraction: true }); });
 
             railLines.appendChild(link);
             return link;
         });
 
+        // ── Show rail and trigger entrance ──
         rail.hidden = false;
+
+        raf(function () {
+            rail.classList.add('is-ready');
+            links.forEach(function (link) {
+                link.classList.add('is-entered');
+            });
+        });
+
         rail.addEventListener('mouseleave', scheduleHideTooltip);
         rail.addEventListener('focusout', scheduleHideTooltip);
-        railLines.addEventListener('scroll', () => {
-            const current = rail.querySelector('.reading-rail-line.is-emphasis') || rail.querySelector('.reading-rail-line.is-active');
-            if (current) {
-                setTooltipPosition(current);
-            }
+
+        // Re-position tooltip on rail scroll
+        railLines.addEventListener('scroll', function () {
+            var current = rail.querySelector('.reading-rail-line.is-emphasis') || rail.querySelector('.reading-rail-line.is-active');
+            if (current) setTooltipPosition(current);
         }, { passive: true });
 
+        // ── Active section tracking ──
         function setActiveRailLine(id) {
             let active = null;
-            links.forEach((link) => {
+            links.forEach(function (link) {
                 const isActive = link.dataset.targetId === id;
                 link.classList.toggle('is-active', isActive);
-                if (isActive) {
-                    active = link;
-                }
+                if (isActive) active = link;
             });
 
             if (active && !rail.classList.contains('is-tooltip-visible')) {
@@ -231,10 +245,10 @@
             }
         }
 
-        const observer = new IntersectionObserver((entries) => {
+        const observer = new IntersectionObserver(function (entries) {
             const visible = entries
-                .filter((entry) => entry.isIntersecting)
-                .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+                .filter(function (entry) { return entry.isIntersecting; })
+                .sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
 
             if (visible.length > 0) {
                 setActiveRailLine(visible[0].target.id);
@@ -244,7 +258,7 @@
             threshold: [0, 1]
         });
 
-        headings.forEach((heading) => observer.observe(heading));
+        headings.forEach(function (heading) { observer.observe(heading); });
         setActiveRailLine(headings[0].id);
     }
 

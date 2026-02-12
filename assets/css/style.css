@@ -1059,6 +1059,7 @@ a {
     min-width: 0;
 }
 
+/* ── Reading Rail ── */
 .reading-rail {
     position: fixed;
     left: clamp(10px, 1.6vw, 20px);
@@ -1075,11 +1076,11 @@ a {
     display: none !important;
 }
 
+/* Lines container — no extra decorations */
 .reading-rail-lines {
-    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 0.42rem;
+    gap: 0.5rem;
     padding: 0.2rem 0;
     max-height: 72vh;
     overflow-y: auto;
@@ -1092,157 +1093,163 @@ a {
     height: 0;
 }
 
-.reading-rail-lines::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 1px;
-    background: linear-gradient(to bottom,
-            rgba(0, 0, 0, 0.08),
-            rgba(0, 0, 0, 0.2),
-            rgba(0, 0, 0, 0.08));
-    opacity: 0.5;
-}
-
-[data-theme="dark"] .reading-rail-lines::before {
-    background: linear-gradient(to bottom,
-            rgba(255, 255, 255, 0.08),
-            rgba(255, 255, 255, 0.24),
-            rgba(255, 255, 255, 0.08));
-}
-
+/* ── Line (heading marker) ── */
 .reading-rail-line {
-    position: relative;
     display: block;
-    width: 22px;
-    height: 3px;
+    width: 24px;
+    height: 2.5px;
     border-radius: 999px;
-    background: rgba(20, 20, 20, 0.28);
-    opacity: 0.55;
-    transform: scaleX(1);
+    background: currentColor;
+    color: rgba(20, 20, 20, 0.4);
     transform-origin: left center;
     will-change: transform, opacity;
-    transition:
-        transform 220ms var(--ease-emphasized),
-        opacity var(--transition-normal),
-        background-color var(--transition-normal),
-        filter var(--transition-normal);
-}
-
-.reading-rail-line::after {
-    content: '';
-    position: absolute;
-    inset: -3px -4px;
-    border-radius: 999px;
-    background: rgba(0, 153, 255, 0.2);
+    /* Default: small and quiet */
     opacity: 0;
-    transform: scale(0.72);
+    transform: scaleX(0);
+    /* Smooth transitions for all interactive states */
     transition:
-        opacity 220ms var(--ease-decelerate),
-        transform 240ms var(--ease-emphasized);
-    pointer-events: none;
-}
-
-[data-theme="dark"] .reading-rail-line {
-    background: rgba(255, 255, 255, 0.34);
-}
-
-.reading-rail-line[data-level="h3"] {
-    transform: scaleX(0.58);
-    margin-left: 9px;
-    opacity: 0.43;
-}
-
-.reading-rail-line:hover,
-.reading-rail-line:focus-visible {
-    transform: scaleX(1.5);
-    opacity: 1;
-    background: var(--accent-color-blue);
+        transform 320ms var(--ease-emphasized),
+        opacity 240ms var(--ease-standard),
+        color 240ms var(--ease-standard),
+        height 280ms var(--ease-emphasized);
     outline: none;
 }
 
+[data-theme="dark"] .reading-rail-line {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+/* Staggered entrance */
+.reading-rail-line.is-entered {
+    animation: railLineEnter 450ms var(--ease-emphasized) var(--rail-enter-delay, 0ms) forwards;
+}
+
+@keyframes railLineEnter {
+    to {
+        opacity: 1;
+        transform: scaleX(0.6);
+    }
+}
+
+/* h3: even shorter, indented */
+.reading-rail-line[data-level="h3"] {
+    margin-left: 6px;
+}
+
+.reading-rail-line[data-level="h3"].is-entered {
+    animation-name: railLineEnterH3;
+}
+
+@keyframes railLineEnterH3 {
+    to {
+        opacity: 1;
+        transform: scaleX(0.38);
+    }
+}
+
+/* ── Active line — current section ── */
 .reading-rail-line.is-active {
-    transform: scaleX(1.38);
+    transform: scaleX(1.65);
+    height: 3px;
+    color: var(--accent-color-blue);
     opacity: 1;
-    background: var(--accent-color-blue);
-    filter: saturate(1.08);
 }
 
-.reading-rail-line.is-active::after,
-.reading-rail-line.is-emphasis::after {
-    opacity: 0.82;
-    transform: scale(1);
+.reading-rail-line[data-level="h3"].is-active {
+    transform: scaleX(1.3);
+    margin-left: 6px;
 }
 
+/* ── Hover / focus ── */
+.reading-rail-line:hover,
+.reading-rail-line:focus-visible {
+    transform: scaleX(1.2);
+    color: var(--accent-color-blue);
+    opacity: 1;
+}
+
+/* ── Rail interaction — shrink siblings, grow target ── */
 .reading-rail.is-interacting .reading-rail-line {
-    transform: scaleX(0.84);
-    opacity: 0.25;
+    transform: scaleX(0.4);
+    opacity: 0.6;
 }
 
 .reading-rail.is-interacting .reading-rail-line[data-level="h3"] {
-    transform: scaleX(0.5);
+    transform: scaleX(0.25);
 }
 
-.reading-rail.is-interacting .reading-rail-line.is-active,
-.reading-rail.is-interacting .reading-rail-line.is-emphasis {
-    transform: scaleX(1.55);
+.reading-rail.is-interacting .reading-rail-line.is-emphasis,
+.reading-rail.is-interacting .reading-rail-line.is-active {
+    transform: scaleX(1.8);
+    height: 3px;
+    color: var(--accent-color-blue);
     opacity: 1;
-    filter: none;
 }
 
+.reading-rail.is-interacting .reading-rail-line[data-level="h3"].is-emphasis,
+.reading-rail.is-interacting .reading-rail-line[data-level="h3"].is-active {
+    transform: scaleX(1.4);
+}
+
+/* ── Tooltip ── */
 .reading-rail-tooltip {
     position: absolute;
     top: var(--rail-tooltip-y);
-    left: calc(100% + 12px);
+    left: calc(100% + 14px);
     margin: 0;
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-areas:
         "index title"
         "index meta";
-    gap: 0.1rem 0.5rem;
+    gap: 0.1rem 0.55rem;
     align-items: baseline;
-    padding: 0.45rem 0.62rem;
-    min-width: 13.5rem;
-    max-width: 18rem;
+    padding: 0.5rem 0.7rem;
+    min-width: 14rem;
+    max-width: 19rem;
     border: 1px solid var(--border-color);
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.88);
-    box-shadow: 0 8px 24px var(--shadow-color);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow:
+        0 8px 28px rgba(0, 0, 0, 0.12),
+        0 0 0 1px rgba(255, 255, 255, 0.6);
     color: var(--text-color);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(12px) saturate(1.4);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4);
     opacity: 0;
-    transform: translateX(-10px) translateY(-50%);
-    filter: blur(1.5px);
-    will-change: opacity, transform;
+    transform: translateX(-8px) translateY(-50%) scale(0.96);
+    filter: blur(2px);
+    will-change: opacity, transform, filter;
     transition:
-        opacity 220ms var(--ease-decelerate),
-        transform 260ms var(--ease-emphasized),
-        filter 220ms var(--ease-standard);
+        opacity 240ms var(--ease-decelerate),
+        transform 320ms var(--ease-emphasized),
+        filter 240ms var(--ease-standard);
     pointer-events: none;
 }
 
 [data-theme="dark"] .reading-rail-tooltip {
-    background: rgba(20, 20, 20, 0.9);
-    border-color: rgba(255, 255, 255, 0.14);
+    background: rgba(20, 20, 20, 0.92);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow:
+        0 8px 28px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
 .reading-rail-tooltip-index {
     grid-area: index;
     font-family: var(--font-heading);
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    opacity: 0.68;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    opacity: 0.55;
     align-self: center;
 }
 
 .reading-rail-tooltip-title {
     grid-area: title;
-    font-size: 0.78rem;
-    line-height: 1.3;
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.35;
     letter-spacing: 0.005em;
     white-space: nowrap;
     overflow: hidden;
@@ -1251,15 +1258,16 @@ a {
 
 .reading-rail-tooltip-meta {
     grid-area: meta;
-    font-size: 0.64rem;
+    font-size: 0.62rem;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    opacity: 0.56;
+    letter-spacing: 0.1em;
+    opacity: 0.45;
+    font-weight: 500;
 }
 
 .reading-rail.is-tooltip-visible .reading-rail-tooltip {
-    opacity: 0.86;
-    transform: translateX(0) translateY(-50%);
+    opacity: 1;
+    transform: translateX(0) translateY(-50%) scale(1);
     filter: blur(0);
 }
 
@@ -2955,5 +2963,19 @@ body {
     .search-result-item {
         transform: none !important;
         filter: none !important;
+    }
+
+    .reading-rail-line {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: scaleX(0.6) !important;
+    }
+
+    .reading-rail-line.is-active {
+        transform: scaleX(1.65) !important;
+    }
+
+    .reading-rail-tooltip {
+        transition: none !important;
     }
 }
