@@ -11,6 +11,18 @@ BASE_URL="http://localhost:${PORT}/"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "${SCRIPT_DIR}"
 
+# ── Auto-optimize images before serving ───────────────────────────────────────
+if command -v cwebp >/dev/null 2>&1; then
+  echo "🖼  Optimizing images..."
+  bash "${SCRIPT_DIR}/scripts/optimize-images.sh"
+  echo ""
+else
+  echo "⚠️  cwebp not found — skipping image optimization."
+  echo "   Install it with: brew install webp"
+  echo "   (Images will still serve, just without WebP versions)"
+  echo ""
+fi
+
 if command -v lsof >/dev/null 2>&1; then
   existing_pid="$(lsof -ti "tcp:${PORT}" -sTCP:LISTEN 2>/dev/null | head -n 1 || true)"
   if [[ -n "${existing_pid}" ]]; then
