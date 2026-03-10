@@ -5,6 +5,8 @@ draft: false
 description: "A deep dive into how AI overreliance is affecting our cognitive abilities, backed by MIT research and practical solutions to save our brains."
 tags: ["AI", "Cognitive Science", "Technology", "Brain Health", "Research"]
 categories: ["Technology", "Health"]
+author: "Nischal Skanda"
+slug: "ai-brain-impact"
 ---
 
 {{< img src="images/thumbnail.jpg" alt="A cartoon brain melting into a puddle with a smartphone glowing nearby" caption="My brain’s legit goo while I’m vibing on Reels, bruh" >}}

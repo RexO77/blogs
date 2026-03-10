@@ -7,6 +7,7 @@ tags: ["AI", "Machine Learning", "Research", "Google", "Artificial Intelligence"
 categories: ["Technology", "AI Impact", "Research"]
 author: "Nischal Skanda"
 keywords: ["ReasoningBank", "AI memory", "Google AI", "machine learning", "AI research", "test-time scaling", "AI agents", "metacognition"]
+slug: "reasoningbank-therapy"
 ---
 
 {{< img src="images/thumbnail.png" alt="ReasoningBank AI therapy concept - machines learning from their mistakes" caption="When AI gets a therapist: Google's ReasoningBank teaches machines to remember their failures and learn from them." >}}

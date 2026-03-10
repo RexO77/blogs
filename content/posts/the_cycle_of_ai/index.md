@@ -5,9 +5,9 @@ draft: false
 description: "The wild economics of AI: from your subscription to hyperscalers' billions, exploring why AI costs are exploding despite cheaper tokens and what stops this from becoming dot-com 2.0."
 tags: ["AI", "Technology", "Economics", "Business", "Research"]
 categories: ["Technology", "Business"]
-featured_image: "/images/posts/the_cycle_of_ai/thumbnail.jpeg"
 author: "Nischal Skanda"
 keywords: ["AI economics", "GPU costs", "cloud computing", "artificial intelligence pricing", "data center economics"]
+slug: "the-cycle-of-ai"
 ---
 
 {{< img src="images/thumbnail.jpeg" alt="Meme showing the AI money flow from user to hyperscalers" caption="The AI money cycle: You pay peanuts, they rake in billions. Classic economics, but make it digital." >}}

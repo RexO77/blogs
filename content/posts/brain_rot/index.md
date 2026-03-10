@@ -5,6 +5,8 @@ draft: false
 description: "A blunt, research-backed rant about how short-form content hijacks your reward system—and practical habits to reclaim your focus."
 tags: ["Brain Health", "Cognitive Science", "Technology", "Product Design"]
 categories: ["Health", "Technology"]
+author: "Nischal Skanda"
+slug: "brain-rot"
 ---
 {{< img src="images/thumbnail.jpg" alt="brain cluttered with all kinds of social media" caption="Everything you watch on internet is SHIT" >}}
 **99% of you will not make it to the end of this post.**

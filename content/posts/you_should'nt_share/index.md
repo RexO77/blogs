@@ -1,10 +1,12 @@
 ---
-title: "Stop Oversharing With AI: Your Deepest Secrets Don’t Belong on Google"
+title: "Stop Oversharing With AI: Your Deepest Secrets Don't Belong on Google"
 date: 2025-08-03T10:30:00+05:30
 draft: false
 description: "A raw, unfiltered rant on why using ChatGPT as your therapist is a terrible idea, how OpenAI accidentally exposed private convos to Google, and how to actually protect yourself—with a product designer's take on how to design AI better."
 tags: ["AI", "Privacy", "Technology", "ChatGPT", "Ollama", "Product Design"]
 categories: ["Technology", "Privacy", "Design"]
+author: "Nischal Skanda"
+slug: "you-shouldnt-share"
 ---
 
 {{< img src="images/thumbnail.jpg" alt="Chat bubbles spilling out from a phone into a search bar" caption="Your secrets? Yep, they're not as private as you think." >}}

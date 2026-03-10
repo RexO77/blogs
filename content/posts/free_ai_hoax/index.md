@@ -7,6 +7,7 @@ tags: ["AI", "Google", "Apple", "Privacy", "Business", "Technology Economics", "
 categories: ["Technology", "AI Industry", "Business"]
 author: "Nischal Skanda"
 keywords: ["AI data extraction", "Google AI India", "Apple Google deal", "AI training data", "data privacy", "LLM training", "AI economics", "free AI tools", "data colonization"]
+slug: "free-ai-hoax"
 ---
 
 {{< img src="images/thumbnial.jpg" alt="Apple and Google logos side by side" caption="The richest company on Earth paying its biggest rival for AI brains. That's not competition—that's desperation." >}}

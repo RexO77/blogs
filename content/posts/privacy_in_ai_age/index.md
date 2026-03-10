@@ -7,6 +7,7 @@ tags: ["AI", "Privacy", "Surveillance", "Technology", "Data", "Personalization",
 categories: ["Technology", "AI Industry", "Privacy"]
 author: "Nischal Skanda"
 keywords: ["AI privacy", "surveillance pricing", "personalization", "data extraction", "AI data", "dynamic pricing", "consumer privacy", "AI surveillance", "data privacy"]
+slug: "privacy-in-ai-age"
 ---
 
 {{< img src="images/thumbnail.png" alt="Privacy in the Age of AI" caption="You're not being watched. You're being priced." >}}

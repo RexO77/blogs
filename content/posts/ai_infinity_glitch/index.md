@@ -1,12 +1,12 @@
 ---
 title: "You Don't Know You're Living in the AI Meme Bubble (But You Are)"
-date: 2025-09-28
-description: "From Silicon Valley's circular financing circus to AI writing your thesis AND cooking biryani - a witty dive into how memes, money, and masala collide in the most absurd tech era yet."
-tags: ["ai", "memes", "silicon-valley", "tech-industry", "startup-culture", "artificial-intelligence", "nvidia", "tesla", "apple", "social-media"]
-categories: ["ai-industry", "technology", "lifestyle"]
-series: ["ai-industry-analysis"]
-featured_image: ""
+date: 2025-09-28T08:30:00+05:30
 draft: false
+description: "From Silicon Valley's circular financing circus to AI writing your thesis AND cooking biryani - a witty dive into how memes, money, and masala collide in the most absurd tech era yet."
+tags: ["AI", "Memes", "Silicon Valley", "Tech Industry", "Startup Culture", "Artificial Intelligence", "NVIDIA", "Tesla", "Apple", "Social Media"]
+categories: ["AI Industry", "Technology", "Lifestyle"]
+author: "Nischal Skanda"
+slug: "ai-infinity-glitch"
 ---
 {{< img src="images/thumbnail.jpeg" alt="Meme showing the AI money flow from user to hyperscalers" caption="The AI money cycle: You pay peanuts, they rake in billions. Classic economics, but make it digital." >}}
 

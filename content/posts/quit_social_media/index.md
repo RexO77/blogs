@@ -5,6 +5,8 @@ draft: false
 description: "A raw, sarcastic, and personal account of quitting Instagram, the withdrawal symptoms, the unexpected benefits, and why you probably won't miss much if you quit too."
 tags: ["Social Media", "Digital Detox", "Mental Health", "Personal Growth"]
 categories: ["Lifestyle", "Technology", "Mental Health"]
+author: "Nischal Skanda"
+slug: "quit-social-media"
 ---
 
 {{< img src="images/thumbnail.jpg" alt="Social media break" caption="Life after Instagram: quieter, calmer, better." >}}
