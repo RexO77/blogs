@@ -116,7 +116,7 @@ Consumer Reports documented cases where **online grocery prices differed between
 
 And Reuters reported the U.S. Federal Trade Commission is **investigating Instacart's AI pricing tool**. That's not "Twitter paranoia." That's federal scrutiny.
 
-{{< img src="images/zepto-variable -pricing.png" alt="Zepto showing different prices for the same product to different users" caption="Real-world evidence: Zepto showing variable pricing for identical grocery items to different users" >}}
+{{< img src="images/zepto-variable-pricing.png" alt="Zepto showing different prices for the same product to different users" caption="Real-world evidence: Zepto showing variable pricing for identical grocery items to different users" >}}
 
 This matters because groceries aren't luxury goods.
 
@@ -126,7 +126,7 @@ If pricing is personalized there, it's not "innovation." It's a new way to tax t
 
 Meanwhile, airlines have been flirting openly with AI driven pricing tools and triggering backlash and scrutiny around whether these systems enable unfair individualized fares.
 
-{{< img src="images/uber-varable-price.png" alt="Uber showing different prices for the same route to different users" caption="Ride-sharing apps like Uber also use dynamic pricing that can vary based on user behavior and willingness to pay" >}}
+{{< img src="images/uber-variable-pricing.png" alt="Uber showing different prices for the same route to different users" caption="Ride-sharing apps like Uber also use dynamic pricing that can vary based on user behavior and willingness to pay" >}}
 
 So no, this isn't a dystopian thought experiment.
 

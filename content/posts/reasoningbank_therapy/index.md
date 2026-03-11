@@ -120,7 +120,7 @@ That's a paradigm shift, and a slightly terrifying one.
 
 Because experience doesn't just scale wisdom, it scales **trauma** too.
 
-{{< img src="images/Minimalist Abstract Design with Colored Circles.png" alt="Abstract visualization of AI memory and experience processing" caption="The shift from information to experience: AI learning to build patterns from the chaos." >}}
+{{< img src="images/ai-memory-visualization.png" alt="Abstract visualization of AI memory and experience processing" caption="The shift from information to experience: AI learning to build patterns from the chaos." >}}
 
 ## **So What's the Point of All This?**
 
