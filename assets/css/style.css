@@ -1,8 +1,8 @@
 /* --- Global Styles & Variables --- */
 /* --- Local Font Declarations --- */
 @font-face {
-    font-family: 'Satoshi';
-    src: url('/fonts/Satoshi-Regular.otf') format('opentype');
+    font-family: 'Inclusive Sans';
+    src: url('/fonts/InclusiveSans-Regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -22,7 +22,7 @@
     --text-color: #1a1a1a;
     --accent-color-yellow: #FFD700;
     --accent-color-blue: #0099FF;
-    --font-body: 'Satoshi', sans-serif;
+    --font-body: 'Inclusive Sans', sans-serif;
     --font-heading: 'Unbounded', sans-serif;
     --header-slot-height: 128px;
     --header-bar-height: 64px;

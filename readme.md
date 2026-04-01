@@ -14,7 +14,7 @@ IDEA LABS is a fully custom Hugo blog designed and developed from scratch—no t
 
 ### Design System
 
-- **Typography:** Satoshi (body) + Unbounded (headings) with optimized font loading
+- **Typography:** Inclusive Sans (body) + Unbounded (headings) with optimized font loading
 - **Theming:** Light/dark mode with system preference detection and zero FOUC
 - **Glassmorphism:** Frosted glass UI elements with backdrop blur effects
 - **Responsive:** Mobile-first design with fluid typography and adaptive layouts
@@ -54,7 +54,7 @@ IDEA LABS is a fully custom Hugo blog designed and developed from scratch—no t
 │   ├── _default/           # Base templates
 │   ├── partials/           # Reusable components
 │   └── shortcodes/         # Custom image shortcodes
-├── static/fonts/           # Satoshi, Unbounded typefaces
+├── static/fonts/           # Inclusive Sans, Unbounded typefaces
 └── hugo.toml               # Site configuration
 ```
 

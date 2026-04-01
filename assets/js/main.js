@@ -30,7 +30,7 @@
     function optimizeFontLoading() {
         if ('fonts' in document) {
             Promise.all([
-                document.fonts.load('400 1em Satoshi'),
+                document.fonts.load('400 1em Inclusive Sans'),
                 document.fonts.load('700 1em Unbounded')
             ]).then(() => {
                 document.documentElement.classList.add('fonts-loaded');
