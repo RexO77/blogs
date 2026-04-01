@@ -905,25 +905,25 @@ a {
 
 @media (hover: hover) and (pointer: fine) {
     .theme-toggle:hover {
-        color: var(--accent-color-blue);
-        background-color: rgba(0, 153, 255, 0.08);
+        color: var(--accent-color-yellow);
+        background-color: transparent;
         transform: translateY(-50%) scale(1.03);
     }
 
     [data-theme="dark"] .theme-toggle:hover {
         color: var(--accent-color-yellow);
-        background-color: rgba(255, 215, 0, 0.09);
+        background-color: transparent;
     }
 
     .main-site-link:hover {
-        color: var(--accent-color-blue);
-        background-color: rgba(0, 153, 255, 0.1);
+        color: var(--accent-color-yellow);
+        background-color: transparent;
         transform: translateY(-50%) scale(1.03);
     }
 
     [data-theme="dark"] .main-site-link:hover {
         color: var(--accent-color-yellow);
-        background-color: rgba(255, 215, 0, 0.1);
+        background-color: transparent;
     }
 
     .search-trigger-pill:hover {
@@ -1113,7 +1113,7 @@ a {
 }
 
 /* ── Line (heading marker) ── */
-.reading-rail-line {
+.post-content .reading-rail-line {
     display: block;
     width: 24px;
     height: 2.5px;
@@ -1134,7 +1134,7 @@ a {
     outline: none;
 }
 
-[data-theme="dark"] .reading-rail-line {
+[data-theme="dark"] .post-content .reading-rail-line {
     color: rgba(255, 255, 255, 0.35);
 }
 
