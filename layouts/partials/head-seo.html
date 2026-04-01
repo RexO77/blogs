@@ -171,17 +171,29 @@
   /* Critical above-the-fold styles with design tokens */
   :root {
     --space-lg: 2rem; --space-xl: 2.5rem; --text-2xl: 1.5rem; --text-5xl: 3rem;
-    --transition-normal: 0.15s ease; --background-color: #F8F7F3; --text-color: #1a1a1a;
+    --background-color: #F8F7F3; --text-color: #1a1a1a; --header-slot-height: 128px;
   }
   body {
-    margin: 0; padding-top: 80px; font-family: 'Satoshi', -apple-system, sans-serif;
+    margin: 0; font-family: 'Satoshi', -apple-system, sans-serif;
     background-color: var(--background-color); color: var(--text-color);
   }
-  .site-header {
+  .site-header-shell {
     position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-    background: rgba(248, 247, 243, 0.95); backdrop-filter: blur(10px);
-    display: flex; justify-content: center; align-items: center; padding: var(--space-lg) var(--space-xl);
-    transition: all var(--transition-normal);
+  }
+  .site-header-track {
+    width: min(calc(100% - 5rem), 1200px); margin: 0 auto; padding-bottom: 24px;
+  }
+  .site-header {
+    position: relative; min-height: 64px; background: rgba(248, 247, 243, 0.95);
+    display: flex; justify-content: center; align-items: center; padding: 0 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .site-header-slot { height: var(--header-slot-height); }
+  .site-header-search-row {
+    display: flex; justify-content: flex-end; min-height: 40px; margin-top: 12px;
+  }
+  .search-trigger-pill {
+    display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 20px;
   }
   .logo {
     font-weight: 700; font-size: var(--text-2xl); font-family: 'Unbounded', sans-serif;

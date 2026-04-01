@@ -344,38 +344,40 @@
     }
 
     function initSmartHeaderReveal() {
+        const headerShell = document.querySelector('.site-header-shell');
+        const headerTrack = document.querySelector('.site-header-track');
         const header = document.querySelector('.site-header');
-        if (!header) return;
+        if (!headerShell || !headerTrack || !header) return;
 
-        const body = document.body;
         const root = document.documentElement;
         let lastScrollY = window.scrollY;
         let upDistance = 0;
         let downDistance = 0;
         let floating = false;
+        let headerSlotHeight = 0;
 
-        function updateHeaderOffset() {
-            root.style.setProperty('--floating-header-height', `${header.offsetHeight}px`);
+        function updateHeaderMetrics() {
+            headerSlotHeight = Math.ceil(headerTrack.getBoundingClientRect().height);
+            const headerBarHeight = Math.ceil(header.getBoundingClientRect().height);
+
+            root.style.setProperty('--header-slot-height', `${headerSlotHeight}px`);
+            root.style.setProperty('--header-bar-height', `${headerBarHeight}px`);
         }
 
         function setFloating(nextState) {
             if (floating === nextState) return;
             floating = nextState;
-            header.classList.toggle('is-floating', nextState);
-            body.classList.toggle('has-floating-header', nextState);
+            headerShell.classList.toggle('is-floating', nextState);
 
-            if (nextState) {
-                updateHeaderOffset();
-            } else {
-                header.classList.remove('is-hidden');
-                root.style.setProperty('--floating-header-height', '0px');
+            if (!nextState) {
+                headerShell.classList.remove('is-hidden');
             }
         }
 
         function update() {
             const currentY = window.scrollY;
             const delta = currentY - lastScrollY;
-            const activationPoint = header.offsetHeight + 24;
+            const activationPoint = headerSlotHeight + 24;
 
             if (currentY <= activationPoint) {
                 setFloating(false);
@@ -388,7 +390,7 @@
             if (!floating) {
                 setFloating(true);
                 if (delta >= 0) {
-                    header.classList.add('is-hidden');
+                    headerShell.classList.add('is-hidden');
                 }
             }
 
@@ -396,13 +398,13 @@
                 downDistance += delta;
                 upDistance = 0;
                 if (downDistance > 10) {
-                    header.classList.add('is-hidden');
+                    headerShell.classList.add('is-hidden');
                 }
             } else if (delta < 0) {
                 upDistance += Math.abs(delta);
                 downDistance = 0;
                 if (upDistance > 34) {
-                    header.classList.remove('is-hidden');
+                    headerShell.classList.remove('is-hidden');
                 }
             }
 
@@ -420,105 +422,35 @@
         }, { passive: true });
 
         window.addEventListener('resize', throttle(() => {
-            if (floating) {
-                updateHeaderOffset();
-            }
+            updateHeaderMetrics();
+            update();
         }, 120));
 
-        update();
-    }
-
-    // Performance: Reading progress indicator (Robust Implementation)
-    function initReadingProgress() {
-        const article = document.querySelector('.post-content .content');
-        if (!article) return;
-
-        // Create progress bar if it doesn't exist
-        let progressBar = document.querySelector('.reading-progress');
-        if (!progressBar) {
-            progressBar = document.createElement('div');
-            progressBar.className = 'reading-progress';
-            progressBar.innerHTML = '<div class="reading-progress-fill"></div>';
-            document.body.appendChild(progressBar);
-        }
-
-        const progressFill = progressBar.querySelector('.reading-progress-fill');
-        const header = document.querySelector('.site-header');
-
-        // State
-        let articleHeight = 0;
-        let headerHeight = 0;
-        let windowHeight = 0;
-
-        function updateMetrics() {
-            articleHeight = article.offsetHeight;
-            if (header) {
-                const headerPosition = window.getComputedStyle(header).position;
-                headerHeight = (headerPosition === 'fixed' || headerPosition === 'sticky')
-                    ? header.offsetHeight
-                    : 0;
-            } else {
-                headerHeight = 0;
-            }
-            windowHeight = window.innerHeight;
-            updateProgress();
-        }
-
-        function updateProgress() {
-            // Get current positions relative to viewport
-            const rect = article.getBoundingClientRect();
-
-            // Start reading: When top of article passes the header
-            // End reading: When bottom of article hits bottom of viewport
-
-            // Distance from top of article to bottom of header
-            // If rect.top > headerHeight, we haven't started reading (negative distance)
-            const distanceFromStart = headerHeight - rect.top;
-
-            // Total scrollable distance to finish reading
-            // This is the total height of article minus the visible window area (adjusted for header)
-            // Effectively: How much do we need to scroll to get the bottom of article to bottom of screen?
-            const totalDistance = articleHeight - (windowHeight - headerHeight);
-
-            let progress = 0;
-
-            if (totalDistance > 0) {
-                progress = distanceFromStart / totalDistance;
-            } else {
-                // Content fits in screen or something is wrong, assume 100% if visible
-                progress = 1;
-            }
-
-            // Clamp between 0 and 1
-            progress = Math.min(Math.max(progress, 0), 1);
-
-            progressFill.style.width = `${progress * 100}%`;
-        }
-
-        // Observers and Listeners
-        const resizeObserver = new ResizeObserver(throttle(() => {
-            updateMetrics();
-        }, 100));
-
-        resizeObserver.observe(article);
-        if (header) resizeObserver.observe(header);
-
-        let scrollTicking = false;
-        window.addEventListener('scroll', () => {
-            if (scrollTicking) {
-                return;
-            }
-            scrollTicking = true;
-            raf(() => {
-                updateProgress();
-                scrollTicking = false;
+        if ('ResizeObserver' in window) {
+            const observer = new ResizeObserver(() => {
+                updateHeaderMetrics();
+                update();
             });
-        }, { passive: true });
+            observer.observe(headerTrack);
+        }
 
-        window.addEventListener('resize', throttle(updateMetrics, 100));
+        if (document.fonts && typeof document.fonts.ready === 'object') {
+            document.fonts.ready.then(() => {
+                updateHeaderMetrics();
+                update();
+            }).catch(() => {
+                updateHeaderMetrics();
+                update();
+            });
+        }
 
-        // Initial call
-        updateMetrics();
+        window.addEventListener('load', () => {
+            updateHeaderMetrics();
+            update();
+        }, { once: true });
+
+        updateHeaderMetrics();
+        update();
     }
 
     // Performance: Initialize everything when DOM is ready
@@ -534,9 +466,6 @@
 
         // Reveal header when scrolling up
         initSmartHeaderReveal();
-
-        // Initialize reading progress
-        initReadingProgress();
 
         // Generate left-edge heading rail navigation
         initReadingRail();

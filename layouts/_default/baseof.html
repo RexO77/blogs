@@ -36,30 +36,37 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link" data-no-smooth>Skip to main content</a>
+    <div class="site-header-shell">
+        <div class="site-header-track">
+            <header class="site-header">
+                <!-- Theme toggle with CSS-controlled text -->
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                    <span class="theme-text theme-text-light">Light</span>
+                    <span class="theme-text theme-text-dark">Dark</span>
+                </button>
+
+                <!-- Centered logo -->
+                <a class="logo" href="{{ .Site.Home.Permalink }}">{{ .Site.Title }}</a>
+
+                <!-- Main site link -->
+                <a class="main-site-link" href="https://www.nischalskanda.tech" target="_blank" rel="noopener noreferrer">Main Site</a>
+            </header>
+
+            <div class="site-header-search-row">
+                <!-- Search trigger pill -->
+                <button id="search-trigger" class="search-trigger-pill" aria-label="Open search" aria-controls="search-modal" aria-expanded="false">
+                    <span class="search-trigger-icon">🔍</span>
+                    <span class="search-trigger-text">Search</span>
+                    <span class="search-tooltip">
+                        Press <kbd>⌘ K</kbd> or <kbd>Ctrl K</kbd>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
     <div class="container">
-        <header class="site-header">
-            <!-- Theme toggle with CSS-controlled text -->
-            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-                <span class="theme-text theme-text-light">Light</span>
-                <span class="theme-text theme-text-dark">Dark</span>
-            </button>
-            
-            <!-- Centered logo -->
-            <a class="logo" href="{{ .Site.Home.Permalink }}">{{ .Site.Title }}</a>
-            
-            <!-- Main site link -->
-            <a class="main-site-link" href="https://www.nischalskanda.tech" target="_blank" rel="noopener noreferrer">Main Site</a>
-            
-            <!-- Search trigger pill -->
-            <button id="search-trigger" class="search-trigger-pill" aria-label="Open search" aria-controls="search-modal" aria-expanded="false">
-                <span class="search-trigger-icon">🔍</span>
-                <span class="search-trigger-text">Search</span>
-                <span class="search-tooltip">
-                    Press <kbd>⌘ K</kbd> or <kbd>Ctrl K</kbd>
-                </span>
-            </button>
-        </header>
-        
+        <div class="site-header-slot" aria-hidden="true"></div>
+
         <!-- Search Modal -->
         <div id="search-modal" class="search-modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="search-dialog-title" aria-hidden="true">
             <div class="search-modal-content">
