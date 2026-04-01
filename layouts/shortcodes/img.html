@@ -11,13 +11,16 @@
   
   <figure class="{{ $class }}" style="margin: 2rem 0; text-align: center;">
     <picture>
-      <source media="(max-width: 600px)" srcset="{{ $small.RelPermalink }}">
-      <source media="(max-width: 900px)" srcset="{{ $medium.RelPermalink }}">
-      <img src="{{ $large.RelPermalink }}" 
-           alt="{{ $alt }}" 
-           loading="lazy"
-           style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-    </picture>
+	      <source media="(max-width: 600px)" srcset="{{ $small.RelPermalink }}">
+	      <source media="(max-width: 900px)" srcset="{{ $medium.RelPermalink }}">
+	      <img src="{{ $large.RelPermalink }}" 
+	           alt="{{ $alt }}" 
+	           width="{{ $large.Width }}"
+	           height="{{ $large.Height }}"
+	           loading="lazy"
+	           decoding="async"
+	           style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+	    </picture>
     {{- if $caption -}}
       <figcaption style="margin-top: 1rem; font-style: italic; color: #666; font-size: 0.9rem;">{{ $caption | markdownify }}</figcaption>
     {{- end -}}
