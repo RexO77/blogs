@@ -92,7 +92,7 @@
 
 /* Dark Theme Colors */
 [data-theme="dark"] {
-    --background-color: #171717;
+    --background-color: #070707;
     --text-color: #e8e8e8;
     --accent-color-yellow: #FFD700;
     --accent-color-blue: #00B4FF;
@@ -107,7 +107,7 @@
 /* System Theme Detection */
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme]) {
-        --background-color: #171717;
+        --background-color: #070707;
         --text-color: #e8e8e8;
         --accent-color-yellow: #FFD700;
         --accent-color-blue: #00B4FF;
@@ -1340,6 +1340,7 @@ a {
 .post-content h2 {
     font-family: var(--font-body);
     font-size: var(--text-3xl);
+    line-height: 1.12;
     text-wrap: balance;
 }
 
@@ -2185,7 +2186,7 @@ body {
 }
 
 [data-theme="dark"] .search-modal {
-    background: rgba(23, 23, 23, 0.78);
+    background: rgba(7, 7, 7, 0.78);
 }
 
 .search-modal.visible {
