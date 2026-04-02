@@ -65,6 +65,134 @@
         });
     }
 
+    function initPageTransitions() {
+        const html = document.documentElement;
+        const pageShell = document.querySelector('.page-transition-shell');
+        const transitionStorageKey = 'page-transition-pending';
+
+        if (!pageShell) return;
+
+        function readDuration(variableName, fallback) {
+            const rawValue = getComputedStyle(html).getPropertyValue(variableName).trim();
+
+            if (!rawValue) {
+                return fallback;
+            }
+
+            if (rawValue.endsWith('ms')) {
+                const parsed = parseFloat(rawValue);
+                return Number.isFinite(parsed) ? parsed : fallback;
+            }
+
+            if (rawValue.endsWith('s')) {
+                const parsed = parseFloat(rawValue);
+                return Number.isFinite(parsed) ? parsed * 1000 : fallback;
+            }
+
+            const parsed = parseFloat(rawValue);
+            return Number.isFinite(parsed) ? parsed : fallback;
+        }
+
+        function clearEnteringState() {
+            if (!html.hasAttribute('data-page-entering')) {
+                return;
+            }
+
+            html.removeAttribute('data-page-entering');
+        }
+
+        if (html.hasAttribute('data-page-entering')) {
+            const enterDuration = readDuration('--page-transition-in-duration', 260);
+            const cleanupDelay = enterDuration + 120;
+            raf(function () {
+                raf(clearEnteringState);
+            });
+            window.setTimeout(clearEnteringState, cleanupDelay);
+        }
+
+        let isNavigating = false;
+
+        function isEligibleNavigation(link) {
+            const href = link.getAttribute('href');
+
+            if (!href || href.startsWith('#') || link.hasAttribute('download') || link.hasAttribute('data-no-transition')) {
+                return false;
+            }
+
+            if (link.target && link.target !== '_self') {
+                return false;
+            }
+
+            let targetUrl;
+
+            try {
+                targetUrl = new URL(link.href, window.location.href);
+            } catch (error) {
+                return false;
+            }
+
+            if (targetUrl.protocol !== 'http:' && targetUrl.protocol !== 'https:') {
+                return false;
+            }
+
+            if (targetUrl.origin !== window.location.origin) {
+                return false;
+            }
+
+            const isSameDocument = targetUrl.pathname === window.location.pathname &&
+                targetUrl.search === window.location.search;
+
+            if (isSameDocument) {
+                return false;
+            }
+
+            return true;
+        }
+
+        document.addEventListener('click', function (event) {
+            if (
+                event.defaultPrevented ||
+                event.button !== 0 ||
+                event.metaKey ||
+                event.ctrlKey ||
+                event.shiftKey ||
+                event.altKey ||
+                event.detail === 0 ||
+                isNavigating
+            ) {
+                return;
+            }
+
+            const link = event.target.closest('a[href]');
+            if (!link || !isEligibleNavigation(link)) {
+                return;
+            }
+
+            event.preventDefault();
+            isNavigating = true;
+
+            try {
+                sessionStorage.setItem(transitionStorageKey, String(Date.now()));
+            } catch (error) {
+                // Ignore storage issues and navigate without preserving the enter animation.
+            }
+
+            const destination = link.href;
+            const leaveDuration = readDuration('--page-transition-out-duration', 180);
+
+            html.classList.add('is-page-leaving');
+
+            window.setTimeout(function () {
+                window.location.assign(destination);
+            }, leaveDuration);
+        }, true);
+
+        window.addEventListener('pageshow', function () {
+            html.classList.remove('is-page-leaving');
+            isNavigating = false;
+        });
+    }
+
     function initReadingRail() {
         const content = document.querySelector('.post-content .content');
         const rail = document.getElementById('reading-rail');
@@ -245,21 +373,39 @@
             }
         }
 
-        const observer = new IntersectionObserver(function (entries) {
-            const visible = entries
-                .filter(function (entry) { return entry.isIntersecting; })
-                .sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+        function getActivationOffset() {
+            const rootStyle = getComputedStyle(document.documentElement);
+            const headerSlotHeight = parseFloat(rootStyle.getPropertyValue('--header-slot-height')) || 0;
+            return headerSlotHeight + 44;
+        }
 
-            if (visible.length > 0) {
-                setActiveRailLine(visible[0].target.id);
-            }
-        }, {
-            rootMargin: '-20% 0px -65% 0px',
-            threshold: [0, 1]
-        });
+        function syncActiveRailLine() {
+            const activationOffset = getActivationOffset();
+            let activeHeading = headings[0];
 
-        headings.forEach(function (heading) { observer.observe(heading); });
-        setActiveRailLine(headings[0].id);
+            headings.forEach(function (heading) {
+                if (heading.getBoundingClientRect().top <= activationOffset) {
+                    activeHeading = heading;
+                }
+            });
+
+            setActiveRailLine(activeHeading.id);
+        }
+
+        let activeSyncFrame = null;
+
+        function requestActiveRailSync() {
+            if (activeSyncFrame !== null) return;
+            activeSyncFrame = raf(function () {
+                activeSyncFrame = null;
+                syncActiveRailLine();
+            });
+        }
+
+        window.addEventListener('scroll', requestActiveRailSync, { passive: true });
+        window.addEventListener('resize', requestActiveRailSync);
+
+        syncActiveRailLine();
     }
 
     // Performance: Add loading states
@@ -460,6 +606,9 @@
 
         // Initialize smooth scroll
         initSmoothScroll();
+
+        // Animate internal document navigations
+        initPageTransitions();
 
         // Initialize loading states
         initLoadingStates();

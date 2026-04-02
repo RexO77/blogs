@@ -82,12 +82,47 @@
     --transition-normal: 180ms var(--ease-standard);
     --transition-slow: 280ms var(--ease-standard);
     --transition-spring: 420ms var(--ease-emphasized);
+    --page-transition-out-duration: 165ms;
+    --page-transition-in-duration: 235ms;
+    --page-transition-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --page-transition-blur: 1.2px;
+    --page-transition-soft-opacity: 0.22;
+    --page-transition-scale: 0.995;
 
     /* Design System - Breakpoints */
     --breakpoint-sm: 480px;
     --breakpoint-md: 768px;
     --breakpoint-lg: 1024px;
     --breakpoint-xl: 1200px;
+}
+
+.page-transition-shell {
+    min-height: calc(100vh - var(--header-slot-height));
+    background-color: var(--background-color);
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+    transform-origin: center top;
+    will-change: opacity, filter, transform;
+    transition:
+        opacity var(--page-transition-in-duration) var(--page-transition-ease),
+        filter var(--page-transition-in-duration) var(--page-transition-ease),
+        transform var(--page-transition-in-duration) var(--page-transition-ease);
+}
+
+html.is-page-leaving .page-transition-shell,
+html[data-page-entering] .page-transition-shell {
+    opacity: var(--page-transition-soft-opacity);
+    filter: blur(var(--page-transition-blur));
+    transform: scale(var(--page-transition-scale));
+}
+
+html.is-page-leaving .page-transition-shell {
+    pointer-events: none;
+    transition-duration:
+        var(--page-transition-out-duration),
+        var(--page-transition-out-duration),
+        var(--page-transition-out-duration);
 }
 
 /* Dark Theme Colors */
@@ -1092,15 +1127,16 @@ a {
 
 /* ── Reading Rail ── */
 .reading-rail {
-    position: fixed;
-    left: clamp(10px, 1.6vw, 20px);
-    top: 50%;
-    transform: translateY(-50%);
-    --rail-tooltip-y: 50%;
-    z-index: 80;
+    position: sticky;
+    top: calc(var(--header-slot-height) + 18px);
+    --rail-tooltip-y: 24px;
+    z-index: 20;
     display: none;
     align-items: center;
     gap: 0.7rem;
+    align-self: start;
+    justify-self: end;
+    height: fit-content;
 }
 
 .reading-rail[hidden] {
@@ -1113,7 +1149,7 @@ a {
     flex-direction: column;
     gap: 0.5rem;
     padding: 0.2rem 0;
-    max-height: 72vh;
+    max-height: calc(100vh - var(--header-slot-height) - 3rem);
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: none;
@@ -1579,7 +1615,7 @@ a {
 html,
 body {
     max-width: 100vw;
-    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 /* --- Mobile Responsiveness --- */
@@ -2923,12 +2959,26 @@ body {
 }
 
 @media (min-width: 1100px) {
+    .post-layout {
+        display: grid;
+        grid-template-columns: minmax(40px, 72px) minmax(0, 1fr);
+        column-gap: clamp(1rem, 3vw, 3rem);
+        align-items: start;
+    }
+
     .reading-rail {
         display: flex;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
+    html.is-page-leaving .page-transition-shell,
+    html[data-page-entering] .page-transition-shell {
+        transition-duration: 1ms !important;
+        filter: none !important;
+        transform: none !important;
+    }
+
     *,
     *::before,
     *::after {

@@ -14,11 +14,13 @@
         {{ end }}
         {{ $p := .Paginate $pages }}
         {{ range $p.Pages }}
-        <article class="post-card">
+        {{- $hideThumbnail := .Params.hide_thumbnail | default false }}
+        <article class="post-card{{ if $hideThumbnail }} post-card--text-only{{ end }}">
             <a href="{{ .Permalink }}" class="post-card-link" aria-label="Open article: {{ .Title }}">
                 {{- $thumbnailSrc := "" }}
                 {{- $thumbnailResource := "" }}
 
+                {{- if not $hideThumbnail }}
                 {{- if .Params.thumbnail }}
                 {{- if or (hasPrefix .Params.thumbnail "http://") (hasPrefix .Params.thumbnail "https://") (hasPrefix .Params.thumbnail "/") -}}
                 {{- $thumbnailSrc = .Params.thumbnail -}}
@@ -41,6 +43,7 @@
                 {{- with index $images 0 }}
                 {{- $thumbnailResource = . }}
                 {{- $thumbnailSrc = .RelPermalink }}
+                {{- end }}
                 {{- end }}
                 {{- end }}
                 {{- end }}
@@ -77,11 +80,13 @@
                     {{- end }}
                 </div>
                 {{- else }}
+                {{- if not $hideThumbnail }}
                 <div class="post-card-image post-card-image-placeholder">
                     <div class="post-card-placeholder-content">
                         <span class="post-card-placeholder-icon">📝</span>
                     </div>
                 </div>
+                {{- end }}
                 {{- end }}
 
                 <div class="post-card-content">

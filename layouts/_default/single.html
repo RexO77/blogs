@@ -9,16 +9,16 @@
         {{- end }}
     </header>
 
-    <nav class="reading-rail" id="reading-rail" data-reader-ignore hidden aria-label="Section navigation">
-        <div class="reading-rail-lines" id="reading-rail-lines"></div>
-        <div class="reading-rail-tooltip" id="reading-rail-tooltip" aria-hidden="true">
-            <span class="reading-rail-tooltip-index" id="reading-rail-tooltip-index"></span>
-            <span class="reading-rail-tooltip-title" id="reading-rail-tooltip-title"></span>
-            <span class="reading-rail-tooltip-meta" id="reading-rail-tooltip-meta"></span>
-        </div>
-    </nav>
-
     <div class="post-layout">
+        <nav class="reading-rail" id="reading-rail" data-reader-ignore hidden aria-label="Section navigation">
+            <div class="reading-rail-lines" id="reading-rail-lines"></div>
+            <div class="reading-rail-tooltip" id="reading-rail-tooltip" aria-hidden="true">
+                <span class="reading-rail-tooltip-index" id="reading-rail-tooltip-index"></span>
+                <span class="reading-rail-tooltip-title" id="reading-rail-tooltip-title"></span>
+                <span class="reading-rail-tooltip-meta" id="reading-rail-tooltip-meta"></span>
+            </div>
+        </nav>
+
         <div class="post-main">
             <div class="content" itemprop="articleBody">
                 {{ .Content }}
