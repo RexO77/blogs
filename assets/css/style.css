@@ -1472,15 +1472,15 @@ a {
     color: var(--accent-color-blue);
 }
 
-/* Enhanced link styling */
-.post-content a:not(.reading-rail-line) {
+/* Enhanced link styling for rich-text content only */
+.post-content .content a:not(.reading-rail-line) {
     color: var(--accent-color-blue);
     text-decoration: none;
     border-bottom: 1px solid transparent;
     transition: border-color var(--transition-normal);
 }
 
-.post-content a:not(.reading-rail-line):hover {
+.post-content .content a:not(.reading-rail-line):hover {
     border-bottom-color: var(--accent-color-blue);
 }
 

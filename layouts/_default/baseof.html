@@ -21,6 +21,34 @@
             document.documentElement.setAttribute('data-theme', theme);
         })();
     </script>
+
+    <script>
+        (function() {
+            const transitionKey = 'page-transition-pending';
+
+            try {
+                const rawValue = sessionStorage.getItem(transitionKey);
+                if (!rawValue) {
+                    return;
+                }
+
+                const timestamp = Number(rawValue);
+                sessionStorage.removeItem(transitionKey);
+
+                if (!Number.isFinite(timestamp)) {
+                    return;
+                }
+
+                if (Date.now() - timestamp > 4000) {
+                    return;
+                }
+
+                document.documentElement.setAttribute('data-page-entering', 'true');
+            } catch (error) {
+                // Ignore storage access issues and continue without page transitions.
+            }
+        })();
+    </script>
     
     <!-- Google Analytics -->
     {{ if .Site.Params.googleAnalytics }}
@@ -69,36 +97,38 @@
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="site-header-slot" aria-hidden="true"></div>
+    <div class="site-header-slot" aria-hidden="true"></div>
+    <div class="page-transition-shell">
+        <div class="container">
 
-        <!-- Search Modal -->
-        <div id="search-modal" class="search-modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="search-dialog-title" aria-hidden="true">
-            <div class="search-modal-content">
-                <h2 id="search-dialog-title" class="sr-only">Search posts</h2>
-                <div class="search-header">
-                    <span class="search-header-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="7"></circle>
-                            <path d="M20 20L16.65 16.65"></path>
-                        </svg>
-                    </span>
-                    <input type="text" id="search-input" class="search-input" placeholder="Search posts..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" aria-label="Search posts">
-                    <button id="search-close" class="search-close" aria-label="Close search">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
+            <!-- Search Modal -->
+            <div id="search-modal" class="search-modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="search-dialog-title" aria-hidden="true">
+                <div class="search-modal-content">
+                    <h2 id="search-dialog-title" class="sr-only">Search posts</h2>
+                    <div class="search-header">
+                        <span class="search-header-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="7"></circle>
+                                <path d="M20 20L16.65 16.65"></path>
+                            </svg>
+                        </span>
+                        <input type="text" id="search-input" class="search-input" placeholder="Search posts..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" aria-label="Search posts">
+                        <button id="search-close" class="search-close" aria-label="Close search">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="search-results" class="search-results"></div>
                 </div>
-                <div id="search-results" class="search-results"></div>
             </div>
+
+            <main id="main-content" tabindex="-1">
+                <!-- Page content will be injected here -->
+                {{ block "main" . }}{{ end }}
+            </main>
         </div>
-        
-        <main id="main-content" tabindex="-1">
-            <!-- Page content will be injected here -->
-            {{ block "main" . }}{{ end }}
-        </main>
     </div>
     
     {{ $js := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint }}
