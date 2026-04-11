@@ -127,7 +127,7 @@ html.is-page-leaving .page-transition-shell {
 
 /* Dark Theme Colors */
 [data-theme="dark"] {
-    --background-color: #070707;
+    --background-color: #141414;
     --text-color: #e8e8e8;
     --accent-color-yellow: #FFD700;
     --accent-color-blue: #00B4FF;
@@ -142,7 +142,7 @@ html.is-page-leaving .page-transition-shell {
 /* System Theme Detection */
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme]) {
-        --background-color: #070707;
+        --background-color: #141414;
         --text-color: #e8e8e8;
         --accent-color-yellow: #FFD700;
         --accent-color-blue: #00B4FF;
@@ -635,7 +635,7 @@ a {
 }
 
 [data-theme="dark"] .site-header-shell::before {
-    background: rgba(7, 7, 7, 0.98);
+    background: rgba(20, 20, 20, 0.98);
     box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
 }
 
@@ -687,7 +687,7 @@ a {
 }
 
 [data-theme="dark"] .site-header {
-    background: rgba(7, 7, 7, 0.95);
+    background: rgba(20, 20, 20, 0.95);
 }
 
 .site-header-shell.is-floating .site-header {
@@ -2233,7 +2233,7 @@ body {
 }
 
 [data-theme="dark"] .search-modal {
-    background: rgba(7, 7, 7, 0.72);
+    background: rgba(20, 20, 20, 0.72);
 }
 
 .search-modal.visible {
