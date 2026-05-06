@@ -1354,14 +1354,23 @@ a {
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "kern" 1;
 
-    /* Better spacing for readability */
+    /* Keep prose spacing predictable when paragraphs are justified. */
     letter-spacing: 0.01em;
-    word-spacing: 0.05em;
+    word-spacing: normal;
+    hyphens: none;
+    -webkit-hyphens: none;
+    -ms-hyphens: none;
+}
 
-    /* Reading flow improvements */
-    hyphens: auto;
-    -webkit-hyphens: auto;
-    -ms-hyphens: auto;
+.post-content .content :where(p, li) {
+    text-align: justify;
+    text-align-last: left;
+    text-justify: inter-word;
+    hyphens: none;
+    -webkit-hyphens: none;
+    -ms-hyphens: none;
+    overflow-wrap: break-word;
+    word-break: normal;
 }
 
 /* Typography enhancements for headings */
@@ -1763,7 +1772,9 @@ body {
         font-size: 2.2rem;
         line-height: 1.3;
         word-break: break-word;
-        hyphens: auto;
+        hyphens: none;
+        -webkit-hyphens: none;
+        -ms-hyphens: none;
     }
 
     .post-content {
