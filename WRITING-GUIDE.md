@@ -25,9 +25,11 @@ slug: "your-article-title"
 
 Set `draft: false` when the post is ready to publish.
 
+The `description` is used on listing cards, in search, and in social metadata, so keep it specific and useful.
+
 ## Images
 
-Put a card image at `content/posts/your-slug/images/thumbnail.jpg` (or `.png`/`.webp`). A good default is 1200 × 630 px.
+Optionally put a card image at `content/posts/your-slug/images/thumbnail.jpg` (or `.png`/`.webp`). Without one, the listing uses a neutral placeholder. A good thumbnail size is 1200 × 630 px.
 
 Use the image shortcode inside a post:
 
@@ -42,4 +44,6 @@ Use the image shortcode inside a post:
 - Use headings to make longer posts scannable.
 - Link to relevant internal or authoritative external sources.
 - Set `draft: false`.
-- Run `./build.sh` and `./verify-urls.sh`.
+- Run `npm ci` after pulling dependency changes.
+- Run `./scripts/check.sh`.
+- Open the production build and test home → article → home, search, theme switching, and a mobile viewport.

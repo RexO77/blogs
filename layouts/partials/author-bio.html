@@ -1,32 +1,35 @@
 {{- if .Site.Params.showAuthorBio -}}
 {{- $avatarWebP := resources.Get "profile.webp" -}}
 {{- $avatarPng := resources.Get "profile.png" -}}
-<section class="author-bio" style="margin: 3rem 0; padding: 2rem; background: var(--surface-color); border-radius: 12px; border: 1px solid var(--border-color);">
-    <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+<section class="author-bio">
+    <div class="author-bio-layout">
         {{- if or $avatarWebP $avatarPng -}}
-        <div style="min-width: 80px;">
+        <div class="author-bio-avatar-wrap">
             {{- if $avatarWebP -}}
             <picture>
                 <source srcset="{{ $avatarWebP.RelPermalink }}" type="image/webp">
-                <img src="{{ if $avatarPng }}{{ $avatarPng.RelPermalink }}{{ else }}{{ $avatarWebP.RelPermalink }}{{ end }}" alt="{{ .Site.Params.author }}" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-color-blue);" loading="lazy">
+                <img class="author-bio-avatar" src="{{ if $avatarPng }}{{ $avatarPng.RelPermalink }}{{ else }}{{ $avatarWebP.RelPermalink }}{{ end }}" alt="{{ .Site.Params.author }}" width="80" height="80" loading="lazy">
             </picture>
             {{- else -}}
-            <img src="{{ $avatarPng.RelPermalink }}" alt="{{ .Site.Params.author }}" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-color-blue);" loading="lazy">
+            <img class="author-bio-avatar" src="{{ $avatarPng.RelPermalink }}" alt="{{ .Site.Params.author }}" width="80" height="80" loading="lazy">
             {{- end -}}
         </div>
         {{- end -}}
-        <div style="flex: 1; min-width: 250px;">
-            <h3 style="margin: 0 0 0.5rem 0; font-family: var(--font-heading); font-size: 1.3rem; color: var(--text-color);">About {{ .Site.Params.author }}</h3>
-            <p style="margin: 0 0 1rem 0; color: var(--text-color); line-height: 1.6; font-size: 0.95rem;">{{ .Site.Params.authorBio }}</p>
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+        <div class="author-bio-content">
+            <h3 class="author-bio-title">About {{ .Site.Params.author }}</h3>
+            <p class="author-bio-copy">{{ .Site.Params.authorBio }}</p>
+            <div class="author-bio-links">
                 {{- with .Site.Params.mainSiteURL -}}
-                <a href="{{ . }}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background: var(--accent-color-blue); color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: background-color 0.2s ease;">{{ $.Site.Params.mainSiteLabel | default "Website" }}</a>
+                <a class="author-bio-link author-bio-link-primary" href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ $.Site.Params.mainSiteLabel | default "Website" }}</a>
                 {{- end -}}
                 {{- with .Site.Params.twitter -}}
-                <a href="https://twitter.com/{{ . | strings.TrimPrefix "@" }}" target="_blank" rel="noopener noreferrer" style="color: var(--text-color); text-decoration: none; font-size: 0.9rem; opacity: 0.8; transition: opacity 0.2s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Follow on Twitter</a>
+                <a class="author-bio-link" href="https://twitter.com/{{ . | strings.TrimPrefix "@" }}" target="_blank" rel="noopener noreferrer">Follow on Twitter</a>
                 {{- end -}}
                 {{- with .Site.Params.linkedin -}}
-                <a href="https://linkedin.com/in/{{ . }}" target="_blank" rel="noopener noreferrer" style="color: var(--text-color); text-decoration: none; font-size: 0.9rem; opacity: 0.8; transition: opacity 0.2s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Connect on LinkedIn</a>
+                <a class="author-bio-link" href="https://linkedin.com/in/{{ . }}" target="_blank" rel="noopener noreferrer">Connect on LinkedIn</a>
+                {{- end -}}
+                {{- with .Site.Params.github -}}
+                <a class="author-bio-link" href="https://github.com/{{ . | strings.TrimPrefix "@" }}" target="_blank" rel="noopener noreferrer">View GitHub</a>
                 {{- end -}}
             </div>
         </div>

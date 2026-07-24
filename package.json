@@ -1,0 +1,18 @@
+{
+  "name": "hugo-blog-template",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Production-ready Hugo blog template with Pagefind search.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "./build.sh",
+    "check": "./scripts/check.sh",
+    "check:html": "node scripts/validate-html.mjs",
+    "search:index": "pagefind --site public"
+  },
+  "devDependencies": {
+    "pagefind": "1.5.2"
+  }
+}

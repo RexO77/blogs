@@ -1,7 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Check if cwebp is installed
-if ! command -v cwebp &> /dev/null; then
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "${SCRIPT_DIR}"
+
+if ! command -v cwebp >/dev/null 2>&1; then
     echo "Error: cwebp is not installed. Please install 'webp' package."
     echo "  brew install webp"
     exit 1
@@ -9,32 +13,30 @@ fi
 
 echo "Starting image optimization..."
 
-# Find all PNG and JPG images in static and content directories
-find static content assets -type f \( -iname "*.png" -o -iname "*.jpg" -o -iname "*.jpeg" \) | while read -r img; do
+while IFS= read -r -d '' img; do
     webp="${img%.*}.webp"
-    
-    # Check if webp version exists and is newer
-    if [ -f "$webp" ] && [ "$webp" -nt "$img" ]; then
-        # echo "Skipping $img (WebP exists and is newer)"
+
+    if [[ -f "${webp}" && "${webp}" -nt "${img}" ]]; then
         continue
     fi
-    
+
+    temporary="${webp}.tmp.$$"
+    trap 'rm -f "${temporary:-}"' EXIT
+
     echo "Converting $img to WebP..."
-    cwebp -q 80 "$img" -o "$webp" -quiet
-    
-    if [ $? -eq 0 ]; then
-        orig_size=$(wc -c < "$img")
-        webp_size=$(wc -c < "$webp")
-        savings=$((orig_size - webp_size))
-        
-        if [ $savings -gt 0 ]; then
-            echo "  Saved $((savings / 1024)) KB"
-        else
-            echo "  No savings, but WebP created."
-        fi
+    cwebp -quiet -q 80 "${img}" -o "${temporary}"
+
+    original_size="$(wc -c < "${img}" | tr -d ' ')"
+    webp_size="$(wc -c < "${temporary}" | tr -d ' ')"
+
+    if (( webp_size < original_size )); then
+        mv "${temporary}" "${webp}"
+        echo "  Saved $(((original_size - webp_size) / 1024)) KB"
     else
-        echo "  Failed to convert $img"
+        rm -f "${temporary}"
+        echo "  Skipped: WebP was not smaller."
     fi
-done
+    trap - EXIT
+done < <(find static content assets -type f \( -iname "*.png" -o -iname "*.jpg" -o -iname "*.jpeg" \) -print0)
 
 echo "Optimization complete!"

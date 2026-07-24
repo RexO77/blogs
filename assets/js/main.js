@@ -19,180 +19,6 @@
         };
     }
 
-    // Performance: Intersection Observer for lazy loading
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
-
-    // Performance: Optimize font loading
-    function optimizeFontLoading() {
-        if ('fonts' in document) {
-            Promise.all([
-                document.fonts.load('400 1em Inclusive Sans'),
-                document.fonts.load('700 1em Unbounded')
-            ]).then(() => {
-                document.documentElement.classList.add('fonts-loaded');
-            }).catch(() => {
-                // Fallback if font loading fails
-                document.documentElement.classList.add('fonts-loaded');
-            });
-        }
-    }
-
-    // Performance: Smooth scroll for anchor links
-    function initSmoothScroll() {
-        // Cache anchor links query
-        const links = document.querySelectorAll('a[href^="#"]');
-        links.forEach(link => {
-            link.addEventListener('click', function (e) {
-                if (this.hasAttribute('data-no-smooth')) {
-                    return;
-                }
-                const targetId = this.getAttribute('href');
-                if (targetId.length > 1) {
-                    e.preventDefault();
-                    const target = document.querySelector(targetId);
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                }
-            });
-        });
-    }
-
-    function initPageTransitions() {
-        const html = document.documentElement;
-        const pageShell = document.querySelector('.page-transition-shell');
-        const transitionStorageKey = 'page-transition-pending';
-
-        if (!pageShell) return;
-
-        function readDuration(variableName, fallback) {
-            const rawValue = getComputedStyle(html).getPropertyValue(variableName).trim();
-
-            if (!rawValue) {
-                return fallback;
-            }
-
-            if (rawValue.endsWith('ms')) {
-                const parsed = parseFloat(rawValue);
-                return Number.isFinite(parsed) ? parsed : fallback;
-            }
-
-            if (rawValue.endsWith('s')) {
-                const parsed = parseFloat(rawValue);
-                return Number.isFinite(parsed) ? parsed * 1000 : fallback;
-            }
-
-            const parsed = parseFloat(rawValue);
-            return Number.isFinite(parsed) ? parsed : fallback;
-        }
-
-        function clearEnteringState() {
-            if (!html.hasAttribute('data-page-entering')) {
-                return;
-            }
-
-            html.removeAttribute('data-page-entering');
-        }
-
-        if (html.hasAttribute('data-page-entering')) {
-            const enterDuration = readDuration('--page-transition-in-duration', 260);
-            const cleanupDelay = enterDuration + 120;
-            raf(function () {
-                raf(clearEnteringState);
-            });
-            window.setTimeout(clearEnteringState, cleanupDelay);
-        }
-
-        let isNavigating = false;
-
-        function isEligibleNavigation(link) {
-            const href = link.getAttribute('href');
-
-            if (!href || href.startsWith('#') || link.hasAttribute('download') || link.hasAttribute('data-no-transition')) {
-                return false;
-            }
-
-            if (link.target && link.target !== '_self') {
-                return false;
-            }
-
-            let targetUrl;
-
-            try {
-                targetUrl = new URL(link.href, window.location.href);
-            } catch (error) {
-                return false;
-            }
-
-            if (targetUrl.protocol !== 'http:' && targetUrl.protocol !== 'https:') {
-                return false;
-            }
-
-            if (targetUrl.origin !== window.location.origin) {
-                return false;
-            }
-
-            const isSameDocument = targetUrl.pathname === window.location.pathname &&
-                targetUrl.search === window.location.search;
-
-            if (isSameDocument) {
-                return false;
-            }
-
-            return true;
-        }
-
-        document.addEventListener('click', function (event) {
-            if (
-                event.defaultPrevented ||
-                event.button !== 0 ||
-                event.metaKey ||
-                event.ctrlKey ||
-                event.shiftKey ||
-                event.altKey ||
-                event.detail === 0 ||
-                isNavigating
-            ) {
-                return;
-            }
-
-            const link = event.target.closest('a[href]');
-            if (!link || !isEligibleNavigation(link)) {
-                return;
-            }
-
-            event.preventDefault();
-            isNavigating = true;
-
-            try {
-                sessionStorage.setItem(transitionStorageKey, String(Date.now()));
-            } catch (error) {
-                // Ignore storage issues and navigate without preserving the enter animation.
-            }
-
-            const destination = link.href;
-            const leaveDuration = readDuration('--page-transition-out-duration', 180);
-
-            html.classList.add('is-page-leaving');
-
-            window.setTimeout(function () {
-                window.location.assign(destination);
-            }, leaveDuration);
-        }, true);
-
-        window.addEventListener('pageshow', function () {
-            html.classList.remove('is-page-leaving');
-            isNavigating = false;
-        });
-    }
-
     function initReadingRail() {
         const content = document.querySelector('.post-content .content');
         const rail = document.getElementById('reading-rail');
@@ -266,7 +92,7 @@
             const linkRect = link.getBoundingClientRect();
             const rawY = (linkRect.top - railRect.top) + (linkRect.height / 2);
             const clampedY = Math.max(18, Math.min(railRect.height - 18, rawY));
-            rail.style.setProperty('--rail-tooltip-y', `${clampedY}px`);
+            railTooltip.style.top = `${clampedY}px`;
         }
 
         function setHoverState(link) {
@@ -326,9 +152,6 @@
             link.dataset.section = sectionLabel;
             link.setAttribute('aria-label', heading.textContent.trim());
 
-            // Stagger entrance delay
-            link.style.setProperty('--rail-enter-delay', (80 + index * 45) + 'ms');
-
             link.addEventListener('mouseenter', function () { showTooltip(link); });
             link.addEventListener('focus', function () { showTooltip(link); });
             link.addEventListener('mouseleave', scheduleHideTooltip);
@@ -339,15 +162,8 @@
             return link;
         });
 
-        // ── Show rail and trigger entrance ──
+        // ── Show rail ──
         rail.hidden = false;
-
-        raf(function () {
-            rail.classList.add('is-ready');
-            links.forEach(function (link) {
-                link.classList.add('is-entered');
-            });
-        });
 
         rail.addEventListener('mouseleave', scheduleHideTooltip);
         rail.addEventListener('focusout', scheduleHideTooltip);
@@ -369,7 +185,6 @@
 
             if (active && !rail.classList.contains('is-tooltip-visible')) {
                 setTooltipContent(active);
-                setTooltipPosition(active);
             }
         }
 
@@ -408,52 +223,36 @@
         syncActiveRailLine();
     }
 
-    // Performance: Add loading states
-    function initLoadingStates() {
-        const elements = document.querySelectorAll('.hero-headline, .post-item, .post-card');
-
-        // Use Intersection Observer for progressive loading
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.remove('loading');
-                    entry.target.classList.add('loaded');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        elements.forEach(element => {
-            element.classList.add('loading');
-            observer.observe(element);
-        });
-    }
-
-    // Performance: Optimize images
-    function optimizeImages() {
-        const images = document.querySelectorAll('img');
-        const viewportHeight = window.innerHeight;
-
-        images.forEach(img => {
-            // Add loading="lazy" for images below the fold
-            if (img.getBoundingClientRect().top > viewportHeight) {
-                img.loading = 'lazy';
-            }
-
-            // Add error handling
-            img.addEventListener('error', function () {
-                this.style.display = 'none';
-            });
-        });
-    }
-
     // Optimized theme management - instant switching
     function initThemeManager() {
         const html = document.documentElement;
+        const themeColor = document.querySelector('meta[name="theme-color"]');
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-        // Get current theme immediately
-        let currentTheme = localStorage.getItem('theme') ||
-            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        function getSavedTheme() {
+            try {
+                const value = localStorage.getItem('theme');
+                return value === 'light' || value === 'dark' ? value : null;
+            } catch {
+                return null;
+            }
+        }
+
+        function saveTheme(theme) {
+            try {
+                localStorage.setItem('theme', theme);
+            } catch {
+                // The active theme still applies when storage is unavailable.
+            }
+        }
+
+        function updateThemeColor(theme) {
+            if (themeColor) {
+                themeColor.setAttribute('content', theme === 'dark' ? '#141414' : '#F8F7F3');
+            }
+        }
+
+        let currentTheme = getSavedTheme() || (mediaQuery.matches ? 'dark' : 'light');
 
         // Theme toggle click handler - optimized for instant switching
         function setupThemeToggle() {
@@ -463,24 +262,37 @@
                     return;
                 }
                 themeToggle.addEventListener('click', function () {
-                    // Toggle theme instantly
                     currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-                    // Apply theme change immediately - no delays or transitions
                     html.setAttribute('data-theme', currentTheme);
-                    localStorage.setItem('theme', currentTheme);
+                    saveTheme(currentTheme);
+                    updateThemeColor(currentTheme);
+                    themeToggle.setAttribute(
+                        'aria-label',
+                        currentTheme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
+                    );
                 });
                 themeToggle.dataset.bound = 'true';
+                themeToggle.setAttribute(
+                    'aria-label',
+                    currentTheme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
+                );
             }
         }
 
         // Listen for system theme changes
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
-            if (!localStorage.getItem('theme')) {
-                currentTheme = e.matches ? 'dark' : 'light';
+        function handleSystemThemeChange(event) {
+            if (!getSavedTheme()) {
+                currentTheme = event.matches ? 'dark' : 'light';
                 html.setAttribute('data-theme', currentTheme);
+                updateThemeColor(currentTheme);
             }
-        });
+        }
+
+        if (typeof mediaQuery.addEventListener === 'function') {
+            mediaQuery.addEventListener('change', handleSystemThemeChange);
+        } else if (typeof mediaQuery.addListener === 'function') {
+            mediaQuery.addListener(handleSystemThemeChange);
+        }
 
         // Setup toggle immediately and on DOM ready
         setupThemeToggle();
@@ -595,37 +407,93 @@
             update();
         }, { once: true });
 
+        headerShell.addEventListener('focusin', () => {
+            if (floating) headerShell.classList.remove('is-hidden');
+        });
+
         updateHeaderMetrics();
         update();
     }
 
+    function initCommentThemeSync() {
+        const comments = document.querySelector('.comments-section');
+        if (!comments) return;
+
+        function syncTheme() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const giscusFrame = comments.querySelector('iframe.giscus-frame');
+            const utterancesFrame = comments.querySelector('iframe.utterances-frame');
+
+            giscusFrame?.contentWindow?.postMessage(
+                { giscus: { setConfig: { theme: isDark ? 'dark' : 'light' } } },
+                'https://giscus.app'
+            );
+            utterancesFrame?.contentWindow?.postMessage(
+                { type: 'set-theme', theme: isDark ? 'github-dark' : 'github-light' },
+                'https://utteranc.es'
+            );
+        }
+
+        const observer = new MutationObserver(syncTheme);
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['data-theme']
+        });
+        observer.observe(comments, { childList: true, subtree: true });
+        syncTheme();
+    }
+
+    function initCustomNewsletter() {
+        const form = document.querySelector('[data-custom-newsletter]');
+        if (!form) return;
+
+        const input = form.querySelector('input[name="email"]');
+        const button = form.querySelector('button[type="submit"]');
+        const message = form.querySelector('[role="status"]');
+        if (!input || !button || !message) return;
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            button.disabled = true;
+            button.textContent = 'Subscribing…';
+            message.hidden = true;
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: input.value })
+                });
+
+                if (!response.ok) throw new Error(`Subscription failed with status ${response.status}`);
+
+                message.textContent = 'Thanks for subscribing. Check your email to confirm.';
+                message.className = 'newsletter-message newsletter-message-success';
+                message.hidden = false;
+                form.reset();
+            } catch (error) {
+                console.error('Newsletter subscription failed.', error);
+                message.textContent = 'Something went wrong. Please try again.';
+                message.className = 'newsletter-message newsletter-message-error';
+                message.hidden = false;
+            } finally {
+                button.disabled = false;
+                button.textContent = 'Subscribe';
+            }
+        });
+    }
+
     // Performance: Initialize everything when DOM is ready
     function init() {
-        // Optimize font loading
-        optimizeFontLoading();
-
-        // Initialize smooth scroll
-        initSmoothScroll();
-
-        // Animate internal document navigations
-        initPageTransitions();
-
-        // Initialize loading states
-        initLoadingStates();
-
         // Reveal header when scrolling up
         initSmartHeaderReveal();
 
         // Generate left-edge heading rail navigation
         initReadingRail();
 
-        // Optimize images
-        optimizeImages();
+        initCommentThemeSync();
+        initCustomNewsletter();
 
-        // Performance: Mark page as loaded
-        window.addEventListener('load', () => {
-            document.documentElement.classList.add('page-loaded');
-        });
     }
 
     // Initialize theme manager immediately (don't wait for DOM)

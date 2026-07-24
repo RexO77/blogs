@@ -1,20 +1,36 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# URL verification script
-# Checks that the built files do not contain local development URLs.
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "${SCRIPT_DIR}"
+
+if [[ ! -d public ]]; then
+    echo "❌ public/ does not exist. Run ./build.sh first." >&2
+    exit 1
+fi
 
 echo "🔍 Verifying production URLs in built files..."
 echo ""
 
-# Check for any localhost URLs in production build (optimized with -q for quiet grep)
-if grep -rq "localhost" public/ 2>/dev/null; then
-    echo "❌ ERROR: Found localhost URLs in production build!"
-    echo "📝 Files containing localhost URLs:"
-    grep -r "localhost" public/ 2>/dev/null | head -5
-    echo ""
-    echo "🛠️  Solution: Run './build.sh' or 'hugo --cleanDestinationDir' to rebuild with production URLs"
+local_matches="$(grep -RIlE \
+    --include='*.html' --include='*.xml' --include='*.json' --include='*.txt' \
+    'https?://(localhost|127\.0\.0\.1)(:[0-9]+)?' public 2>/dev/null || true)"
+if [[ -n "${local_matches}" ]]; then
+    echo "❌ Found local development URLs in the production build:"
+    printf '%s\n' "${local_matches}" | sed -n '1,10p'
     exit 1
-else
-    echo "✅ No localhost URLs found in the production build"
-    echo "💡 Confirm that baseURL in hugo.toml matches your production domain before deploying."
 fi
+
+placeholder_matches="$(grep -RIl \
+    --include='*.html' --include='*.xml' --include='*.json' --include='*.txt' \
+    'https://example.com' public 2>/dev/null || true)"
+if [[ -n "${placeholder_matches}" ]]; then
+    echo "❌ Found placeholder production URLs in the production build:"
+    printf '%s\n' "${placeholder_matches}" | sed -n '1,10p'
+    echo ""
+    echo "Set baseURL in hugo.toml to the deployment domain."
+    exit 1
+fi
+
+echo "✅ Production URLs are free of localhost and placeholder domains"

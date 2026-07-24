@@ -37,7 +37,7 @@
         <h3 class="post-tags-title">Tagged with:</h3>
         <div class="post-tags-list">
             {{- range .Params.tags }}
-            <a href="{{ "/tags/" | relURL }}{{ . | urlize }}" class="post-tag">
+            <a href="{{ "/tags/" | relURL }}{{ . | urlize }}/" class="post-tag">
                 #{{ . }}
             </a>
             {{- end }}
@@ -56,14 +56,22 @@
     </div>
     
     <!-- Social sharing -->
+    {{- $shareURL := .Permalink | urlquery -}}
+    {{- $shareTitle := .Title | urlquery -}}
+    {{- $twitterHandle := .Site.Params.twitter | strings.TrimPrefix "@" -}}
+    {{- $twitterShareURL := printf "https://twitter.com/intent/tweet?url=%s&text=%s" $shareURL $shareTitle -}}
+    {{- with $twitterHandle -}}
+        {{- $twitterShareURL = printf "%s&via=%s" $twitterShareURL (. | urlquery) -}}
+    {{- end -}}
+    {{- $linkedInShareURL := printf "https://www.linkedin.com/sharing/share-offsite/?url=%s" $shareURL -}}
     <div class="social-sharing post-section post-divider text-center">
         <h3 class="social-sharing-title">Share this post:</h3>
         <div class="social-sharing-buttons">
-            <a href="https://twitter.com/intent/tweet?url={{ .Permalink }}&text={{ .Title }}&via={{ .Site.Params.twitter | strings.TrimPrefix "@" }}" 
+            <a href="{{ $twitterShareURL | safeURL }}"
                target="_blank" rel="noopener noreferrer" class="social-button social-button-twitter">
                 Share on Twitter
             </a>
-            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink }}" 
+            <a href="{{ $linkedInShareURL | safeURL }}"
                target="_blank" rel="noopener noreferrer" class="social-button social-button-linkedin">
                 Share on LinkedIn
             </a>

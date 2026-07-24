@@ -1,0 +1,8 @@
+{{ define "main" }}
+<section class="not-found" aria-labelledby="not-found-title">
+    <p class="not-found-code" aria-hidden="true">404</p>
+    <h1 id="not-found-title">Page not found</h1>
+    <p>The page may have moved, or the address may be incorrect.</p>
+    <a class="not-found-link" href="{{ .Site.Home.RelPermalink }}">Return to the blog</a>
+</section>
+{{ end }}

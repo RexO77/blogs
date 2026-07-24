@@ -6,41 +6,12 @@
         {{- range $related -}}
         <article class="related-post-card">
             <a href="{{ .RelPermalink }}" class="related-post-link">
-                {{- $thumbnail := "" }}
-                {{- if .Params.thumbnail }}
-                    {{- if or (hasPrefix .Params.thumbnail "http://") (hasPrefix .Params.thumbnail "https://") (hasPrefix .Params.thumbnail "/") -}}
-                        {{- $thumbnail = .Params.thumbnail -}}
-                    {{- else -}}
-                        {{- $thumbnail = printf "%s%s" .RelPermalink .Params.thumbnail -}}
-                    {{- end -}}
-                {{- else }}
-                    {{- /* Look for a file with "thumbnail" in the name first */ -}}
-                    {{- range .Resources.ByType "image" }}
-                        {{- if or (in .Name "thumbnail") (in .Name "Thumbnail") }}
-                            {{- $thumbnail = .RelPermalink }}
-                            {{- break }}
-                        {{- end }}
-                    {{- end }}
-                    {{- /* If no thumbnail found, use the first image */ -}}
-                    {{- if not $thumbnail }}
-                        {{- $images := .Resources.ByType "image" }}
-                        {{- if $images }}
-                            {{- with index $images 0 }}
-                                {{- $thumbnail = .RelPermalink }}
-                            {{- end }}
-                        {{- end }}
-                    {{- end }}
-                {{- end }}
-                
-                {{- if $thumbnail }}
-                    <div class="related-post-image">
-                        <img src="{{ $thumbnail }}" alt="{{ .Title }}" loading="lazy">
-                    </div>
-                {{- else }}
-                    <div class="related-post-image related-post-image-placeholder">
-                        <div class="related-post-placeholder-icon">📝</div>
-                    </div>
-                {{- end }}
+                {{ partial "post-thumbnail.html" (dict
+                    "page" .
+                    "containerClass" "related-post-image"
+                    "placeholderClass" "related-post-image-placeholder"
+                    "placeholderIconClass" "related-post-placeholder-icon"
+                ) }}
                 
                 <div class="related-post-content">
                     {{- if .Params.categories }}

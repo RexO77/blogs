@@ -8,11 +8,10 @@
 {{- $substackURL := .Site.Params.newsletter.substack.url | default "" -}}
 {{- $customAction := .Site.Params.newsletter.custom.action | default "" -}}
 
-{{- $mailchimpReady := and (eq $provider "mailchimp") (not (or (eq $mailchimpAction "") (eq $mailchimpHidden "") (in $mailchimpAction "YOUR_") (in $mailchimpHidden "YOUR_"))) -}}
-{{- $convertkitReady := and (eq $provider "convertkit") (not (or (eq $convertkitAction "") (eq $convertkitFormID "") (eq $convertkitUID "") (in $convertkitAction "YOUR_") (in $convertkitFormID "YOUR_") (in $convertkitUID "YOUR_"))) -}}
-{{- $substackReady := and (eq $provider "substack") (not (or (eq $substackURL "") (in $substackURL "yoursubstack"))) -}}
-{{- $customReady := and (eq $provider "custom") (ne $customAction "") -}}
-{{- $newsletterReady := or $mailchimpReady $convertkitReady $substackReady $customReady -}}
+{{- $mailchimpReady := and (eq $provider "mailchimp") (hasPrefix $mailchimpAction "https://") $mailchimpHidden -}}
+{{- $convertkitReady := and (eq $provider "convertkit") (hasPrefix $convertkitAction "https://") $convertkitFormID $convertkitUID -}}
+{{- $substackReady := and (eq $provider "substack") (hasPrefix $substackURL "https://") -}}
+{{- $customReady := and (eq $provider "custom") (hasPrefix $customAction "https://") -}}
 
 <div class="newsletter-section">
     <div class="newsletter-container">
@@ -23,14 +22,15 @@
         
         {{- if $mailchimpReady -}}
         <!-- Mailchimp Form -->
-        <form action="{{ $mailchimpAction }}" method="post" class="newsletter-form" target="_blank" novalidate>
+        <form action="{{ $mailchimpAction }}" method="post" class="newsletter-form" target="_blank" rel="noopener">
             <div class="newsletter-form-group">
-                <input type="email" name="EMAIL" class="newsletter-input" placeholder="Enter your email" required>
+                <label class="sr-only" for="newsletter-email">Email address</label>
+                <input id="newsletter-email" type="email" name="EMAIL" class="newsletter-input" placeholder="Email address…" autocomplete="email" inputmode="email" required>
                 <button type="submit" class="newsletter-button">Subscribe</button>
             </div>
             <!-- Real people should not fill this in -->
-            <div style="position: absolute; left: -5000px;" aria-hidden="true">
-                <input type="text" name="{{ $mailchimpHidden }}" tabindex="-1" value="">
+            <div class="newsletter-honeypot" aria-hidden="true">
+                <input type="text" name="{{ $mailchimpHidden }}" tabindex="-1" value="" autocomplete="off">
             </div>
         </form>
         {{- end -}}
@@ -39,7 +39,8 @@
         <!-- ConvertKit Form -->
         <form action="{{ $convertkitAction }}" method="post" class="newsletter-form" data-sv-form="{{ $convertkitFormID }}" data-uid="{{ $convertkitUID }}">
             <div class="newsletter-form-group">
-                <input type="email" name="email_address" class="newsletter-input" placeholder="Enter your email" required>
+                <label class="sr-only" for="newsletter-email">Email address</label>
+                <input id="newsletter-email" type="email" name="email_address" class="newsletter-input" placeholder="Email address…" autocomplete="email" inputmode="email" required>
                 <button type="submit" class="newsletter-button">Subscribe</button>
             </div>
         </form>
@@ -47,9 +48,10 @@
         
         {{- if $substackReady -}}
         <!-- Substack Form -->
-        <form action="{{ $substackURL }}/subscribe" method="post" class="newsletter-form" target="_blank">
+        <form action="{{ $substackURL | strings.TrimSuffix "/" }}/subscribe" method="post" class="newsletter-form" target="_blank" rel="noopener">
             <div class="newsletter-form-group">
-                <input type="email" name="email" class="newsletter-input" placeholder="Enter your email" required>
+                <label class="sr-only" for="newsletter-email">Email address</label>
+                <input id="newsletter-email" type="email" name="email" class="newsletter-input" placeholder="Email address…" autocomplete="email" inputmode="email" required>
                 <button type="submit" class="newsletter-button">Subscribe</button>
             </div>
         </form>
@@ -57,58 +59,14 @@
         
         {{- if $customReady -}}
         <!-- Custom Form (can integrate with your own backend) -->
-        <form action="{{ $customAction }}" method="post" class="newsletter-form" id="custom-newsletter-form">
+        <form action="{{ $customAction }}" method="post" class="newsletter-form" id="custom-newsletter-form" data-custom-newsletter>
             <div class="newsletter-form-group">
-                <input type="email" name="email" class="newsletter-input" placeholder="Enter your email" required>
+                <label class="sr-only" for="newsletter-email">Email address</label>
+                <input id="newsletter-email" type="email" name="email" class="newsletter-input" placeholder="Email address…" autocomplete="email" inputmode="email" required>
                 <button type="submit" class="newsletter-button">Subscribe</button>
             </div>
-            <div class="newsletter-message" id="newsletter-message" style="display: none;"></div>
+            <div class="newsletter-message" id="newsletter-message" role="status" aria-live="polite" hidden></div>
         </form>
-        
-        <script>
-            document.getElementById('custom-newsletter-form').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const form = e.target;
-                const email = form.querySelector('input[name="email"]').value;
-                const message = document.getElementById('newsletter-message');
-                const button = form.querySelector('button');
-                
-                button.disabled = true;
-                button.textContent = 'Subscribing...';
-                
-                try {
-                    const response = await fetch(form.action, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ email: email })
-                    });
-                    
-                    if (response.ok) {
-                        message.textContent = 'Thanks for subscribing! Check your email.';
-                        message.className = 'newsletter-message newsletter-message-success';
-                        message.style.display = 'block';
-                        form.reset();
-                    } else {
-                        throw new Error('Subscription failed');
-                    }
-                } catch (error) {
-                    message.textContent = 'Something went wrong. Please try again.';
-                    message.className = 'newsletter-message newsletter-message-error';
-                    message.style.display = 'block';
-                } finally {
-                    button.disabled = false;
-                    button.textContent = 'Subscribe';
-                }
-            });
-        </script>
-        {{- end -}}
-
-        {{- if not $newsletterReady -}}
-        <div class="newsletter-message newsletter-message-error" style="display: block;">
-            Newsletter signup is temporarily unavailable while provider settings are being configured.
-        </div>
         {{- end -}}
         
         <p class="newsletter-privacy">

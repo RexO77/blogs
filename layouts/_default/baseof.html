@@ -1,69 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ .Site.Language.LanguageCode | default .Site.Language.Lang }}">
 <head>
+    {{ partialCached "config-validation.html" . "site-config" }}
     <!-- SEO Meta Tags -->
     {{ partial "head-seo.html" . }}
     
-    <!-- Optimized & fingerprinted CSS with preload -->
+    <!-- Render-blocking CSS prevents a partially styled interface from flashing. -->
     {{ $style := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}
-    <link rel="preload" href="{{ $style.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="{{ $style.Data.Integrity }}">
-    <noscript><link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}"></noscript>
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
     
     <!-- Local fonts for better performance -->
-    <link rel="preload" href="/fonts/InclusiveSans-Regular.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="/fonts/Unbounded-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ "fonts/InclusiveSans-Regular.ttf" | relURL }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ "fonts/Unbounded-VariableFont_wght.ttf" | relURL }}" as="font" type="font/ttf" crossorigin>
     
     <!-- Immediate theme script to prevent FOUC -->
     <script>
         (function() {
-            const theme = localStorage.getItem('theme') || 
-                         (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-            document.documentElement.setAttribute('data-theme', theme);
-        })();
-    </script>
-
-    <script>
-        (function() {
-            const transitionKey = 'page-transition-pending';
-
+            var savedTheme = null;
             try {
-                const rawValue = sessionStorage.getItem(transitionKey);
-                if (!rawValue) {
-                    return;
-                }
-
-                const timestamp = Number(rawValue);
-                sessionStorage.removeItem(transitionKey);
-
-                if (!Number.isFinite(timestamp)) {
-                    return;
-                }
-
-                if (Date.now() - timestamp > 4000) {
-                    return;
-                }
-
-                document.documentElement.setAttribute('data-page-entering', 'true');
+                savedTheme = localStorage.getItem('theme');
             } catch (error) {
-                // Ignore storage access issues and continue without page transitions.
+                savedTheme = null;
+            }
+            var theme = savedTheme ||
+                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+            var themeColor = document.querySelector('meta[name="theme-color"]');
+            if (themeColor) {
+                themeColor.setAttribute('content', theme === 'dark' ? '#141414' : '#F8F7F3');
             }
         })();
     </script>
-    
+
     <!-- Google Analytics -->
     {{ if .Site.Params.googleAnalytics }}
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ .Site.Params.googleAnalytics }}"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ .Site.Params.googleAnalytics | urlquery }}"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', '{{ .Site.Params.googleAnalytics }}');
+      gtag('config', {{ .Site.Params.googleAnalytics | jsonify | safeJS }});
     </script>
     {{ end }}
 </head>
 <body>
-    <a href="#main-content" class="skip-link" data-no-smooth>Skip to main content</a>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <div class="site-header-shell">
         <div class="site-header-track">
             <header class="site-header">
@@ -99,11 +81,11 @@
         </div>
     </div>
     <div class="site-header-slot" aria-hidden="true"></div>
-    <div class="page-transition-shell">
+    <div class="page-shell">
         <div class="container">
 
             <!-- Search Modal -->
-            <div id="search-modal" class="search-modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="search-dialog-title" aria-hidden="true">
+            <div id="search-modal" class="search-modal" data-pagefind-url="{{ "pagefind/pagefind.js" | relURL }}" hidden role="dialog" aria-modal="true" aria-labelledby="search-dialog-title" aria-hidden="true">
                 <div class="search-modal-content">
                     <h2 id="search-dialog-title" class="sr-only">Search posts</h2>
                     <div class="search-header">
@@ -113,15 +95,15 @@
                                 <path d="M20 20L16.65 16.65"></path>
                             </svg>
                         </span>
-                        <input type="text" id="search-input" class="search-input" placeholder="Search posts..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" aria-label="Search posts">
+                        <input type="search" id="search-input" name="search" class="search-input" placeholder="Search posts…" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" aria-label="Search posts">
                         <button id="search-close" class="search-close" aria-label="Close search">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="18" y1="6" x2="6" y2="18"></line>
                                 <line x1="6" y1="6" x2="18" y2="18"></line>
                             </svg>
                         </button>
                     </div>
-                    <div id="search-results" class="search-results"></div>
+                    <div id="search-results" class="search-results" aria-live="polite" aria-atomic="false"></div>
                 </div>
             </div>
 

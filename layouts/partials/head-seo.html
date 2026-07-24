@@ -1,7 +1,7 @@
 {{- $title := .Title -}}
 {{- $description := .Description | default .Params.description -}}
-{{- $author := .Site.Params.author | default "Your Name" -}}
-{{- $keywords := .Site.Params.keywords -}}
+{{- $author := .Params.author | default (.Site.Params.author | default "Your Name") -}}
+{{- $is404 := eq .Kind "404" -}}
 
 {{- if .IsHome -}}
   {{- $title = .Site.Params.metaTitle | default .Site.Title -}}
@@ -17,25 +17,7 @@
   {{- $description = .Site.Params.description | default .Site.Title -}}
 {{- end -}}
 
-{{- $keywordContent := delimit $keywords ", " -}}
-{{- if .IsPage -}}
-  {{- $pageKeywordContent := "" -}}
-  {{- with .Params.tags -}}
-    {{- $pageKeywordContent = delimit . ", " -}}
-  {{- end -}}
-  {{- with .Params.categories -}}
-    {{- if $pageKeywordContent -}}
-      {{- $pageKeywordContent = printf "%s, %s" $pageKeywordContent (delimit . ", ") -}}
-    {{- else -}}
-      {{- $pageKeywordContent = delimit . ", " -}}
-    {{- end -}}
-  {{- end -}}
-  {{- if $pageKeywordContent -}}
-    {{- $keywordContent = $pageKeywordContent -}}
-  {{- end -}}
-{{- end -}}
-
-{{- $ogImage := .Site.Params.ogImage | default "/apple-touch-icon.png" -}}
+{{- $ogImage := .Site.Params.ogImage | default "/og-default.png" -}}
 {{- if .IsPage -}}
   {{- $thumb := .Resources.GetMatch "*thumbnail*" -}}
   {{- if not $thumb -}}
@@ -51,10 +33,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="{{ $description }}">
-<meta name="keywords" content="{{ $keywordContent }}">
 <meta name="author" content="{{ $author }}">
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-<meta name="language" content="{{ .Site.LanguageCode }}">
+<meta name="robots" content="{{ if $is404 }}noindex, nofollow{{ else }}index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1{{ end }}">
 
 <!-- Title -->
 <title>{{ $title }}</title>
@@ -97,29 +77,14 @@
 {{- end -}}
 
 <!-- Additional SEO Meta Tags -->
-<meta name="theme-color" content="#0099FF">
-<meta name="msapplication-TileColor" content="#0099FF">
+<meta name="theme-color" content="#F8F7F3">
 
-<!-- Performance & Crawling Hints -->
-<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-<meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-
-<!-- Web App Manifest -->
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="{{ .Site.Title }}">
-
-<!-- Performance Hints - DNS Prefetch and Preconnect (consolidated) -->
-<meta http-equiv="x-dns-prefetch-control" content="on">
-<link rel="dns-prefetch" href="//vercel.com">
-<link rel="dns-prefetch" href="//www.google-analytics.com">
-{{- with .Site.Params.mainSiteURL -}}
-<link rel="preconnect" href="{{ . }}" crossorigin>
-{{- end -}}
-<link rel="preconnect" href="https://vercel.com" crossorigin>
-
+<!-- Performance Hints -->
+{{- if .Site.Params.googleAnalytics }}
+<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+{{- end }}
 <!-- Structured Data (JSON-LD) -->
+{{- if not $is404 }}
 {{- $schemaTags := .Params.tags | default (slice) -}}
 {{- $schemaCategories := .Params.categories | default (slice) -}}
 <script type="application/ld+json">
@@ -167,90 +132,10 @@
   {{- end -}}
 }
 </script>
-
-<!-- Critical CSS inlining hint -->
-<style>
-  /* Critical above-the-fold styles with design tokens */
-  :root {
-    --space-lg: 2rem; --space-xl: 2.5rem; --text-2xl: 1.5rem; --text-5xl: 3rem;
-    --background-color: #F8F7F3; --text-color: #1a1a1a; --header-slot-height: 128px;
-    --page-transition-out-duration: 165ms; --page-transition-in-duration: 235ms;
-    --page-transition-ease: cubic-bezier(0.22, 1, 0.36, 1); --page-transition-blur: 1.2px;
-    --page-transition-soft-opacity: 0.22; --page-transition-scale: 0.995;
-  }
-  body {
-    margin: 0; font-family: 'Inclusive Sans', -apple-system, sans-serif;
-    background-color: var(--background-color); color: var(--text-color);
-  }
-  .page-transition-shell {
-    min-height: calc(100vh - var(--header-slot-height));
-    background-color: var(--background-color);
-    opacity: 1;
-    filter: blur(0);
-    transform: none;
-    transform-origin: center top;
-    will-change: opacity, filter, transform;
-    transition:
-      opacity var(--page-transition-in-duration) var(--page-transition-ease),
-      filter var(--page-transition-in-duration) var(--page-transition-ease),
-      transform var(--page-transition-in-duration) var(--page-transition-ease);
-  }
-  html.is-page-leaving .page-transition-shell,
-  html[data-page-entering] .page-transition-shell {
-    opacity: var(--page-transition-soft-opacity);
-    filter: blur(var(--page-transition-blur));
-    transform: scale(var(--page-transition-scale));
-  }
-  html.is-page-leaving .page-transition-shell {
-    pointer-events: none;
-    transition-duration:
-      var(--page-transition-out-duration),
-      var(--page-transition-out-duration),
-      var(--page-transition-out-duration);
-  }
-  .site-header-shell {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  }
-  .site-header-track {
-    width: min(calc(100% - 5rem), 1200px); margin: 0 auto; padding-bottom: 24px;
-  }
-  .site-header {
-    position: relative; min-height: 64px; background: rgba(248, 247, 243, 0.95);
-    display: flex; justify-content: center; align-items: center; padding: 0 24px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-  .site-header-slot { height: var(--header-slot-height); }
-  .site-header-search-row {
-    display: flex; justify-content: flex-end; min-height: 40px; margin-top: 12px;
-  }
-  .search-trigger-pill {
-    display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 20px;
-  }
-  .logo {
-    font-weight: 700; font-size: var(--text-2xl); font-family: 'Unbounded', sans-serif;
-    position: absolute; left: 50%; transform: translateX(-50%); color: var(--text-color);
-  }
-  .hero-headline {
-    font-size: var(--text-5xl); line-height: 1.1; text-transform: uppercase;
-    font-weight: 700; font-family: 'Unbounded', sans-serif;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root { --background-color: #141414; --text-color: #f5f5f5; }
-    .site-header { background: rgba(20, 20, 20, 0.95); border-bottom-color: rgba(240, 240, 240, 0.14); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    html.is-page-leaving .page-transition-shell,
-    html[data-page-entering] .page-transition-shell {
-      transition-duration: 1ms;
-      filter: none;
-      transform: none;
-    }
-  }
-</style>
+{{- end }}
 
 <!-- Favicon and Icons -->
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="manifest" href="/site.webmanifest">
+<link rel="icon" type="image/svg+xml" href="{{ "favicon.svg" | relURL }}">
 
 <!-- RSS Feed -->
 {{ range .AlternativeOutputFormats -}}

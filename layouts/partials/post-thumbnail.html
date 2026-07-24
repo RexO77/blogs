@@ -1,0 +1,70 @@
+{{- $page := .page -}}
+{{- $containerClass := .containerClass -}}
+{{- $placeholderClass := .placeholderClass -}}
+{{- $thumbnailURL := "" -}}
+{{- $thumbnailResource := false -}}
+
+{{- with $page.Params.thumbnail -}}
+    {{- if hasPrefix . "http://" -}}
+        {{- errorf "thumbnail for %q must use HTTPS: %s" $page.Title . -}}
+    {{- else if or (hasPrefix . "https://") (hasPrefix . "/") -}}
+        {{- $thumbnailURL = . -}}
+    {{- else -}}
+        {{- $thumbnailResource = $page.Resources.GetMatch . -}}
+        {{- if $thumbnailResource -}}
+            {{- $thumbnailURL = $thumbnailResource.RelPermalink -}}
+        {{- else -}}
+            {{- $thumbnailURL = printf "%s%s" $page.RelPermalink . -}}
+        {{- end -}}
+    {{- end -}}
+{{- else -}}
+    {{- range $page.Resources.ByType "image" -}}
+        {{- if and (not $thumbnailResource) (in (lower .Name) "thumbnail") -}}
+            {{- $thumbnailResource = . -}}
+        {{- end -}}
+    {{- end -}}
+
+    {{- if not $thumbnailResource -}}
+        {{- $images := $page.Resources.ByType "image" -}}
+        {{- if $images -}}
+            {{- with index $images 0 -}}
+                {{- $thumbnailResource = . -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+
+    {{- with $thumbnailResource -}}
+        {{- $thumbnailURL = .RelPermalink -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if $thumbnailURL -}}
+<div class="{{ $containerClass }}">
+    {{- $webpResource := false -}}
+    {{- with $thumbnailResource -}}
+        {{- if ne (lower (path.Ext .Name)) ".webp" -}}
+            {{- $webpName := replace .Name (path.Ext .Name) ".webp" -}}
+            {{- $webpResource = $page.Resources.GetMatch $webpName -}}
+        {{- end -}}
+    {{- end -}}
+
+    {{- if $webpResource -}}
+    <picture>
+        <source srcset="{{ $webpResource.RelPermalink }}" type="image/webp">
+        <img src="{{ $thumbnailURL }}"
+            alt="{{ $page.Params.thumbnailAlt | default $page.Title }}"
+            {{ with $thumbnailResource }}{{ if ne .MediaType.SubType "svg" }}width="{{ .Width }}" height="{{ .Height }}"{{ end }}{{ end }}
+            loading="lazy" decoding="async">
+    </picture>
+    {{- else -}}
+    <img src="{{ $thumbnailURL }}"
+        alt="{{ $page.Params.thumbnailAlt | default $page.Title }}"
+        {{ with $thumbnailResource }}{{ if ne .MediaType.SubType "svg" }}width="{{ .Width }}" height="{{ .Height }}"{{ end }}{{ end }}
+        loading="lazy" decoding="async">
+    {{- end -}}
+</div>
+{{- else -}}
+<div class="{{ $containerClass }} {{ $placeholderClass }}">
+    <span class="{{ .placeholderIconClass }}" aria-hidden="true">📝</span>
+</div>
+{{- end -}}

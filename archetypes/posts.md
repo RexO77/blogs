@@ -9,6 +9,4 @@ author: ""
 slug: "{{ .Name }}"
 ---
 
-{{< img src="images/thumbnail.jpg" alt="" caption="" >}}
-
 ## Introduction

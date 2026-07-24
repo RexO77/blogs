@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 # ─────────────────────────────────────────────
@@ -18,6 +18,15 @@ if [[ $# -eq 0 ]]; then
 fi
 
 TITLE="$*"
+
+escape_yaml_string() {
+  local value="$1"
+  value="${value//\\/\\\\}"
+  value="${value//\"/\\\"}"
+  printf '%s' "${value}"
+}
+
+YAML_TITLE="$(escape_yaml_string "${TITLE}")"
 
 # ── Slugify the title ──────────────────────────────────────────────────────────
 # Lowercase → replace spaces/underscores with hyphens → strip non-alphanum-hyphen → collapse hyphens
@@ -63,7 +72,7 @@ mkdir -p "${IMAGES_DIR}"
 # ── Write index.md ─────────────────────────────────────────────────────────────
 cat > "${INDEX_FILE}" <<FRONTMATTER
 ---
-title: "${TITLE}"
+title: "${YAML_TITLE}"
 date: ${POST_DATE}
 draft: true
 description: ""
@@ -72,8 +81,6 @@ categories: []
 author: ""
 slug: "${SLUG}"
 ---
-
-{{< img src="images/thumbnail.jpg" alt="" caption="" >}}
 
 ## Introduction
 
@@ -89,6 +96,6 @@ echo "   🖼   Images  →  ${IMAGES_DIR}/"
 echo ""
 echo "Next steps:"
 echo "   1. Open ${INDEX_FILE} and start writing"
-echo "   2. Drop your thumbnail at ${IMAGES_DIR}/thumbnail.jpg"
+echo "   2. Optionally add a thumbnail at ${IMAGES_DIR}/thumbnail.jpg"
 echo "   3. Run ./dev.sh to preview at http://localhost:1313"
 echo ""

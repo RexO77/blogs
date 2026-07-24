@@ -1,10 +1,7 @@
-baseURL = "https://example.com/"
+baseURL = "https://blog.nischal.fyi/"
 languageCode = "en-us"
 title = "My Blog"
 enableRobotsTXT = true
-enableGitInfo = true
-# Keep assets and internal navigation on the current host so a fresh template
-# deployment works before the new owner sets their production baseURL.
 canonifyURLs = false
 
 # Output formats (Pagefind builds the search index after Hugo renders the site.)
@@ -23,7 +20,6 @@ canonifyURLs = false
 [params]
   # Change these first when you start a new blog.
   description = "A personal blog about ideas worth sharing."
-  keywords = ["Blog", "Writing", "Ideas"]
   author = "Your Name"
   authorBio = "Write a short introduction that tells readers who you are and what you write about."
   mainSiteURL = ""
@@ -34,18 +30,13 @@ canonifyURLs = false
   # SEO
   metaTitle = "My Blog"
   metaDescription = "A personal blog about ideas worth sharing."
-  ogImage = "/favicon.svg"
+  ogImage = "/og-default.png"
   twitterCard = "summary_large_image"
 
   # Social profiles. Leave blank to hide them.
   twitter = ""
   linkedin = ""
   github = ""
-
-  # Schema.org
-  schemaType = "Blog"
-  schemaAuthor = "Your Name"
-  schemaPublisher = "My Blog"
 
   # Analytics. Set these only after connecting your own accounts.
   googleAnalytics = ""
@@ -97,8 +88,6 @@ canonifyURLs = false
     [params.newsletter.custom]
       action = ""
 
-  lazyLoading = true
-
 [build]
   writeStats = true
 
@@ -128,26 +117,15 @@ canonifyURLs = false
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
-      unsafe = true
+      unsafe = false
   [markup.highlight]
     style = "github"
     lineNos = true
     codeFences = true
 
-[menu]
-  [[menu.main]]
-    name = "Home"
-    url = "/"
-    weight = 10
-  [[menu.main]]
-    name = "Posts"
-    url = "/posts/"
-    weight = 20
-
 [taxonomies]
   category = "categories"
   tag = "tags"
-  series = "series"
 
 [related]
   threshold = 80
@@ -162,3 +140,8 @@ canonifyURLs = false
   [[related.indices]]
     name = "date"
     weight = 10
+
+[module]
+  [module.hugoVersion]
+    extended = true
+    min = "0.156.0"

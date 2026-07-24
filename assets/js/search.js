@@ -1,162 +1,252 @@
-// Pagefind search integration
 (function () {
     'use strict';
 
-    let pagefind;
-    let pagefindLoaded = false;
-    let searchModal, searchInput, searchResults, searchClose, searchTrigger;
-    let lastFocusedElement = null;
-    const focusableSelector = 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
-    const searchStateDelay = 160;
+    const MIN_QUERY_LENGTH = 2;
+    const RESULT_LIMIT = 10;
+    const SEARCH_DEBOUNCE_MS = 150;
+    const CLOSE_DURATION_MS = 160;
+    const focusableSelector = [
+        'a[href]',
+        'button:not([disabled])',
+        'input:not([disabled])',
+        'textarea:not([disabled])',
+        'select:not([disabled])',
+        '[tabindex]:not([tabindex="-1"])'
+    ].join(',');
 
-    function renderSearchState(title, copy, variant, extra) {
-        const variantClass = variant ? ` is-${variant}` : '';
-        const extraHtml = extra ? `<div class="search-state-meta">${extra}</div>` : '';
+    let pagefindModule;
+    let pagefindPromise;
+    let closeTimer;
+    let searchTimer;
+    let requestGeneration = 0;
+    let lastFocusedElement;
+    let previousBodyOverflow = '';
 
-        searchResults.innerHTML = `
-            <div class="search-state${variantClass}">
-                <p class="search-state-title">${title}</p>
-                ${copy ? `<p class="search-state-copy">${copy}</p>` : ''}
-                ${extraHtml}
-            </div>
-        `;
+    const elements = {};
+
+    function createElement(tagName, className, text) {
+        const element = document.createElement(tagName);
+        if (className) element.className = className;
+        if (text !== undefined) element.textContent = text;
+        return element;
     }
 
-    // Lazy load Pagefind only when needed
-    async function ensurePagefind() {
-        if (pagefindLoaded) return;
+    function renderSearchState(title, copy, variant, detail) {
+        const state = createElement('div', `search-state${variant ? ` is-${variant}` : ''}`);
+        state.appendChild(createElement('p', 'search-state-title', title));
 
+        if (copy) {
+            state.appendChild(createElement('p', 'search-state-copy', copy));
+        }
+
+        if (detail) {
+            state.appendChild(createElement('div', 'search-state-meta', detail));
+        }
+
+        elements.results.replaceChildren(state);
+    }
+
+    function appendSafeExcerpt(container, excerpt) {
+        const parsed = new DOMParser().parseFromString(String(excerpt || ''), 'text/html');
+
+        function appendNode(node, destination) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                destination.appendChild(document.createTextNode(node.textContent || ''));
+                return;
+            }
+
+            if (node.nodeType !== Node.ELEMENT_NODE) return;
+
+            if (node.tagName === 'MARK') {
+                const mark = document.createElement('mark');
+                Array.from(node.childNodes).forEach((child) => appendNode(child, mark));
+                destination.appendChild(mark);
+                return;
+            }
+
+            Array.from(node.childNodes).forEach((child) => appendNode(child, destination));
+        }
+
+        Array.from(parsed.body.childNodes).forEach((node) => appendNode(node, container));
+    }
+
+    function normalizeResultUrl(value) {
         try {
-            pagefind = await import('/pagefind/pagefind.js');
-            pagefindLoaded = true;
-        } catch (error) {
-            console.error('Error loading Pagefind:', error);
-            throw error;
+            const url = new URL(value, window.location.origin);
+            return url.origin === window.location.origin ? `${url.pathname}${url.search}${url.hash}` : '#';
+        } catch {
+            return '#';
         }
     }
 
-    // Perform search with Pagefind
-    async function performSearch(query) {
-        if (!query || query.length < 2) {
+    function displayResults(results, totalCount) {
+        const fragment = document.createDocumentFragment();
+        const countText = totalCount > results.length
+            ? `Showing ${results.length} of ${totalCount} results`
+            : `${results.length} result${results.length === 1 ? '' : 's'}`;
+        fragment.appendChild(createElement('div', 'search-result-count', countText));
+
+        results.forEach((result) => {
+            const item = createElement('a', 'search-result-item');
+            item.href = normalizeResultUrl(result.url);
+            item.appendChild(createElement('h3', 'search-result-title', result.meta?.title || 'Untitled'));
+
+            if (result.meta?.date) {
+                item.appendChild(createElement('div', 'search-result-meta', result.meta.date));
+            }
+
+            const description = createElement('p', 'search-result-description');
+            appendSafeExcerpt(description, result.excerpt);
+            item.appendChild(description);
+
+            const tags = Array.isArray(result.meta?.tags) ? result.meta.tags.slice(0, 3) : [];
+            if (tags.length > 0) {
+                const tagList = createElement('div', 'search-result-tags');
+                tags.forEach((tag) => tagList.appendChild(createElement('span', 'search-result-tag', String(tag))));
+                item.appendChild(tagList);
+            }
+
+            fragment.appendChild(item);
+        });
+
+        elements.results.replaceChildren(fragment);
+    }
+
+    async function ensurePagefind() {
+        if (pagefindModule) return pagefindModule;
+
+        if (!pagefindPromise) {
+            const moduleUrl = elements.modal.dataset.pagefindUrl;
+            pagefindPromise = import(moduleUrl)
+                .then((module) => {
+                    pagefindModule = module;
+                    return module;
+                })
+                .catch((error) => {
+                    pagefindPromise = undefined;
+                    throw error;
+                });
+        }
+
+        return pagefindPromise;
+    }
+
+    async function performSearch(rawQuery) {
+        const query = rawQuery.trim();
+        const generation = ++requestGeneration;
+
+        if (query.length < MIN_QUERY_LENGTH) {
             renderSearchState('Type at least 2 letters', 'Search by title, topic, or phrase.', 'empty');
             return;
         }
 
-        // Show loading state immediately
-        renderSearchState('Searching...', 'Looking through all posts now.', 'loading');
+        renderSearchState('Searching…', 'Looking through all posts now.', 'loading');
 
         try {
-            // Ensure Pagefind is loaded
-            await ensurePagefind();
-
+            const pagefind = await ensurePagefind();
             const search = await pagefind.search(query);
+            if (generation !== requestGeneration) return;
 
             if (search.results.length === 0) {
                 renderSearchState('No posts found', 'Try a broader keyword or a different phrase.', 'empty');
                 return;
             }
 
-            // Limit to first 10 results for speed
-            const limitedResults = search.results.slice(0, 10);
-
-            // Load data for limited results
-            const results = await Promise.all(
-                limitedResults.map(r => r.data())
+            const resultData = await Promise.all(
+                search.results.slice(0, RESULT_LIMIT).map((result) => result.data())
             );
+            if (generation !== requestGeneration) return;
 
-            displayResults(results, search.results.length);
+            displayResults(resultData, search.results.length);
         } catch (error) {
-            console.error('Search error:', error);
-            renderSearchState(
-                'Search is unavailable',
-                'Refresh the page and try again in a moment.',
-                'error',
-                error && error.message ? `Error: ${error.message}` : ''
-            );
+            if (generation !== requestGeneration) return;
+            console.error('Search failed to load.', error);
+            renderSearchState('Search is unavailable', 'Refresh the page and try again.', 'error');
         }
     }
 
-    // Display search results with staggered animation
-    function displayResults(results, totalCount) {
-        const resultCount = totalCount > results.length
-            ? `<div class="search-result-count">Showing ${results.length} of ${totalCount} results</div>`
-            : `<div class="search-result-count">${results.length} result${results.length !== 1 ? 's' : ''}</div>`;
-
-        const resultsHtml = results.map((result, index) => {
-            // Extract tags from meta if available
-            const tags = result.meta.tags ?
-                result.meta.tags.slice(0, 3).map(tag =>
-                    `<span class="search-result-tag">${tag}</span>`
-                ).join('') : '';
-
-            return `
-                <a href="${result.url}" class="search-result-item" style="animation-delay: ${index * 0.05}s">
-                    <h3 class="search-result-title">${result.meta.title || 'Untitled'}</h3>
-                    <div class="search-result-meta">${result.meta.date || ''}</div>
-                    <p class="search-result-description">${result.excerpt}</p>
-                    ${tags ? `<div class="search-result-tags">${tags}</div>` : ''}
-                </a>
-            `;
-        }).join('');
-
-        searchResults.innerHTML = resultCount + resultsHtml;
-    }
-
-    // Open search modal with animation
-    function openSearch() {
-        if (searchModal.style.display === 'flex') return;
-
-        lastFocusedElement = document.activeElement;
-        searchModal.style.display = 'flex';
-        searchModal.setAttribute('aria-hidden', 'false');
-        if (searchTrigger) searchTrigger.setAttribute('aria-expanded', 'true');
-        document.body.style.overflow = 'hidden';
-
-        // Trigger animation
-        requestAnimationFrame(() => {
-            searchModal.classList.add('visible');
-            searchInput.focus({ preventScroll: true });
-        });
-
-        // Preload Pagefind when modal opens (lazy load)
-        if (!pagefindLoaded) {
-            ensurePagefind().catch(err =>
-                console.error('Failed to preload Pagefind:', err)
-            );
-        }
-    }
-
-    // Close search modal with animation
-    function closeSearch() {
-        if (searchModal.style.display !== 'flex') return;
-
-        searchModal.classList.remove('visible');
-        searchModal.setAttribute('aria-hidden', 'true');
-        if (searchTrigger) searchTrigger.setAttribute('aria-expanded', 'false');
-
-        // Wait for animation to complete before hiding
-        setTimeout(() => {
-            searchModal.style.display = 'none';
-            searchInput.value = '';
-            renderSearchState('Type at least 2 letters', 'Search by title, topic, or phrase.', 'empty');
-            if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
-                lastFocusedElement.focus();
+    function setBackgroundInert(isInert) {
+        [elements.skipLink, elements.header, elements.main].forEach((element) => {
+            if (!element) return;
+            element.inert = isInert;
+            if (isInert) {
+                element.setAttribute('aria-hidden', 'true');
+            } else {
+                element.removeAttribute('aria-hidden');
             }
-        }, searchStateDelay);
+        });
+    }
 
-        document.body.style.overflow = '';
+    function openSearch({ instant = false } = {}) {
+        if (closeTimer) {
+            window.clearTimeout(closeTimer);
+            closeTimer = undefined;
+        }
+
+        if (!elements.modal.hidden && elements.modal.classList.contains('visible')) return;
+
+        if (elements.modal.hidden || !elements.modal.contains(document.activeElement)) {
+            lastFocusedElement = document.activeElement;
+        }
+        previousBodyOverflow = document.body.style.overflow;
+        elements.modal.classList.toggle('is-instant', instant);
+        elements.modal.hidden = false;
+        elements.modal.setAttribute('aria-hidden', 'false');
+        elements.trigger?.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+        setBackgroundInert(true);
+
+        const reveal = () => {
+            elements.modal.classList.add('visible');
+            elements.input.focus({ preventScroll: true });
+        };
+
+        if (instant) {
+            reveal();
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => elements.modal.classList.remove('is-instant'));
+            });
+        } else {
+            requestAnimationFrame(reveal);
+        }
+
+        ensurePagefind().catch((error) => {
+            console.error('Search index preload failed.', error);
+        });
+    }
+
+    function closeSearch({ restoreFocus = true } = {}) {
+        if (elements.modal.hidden) return;
+
+        elements.modal.classList.remove('visible', 'is-instant');
+        elements.trigger?.setAttribute('aria-expanded', 'false');
+        requestGeneration += 1;
+        window.clearTimeout(searchTimer);
+        document.body.style.overflow = previousBodyOverflow;
+        setBackgroundInert(false);
+
+        if (restoreFocus && lastFocusedElement instanceof HTMLElement && lastFocusedElement.isConnected) {
+            lastFocusedElement.focus();
+        }
+        elements.modal.setAttribute('aria-hidden', 'true');
+
+        closeTimer = window.setTimeout(() => {
+            elements.modal.hidden = true;
+            elements.input.value = '';
+            renderSearchState('Type at least 2 letters', 'Search by title, topic, or phrase.', 'empty');
+            closeTimer = undefined;
+        }, CLOSE_DURATION_MS);
     }
 
     function trapFocus(event) {
-        if (event.key !== 'Tab' || searchModal.style.display !== 'flex') return;
+        if (event.key !== 'Tab' || elements.modal.hidden) return;
 
-        const focusableElements = Array.from(searchModal.querySelectorAll(focusableSelector))
-            .filter((el) => !el.hasAttribute('disabled') && el.getAttribute('aria-hidden') !== 'true');
+        const focusable = Array.from(elements.modal.querySelectorAll(focusableSelector))
+            .filter((element) => !element.hasAttribute('disabled') && element.getAttribute('aria-hidden') !== 'true');
+        if (focusable.length === 0) return;
 
-        if (focusableElements.length === 0) return;
-
-        const first = focusableElements[0];
-        const last = focusableElements[focusableElements.length - 1];
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
 
         if (event.shiftKey && document.activeElement === first) {
             event.preventDefault();
@@ -167,63 +257,52 @@
         }
     }
 
-    // Initialize search
-    function initSearch() {
-        searchModal = document.getElementById('search-modal');
-        searchInput = document.getElementById('search-input');
-        searchResults = document.getElementById('search-results');
-        searchClose = document.getElementById('search-close');
-        searchTrigger = document.getElementById('search-trigger');
+    function initialize() {
+        elements.modal = document.getElementById('search-modal');
+        elements.input = document.getElementById('search-input');
+        elements.results = document.getElementById('search-results');
+        elements.close = document.getElementById('search-close');
+        elements.trigger = document.getElementById('search-trigger');
+        elements.skipLink = document.querySelector('.skip-link');
+        elements.header = document.querySelector('.site-header-shell');
+        elements.main = document.getElementById('main-content');
 
-        if (!searchModal || !searchInput || !searchResults) return;
-        searchModal.setAttribute('aria-hidden', 'true');
+        if (!elements.modal || !elements.input || !elements.results || !elements.close) return;
 
-        // Wire up search trigger button
-        if (searchTrigger) {
-            searchTrigger.addEventListener('click', openSearch);
-        }
+        elements.modal.setAttribute('aria-hidden', 'true');
+        elements.trigger?.addEventListener('click', () => openSearch());
+        elements.close.addEventListener('click', () => closeSearch());
+        elements.modal.addEventListener('keydown', trapFocus);
+        elements.modal.addEventListener('click', (event) => {
+            if (event.target === elements.modal) closeSearch();
+        });
 
-        // Event listeners
-        searchClose.addEventListener('click', closeSearch);
-        searchModal.addEventListener('keydown', trapFocus);
-
-        // Close on background click
-        searchModal.addEventListener('click', (e) => {
-            if (e.target === searchModal) {
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !elements.modal.hidden) {
                 closeSearch();
+                return;
+            }
+
+            if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+                event.preventDefault();
+                openSearch({ instant: true });
             }
         });
 
-        // Close on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && searchModal.style.display === 'flex') {
-                closeSearch();
-            }
-            // Open with Cmd/Ctrl + K
-            if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-                e.preventDefault();
-                openSearch();
-            }
+        elements.input.addEventListener('input', (event) => {
+            window.clearTimeout(searchTimer);
+            searchTimer = window.setTimeout(
+                () => performSearch(event.target.value),
+                SEARCH_DEBOUNCE_MS
+            );
         });
 
-        // Perform search as user types (reduced debounce for faster response)
-        let searchTimeout;
-        searchInput.addEventListener('input', (e) => {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                performSearch(e.target.value);
-            }, 150);
-        });
-
-        // Show initial message
         renderSearchState('Type at least 2 letters', 'Search by title, topic, or phrase.', 'empty');
     }
 
-    // Initialize when DOM is ready
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initSearch);
+        document.addEventListener('DOMContentLoaded', initialize, { once: true });
     } else {
-        initSearch();
+        initialize();
     }
-
 })();

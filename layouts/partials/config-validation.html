@@ -1,0 +1,47 @@
+{{- with .Site.Params.mainSiteURL -}}
+    {{- if not (hasPrefix . "https://") -}}
+        {{- errorf "params.mainSiteURL must use HTTPS" -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if .Site.Params.comments.enabled -}}
+    {{- $system := .Site.Params.comments.system | default "" -}}
+    {{- $giscusReady := and
+        (eq $system "giscus")
+        .Site.Params.comments.giscus.repo
+        .Site.Params.comments.giscus.repoId
+        .Site.Params.comments.giscus.category
+        .Site.Params.comments.giscus.categoryId
+    -}}
+    {{- $utterancesReady := and (eq $system "utterances") .Site.Params.comments.utterances.repo -}}
+    {{- $disqusReady := and (eq $system "disqus") .Site.Params.comments.disqus.shortname -}}
+    {{- if not (or $giscusReady $utterancesReady $disqusReady) -}}
+        {{- errorf "comments are enabled, but the %q provider is missing required configuration" $system -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if .Site.Params.newsletter.enabled -}}
+    {{- $provider := .Site.Params.newsletter.provider | default "" -}}
+    {{- $mailchimpReady := and
+        (eq $provider "mailchimp")
+        (hasPrefix (.Site.Params.newsletter.mailchimp.action | default "") "https://")
+        .Site.Params.newsletter.mailchimp.hiddenField
+    -}}
+    {{- $convertkitReady := and
+        (eq $provider "convertkit")
+        (hasPrefix (.Site.Params.newsletter.convertkit.action | default "") "https://")
+        .Site.Params.newsletter.convertkit.formId
+        .Site.Params.newsletter.convertkit.uid
+    -}}
+    {{- $substackReady := and
+        (eq $provider "substack")
+        (hasPrefix (.Site.Params.newsletter.substack.url | default "") "https://")
+    -}}
+    {{- $customReady := and
+        (eq $provider "custom")
+        (hasPrefix (.Site.Params.newsletter.custom.action | default "") "https://")
+    -}}
+    {{- if not (or $mailchimpReady $convertkitReady $substackReady $customReady) -}}
+        {{- errorf "newsletter is enabled, but the %q provider is missing a valid HTTPS configuration" $provider -}}
+    {{- end -}}
+{{- end -}}

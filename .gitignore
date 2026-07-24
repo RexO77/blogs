@@ -3,6 +3,7 @@
 /resources/_gen/
 /.hugo_build.lock
 /.hugo_cache/
+/node_modules/
 
 # OS files
 .DS_Store
@@ -18,3 +19,6 @@ Thumbs.db
 # Temporary files
 *.log
 *.tmp
+/output/
+/.playwright-cli/
+/.vercel/

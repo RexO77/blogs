@@ -1,8 +1,18 @@
 {{- if .Site.Params.comments.enabled -}}
+{{- $system := .Site.Params.comments.system | default "" -}}
+{{- $giscusReady := and
+    (eq $system "giscus")
+    .Site.Params.comments.giscus.repo
+    .Site.Params.comments.giscus.repoId
+    .Site.Params.comments.giscus.category
+    .Site.Params.comments.giscus.categoryId
+-}}
+{{- $utterancesReady := and (eq $system "utterances") .Site.Params.comments.utterances.repo -}}
+{{- $disqusReady := and (eq $system "disqus") .Site.Params.comments.disqus.shortname -}}
 <div class="comments-section post-section post-divider">
     <h3 class="comments-title">Comments</h3>
     
-    {{- if eq .Site.Params.comments.system "giscus" -}}
+    {{- if $giscusReady -}}
     <!-- Giscus Comments -->
     <script src="https://giscus.app/client.js"
             data-repo="{{ .Site.Params.comments.giscus.repo }}"
@@ -20,37 +30,9 @@
             crossorigin="anonymous"
             async>
     </script>
-    
-    <!-- Theme sync for Giscus -->
-    <script>
-        // Sync theme with site theme
-        function updateGiscusTheme() {
-            const theme = document.documentElement.getAttribute('data-theme') || 'light';
-            const giscusTheme = theme === 'dark' ? 'dark' : 'light';
-            
-            const iframe = document.querySelector('iframe.giscus-frame');
-            if (iframe) {
-                iframe.contentWindow.postMessage(
-                    { giscus: { setConfig: { theme: giscusTheme } } },
-                    'https://giscus.app'
-                );
-            }
-        }
-        
-        // Update on theme change
-        const themeToggle = document.getElementById('theme-toggle');
-        if (themeToggle) {
-            themeToggle.addEventListener('click', () => {
-                setTimeout(updateGiscusTheme, 100);
-            });
-        }
-        
-        // Update on initial load
-        setTimeout(updateGiscusTheme, 1000);
-    </script>
     {{- end -}}
     
-    {{- if eq .Site.Params.comments.system "utterances" -}}
+    {{- if $utterancesReady -}}
     <!-- Utterances Comments -->
     <script src="https://utteranc.es/client.js"
             repo="{{ .Site.Params.comments.utterances.repo }}"
@@ -61,7 +43,7 @@
     </script>
     {{- end -}}
     
-    {{- if eq .Site.Params.comments.system "disqus" -}}
+    {{- if $disqusReady -}}
     <!-- Disqus Comments -->
     <div id="disqus_thread"></div>
     <script>
@@ -71,7 +53,7 @@
         };
         (function() {
             var d = document, s = d.createElement('script');
-            s.src = 'https://{{ .Site.Params.comments.disqus.shortname }}.disqus.com/embed.js';
+            s.src = {{ printf "https://%s.disqus.com/embed.js" .Site.Params.comments.disqus.shortname | jsonify | safeJS }};
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
         })();
@@ -80,4 +62,3 @@
     {{- end -}}
 </div>
 {{- end -}}
-

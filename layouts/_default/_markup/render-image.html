@@ -11,6 +11,9 @@
 {{- end -}}
 
 {{- if $img -}}
+{{- if eq $img.MediaType.SubType "svg" -}}
+<img src="{{ $img.RelPermalink }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}" {{ end }} loading="lazy" decoding="async">
+{{- else -}}
 {{- /* Check for WebP version */ -}}
 {{- $webpSrc := replace $img.RelPermalink (path.Ext $img.RelPermalink) ".webp" -}}
 {{- $webpResource := resources.Get (replace $src (path.Ext $src) ".webp") -}}
@@ -30,10 +33,12 @@
 {{- else -}}
 <img src="{{ $img.RelPermalink }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}" {{ end }} width="{{ $width }}" height="{{ $height }}" loading="lazy" decoding="async">
 {{- end -}}
+{{- end -}}
 {{- else -}}
 {{- /* Image not found as resource, fallback to static path check */ -}}
 {{- $staticWebP := replace $src (path.Ext $src) ".webp" -}}
-{{- if (fileExists (printf "static%s" $staticWebP)) -}}
+{{- $staticWebPPath := path.Join "static" (strings.TrimPrefix "/" $staticWebP) -}}
+{{- if (fileExists $staticWebPPath) -}}
 <picture>
     <source srcset="{{ $staticWebP }}" type="image/webp">
     <img src="{{ $src }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}" {{ end }} loading="lazy" decoding="async">
@@ -44,5 +49,8 @@
 {{- end -}}
 {{- else -}}
 {{- /* Remote image */ -}}
+{{- if ne (urls.Parse $src).Scheme "https" -}}
+{{- errorf "remote image in %s must use HTTPS: %s" .Page.File.Path $src -}}
+{{- end -}}
 <img src="{{ $src }}" alt="{{ $alt }}" {{ with $title }}title="{{ . }}" {{ end }} loading="lazy" decoding="async">
 {{- end -}}
