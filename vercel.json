@@ -4,7 +4,7 @@
       "HUGO_VERSION": "0.148.1"
     }
   },
-  "buildCommand": "hugo --cleanDestinationDir --minify --baseURL=\"https://blog.nischalskanda.tech/\" && npx --yes pagefind@1.1.0 --site public",
+  "buildCommand": "hugo --cleanDestinationDir --minify && npx --yes pagefind@1.5.2 --site public",
   "outputDirectory": "public",
   "installCommand": "",
   "devCommand": "./dev.sh",

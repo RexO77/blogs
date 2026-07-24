@@ -69,7 +69,7 @@ draft: true
 description: ""
 tags: []
 categories: []
-author: "Nischal Skanda"
+author: ""
 slug: "${SLUG}"
 ---
 

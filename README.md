@@ -1,107 +1,68 @@
-# IDEA LABS
+# Hugo Blog Template
 
-A custom-built personal blog exploring AI, technology, cognitive science, and career insights.
+A clean, deployable Hugo blog starter with responsive post cards, light and dark themes, local fonts, Pagefind search, SEO metadata, RSS, related posts, image shortcodes, and optional comments and newsletter support.
 
-**Live Site:** [blog.nischalskanda.tech](https://blog.nischalskanda.tech)
+This repository intentionally ships with **no posts, personal images, author details, branding, or analytics identifiers**. Clone it, personalize the configuration, and start writing.
 
----
-
-## Overview
-
-IDEA LABS is a fully custom Hugo blog designed and developed from scratch—no third-party themes. It features a distinctive visual identity, performance-optimized architecture, and modern UX patterns.
-
-## Features
-
-### Design System
-
-- **Typography:** Satoshi (body) + Unbounded (headings) with optimized font loading
-- **Theming:** Light/dark mode with system preference detection and zero FOUC
-- **Glassmorphism:** Frosted glass UI elements with backdrop blur effects
-- **Responsive:** Mobile-first design with fluid typography and adaptive layouts
-
-### Performance
-
-- **Asset Pipeline:** CSS/JS minification and fingerprinting via Hugo Pipes
-- **Image Optimization:** WebP conversion, lazy loading, responsive images
-- **Search:** Pagefind integration for fast, client-side full-text search
-- **Caching:** Aggressive asset caching (1 year for static assets)
-
-### Content Features
-
-- **Reading Progress:** Animated progress bar with gradient glow
-- **Related Posts:** Tag and category-based recommendations
-- **Social Sharing:** Twitter and LinkedIn integration
-- **Comments:** Giscus (GitHub Discussions) support
-- **Newsletter:** Multi-provider support (Mailchimp, ConvertKit, Substack)
-- **Categories & Tags:** Full taxonomy system with archive pages
-
-### Technical
-
-- **SEO:** Schema.org markup, Open Graph, Twitter Cards, XML sitemap
-- **Analytics:** Vercel Analytics + Google Analytics support
-- **Accessibility:** Keyboard navigation, focus states, semantic HTML
-
-## Project Structure
-
-```
-├── assets/
-│   ├── css/style.css       # Complete design system (~2600 lines)
-│   └── js/
-│       ├── main.js         # Theme toggle, scroll effects, reading progress
-│       └── search.js       # Pagefind search integration
-├── content/posts/          # Blog posts (Markdown)
-├── layouts/
-│   ├── _default/           # Base templates
-│   ├── partials/           # Reusable components
-│   └── shortcodes/         # Custom image shortcodes
-├── static/fonts/           # Satoshi, Unbounded typefaces
-└── hugo.toml               # Site configuration
-```
-
-## Local Development
+## Quick start
 
 ```bash
-# Install Hugo (extended version required)
-brew install hugo
-
-# Start development server
-hugo server -D
-
-# Build for production
-hugo --minify
+git clone https://github.com/your-account/your-blog.git
+cd your-blog
+./dev.sh
 ```
 
-## Configuration
+Open `http://localhost:1313`. The development script uses a local URL automatically and includes draft posts.
 
-Key settings in `hugo.toml`:
+### Requirements
 
-```toml
-[params]
-  author = "Nischal Skanda"
-  mainSiteURL = "https://www.nischalskanda.tech/"
-  
-  # Enable/disable features
-  [params.comments]
-    enabled = true
-    system = "giscus"
-  
-  [params.newsletter]
-    enabled = true
-    provider = "mailchimp"
+- [Hugo extended](https://gohugo.io/installation/) (version 0.148 or newer)
+- Node.js 18 or newer (only required for the production search index)
+- Optional: `cwebp` from `brew install webp` for automatic WebP image optimization
+
+## Personalize in five minutes
+
+Open [`hugo.toml`](hugo.toml) and replace the values under **“Change these first”**:
+
+1. Set `baseURL` to your production domain.
+2. Change `title`, `author`, `description`, `keywords`, and metadata.
+3. Set `heroHeadline` and `authorBio`.
+4. Add your website and social-profile URLs only if you want to show them.
+5. Add `assets/profile.png` or `assets/profile.webp` if you want an author photo. It is optional.
+
+The default settings deliberately disable analytics, comments, and newsletters. Configure and enable them only after adding your own provider IDs and URLs.
+
+## Write and preview a post
+
+```bash
+./new-post.sh "My First Post"
+./dev.sh
 ```
 
-## Deployment
+This creates a draft at `content/posts/my-first-post/index.md` with a dedicated `images/` directory. See [WRITING-GUIDE.md](WRITING-GUIDE.md) for front matter, images, and publishing checks.
 
-Deployed on **Vercel** with automatic builds on push. Configuration in `vercel.json` handles routing and caching headers.
+## Build and deploy
 
-## Author
+```bash
+./build.sh
+./verify-urls.sh
+```
 
-**Nischal Skanda**
+`build.sh` creates the optimized Hugo site and Pagefind search index in `public/`. The included [`vercel.json`](vercel.json) runs the same production build on Vercel, but the generated `public/` directory can be deployed to any static host.
 
-- Portfolio: [nischalskanda.tech](https://www.nischalskanda.tech)
-- Twitter: [@nischalskanda](https://twitter.com/nischalskanda)
-- GitHub: [RexO77](https://github.com/RexO77)
+Before deploying, make sure `baseURL` in `hugo.toml` is your real production URL.
 
----
+## Project structure
 
-Built with [Hugo](https://gohugo.io) • Deployed on [Vercel](https://vercel.com)
+```text
+assets/                 CSS, JavaScript, and optional author photo
+content/posts/          Your Markdown post bundles (starts empty)
+archetypes/             New-post front-matter defaults
+layouts/                Hugo templates, partials, and shortcodes
+scripts/                Image optimization and SEO checks
+static/                 Fonts, generic favicon, and web manifest
+```
+
+## License
+
+See [LICENSE](LICENSE). Confirm you have the rights to every post, image, font, and brand asset you add before publishing.

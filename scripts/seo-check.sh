@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# SEO Performance Checker for IDEA LABS Blog
+# SEO Performance Checker
 # Run this script periodically to check SEO health
 
-echo "🔍 SEO Health Check for IDEA LABS Blog"
+echo "🔍 SEO Health Check"
 echo "======================================"
 
 # Check if Hugo is available
@@ -79,11 +79,6 @@ else
     echo "❌ Robots.txt not found"
 fi
 
-# Portfolio link check (optimized to count only)
-echo "🔗 Checking portfolio links..."
-portfolio_links=$(grep -roh "nischalskanda.tech" public --include="*.html" | wc -l | tr -d ' ')
-echo "✅ Found $portfolio_links references to portfolio site"
-
 echo ""
 echo "📊 SEO Summary:"
 echo "==============="
@@ -94,14 +89,13 @@ else
     echo "- Image alt tags: Issues found ($missing_alt missing)"
 fi
 echo "- Canonical URLs: $(( total_html - missing_canonical )) / $total_html"
-echo "- Portfolio links: $portfolio_links found"
 
 echo ""
 echo "💡 Next steps:"
 echo "- Add meta descriptions to pages missing them"
 echo "- Add alt tags to images without them"
 echo "- Monitor site performance with Google Search Console"
-echo "- Create more high-quality content linking to portfolio"
+echo "- Add internal links between related posts"
 
 echo ""
 echo "🎉 SEO check complete!"

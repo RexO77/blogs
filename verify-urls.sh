@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # URL verification script
-# Checks if the built files have the correct production URLs
+# Checks that the built files do not contain local development URLs.
 
 echo "🔍 Verifying production URLs in built files..."
 echo ""
@@ -15,11 +15,6 @@ if grep -rq "localhost" public/ 2>/dev/null; then
     echo "🛠️  Solution: Run './build.sh' or 'hugo --cleanDestinationDir' to rebuild with production URLs"
     exit 1
 else
-    echo "✅ All URLs are correct for production deployment"
-    echo "🌐 Using production domain: blog.nischalskanda.tech"
-    
-    # Show a sample of URLs to verify (optimized to extract only needed data)
-    echo ""
-    echo "📋 Sample URLs found:"
-    grep -roh 'https://[^"[:space:]]*' public/ 2>/dev/null | grep "blog.nischalskanda.tech" | head -3
+    echo "✅ No localhost URLs found in the production build"
+    echo "💡 Confirm that baseURL in hugo.toml matches your production domain before deploying."
 fi

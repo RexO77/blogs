@@ -21,21 +21,14 @@ jobs:
       with:
         hugo-version: '0.148.1'
         extended: true
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
     
     - name: Build site
-      run: hugo --cleanDestinationDir --minify --baseURL="https://blog.nischalskanda.tech/"
+      run: ./build.sh
     
     - name: Verify production URLs
-      run: |
-        echo "🔍 Verifying no localhost URLs in production build..."
-        if grep -r "localhost" public/ 2>/dev/null; then
-          echo "❌ ERROR: Found localhost URLs in production build!"
-          exit 1
-        else
-          echo "✅ All URLs are correct for production"
-        fi
-        
-    - name: Check for broken links (optional)
-      run: |
-        echo "📋 Sample URLs found:"
-        grep -r "blog.nischalskanda.tech" public/ | head -3 | sed 's/.*href="//g' | sed 's/".*//g' || echo "No URLs found"
+      run: ./verify-urls.sh

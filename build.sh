@@ -1,19 +1,18 @@
 #!/bin/bash
 
 # Production build script
-# This builds the site with production URLs for deployment
 
 echo "🏗️  Building site for production..."
-echo "🌐 Using production baseURL: https://blog.nischalskanda.tech/"
+echo "🌐 Using the baseURL configured in hugo.toml"
 echo ""
 
-# Clean and build for production with explicit baseURL
-hugo --cleanDestinationDir --minify --baseURL="https://blog.nischalskanda.tech/"
+# Clean and build for production using the configured baseURL
+hugo --cleanDestinationDir --minify
 
 # Build Pagefind search index
 echo ""
 echo "🔍 Building search index with Pagefind..."
-npx --yes pagefind@latest --site public
+npx --yes pagefind@1.5.2 --site public
 
 echo ""
 echo "✅ Production build complete!"

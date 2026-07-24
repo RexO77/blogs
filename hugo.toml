@@ -1,16 +1,15 @@
-baseURL = "https://blog.nischalskanda.tech/"
+baseURL = "https://example.com/"
 languageCode = "en-us"
-title = "IDEA LABS"
+title = "My Blog"
 enableRobotsTXT = true
 enableGitInfo = true
 canonifyURLs = true
 
-# Output formats (JSON removed - Pagefind handles search indexing)
+# Output formats (Pagefind builds the search index after Hugo renders the site.)
 [outputs]
   home = ["HTML", "RSS"]
   section = ["HTML", "RSS"]
 
-# SEO and Performance
 [sitemap]
   changefreq = "weekly"
   priority = 0.5
@@ -20,48 +19,46 @@ canonifyURLs = true
   pagerSize = 15
 
 [params]
-  # Basic Info
-  description = "Explore cutting-edge ideas in AI, technology, and design. Nischal Skanda shares insights on cognitive science, brain health, and the future of human-AI interaction."
-  keywords = ["AI", "Technology", "Cognitive Science", "Brain Health", "Design", "Innovation", "Nischal Skanda", "Portfolio", "Tech Blog"]
-  author = "Nischal Skanda"
-  mainSiteURL = "https://www.nischalskanda.tech/"
+  # Change these first when you start a new blog.
+  description = "A personal blog about ideas worth sharing."
+  keywords = ["Blog", "Writing", "Ideas"]
+  author = "Your Name"
+  authorBio = "Write a short introduction that tells readers who you are and what you write about."
+  mainSiteURL = ""
+  mainSiteLabel = "Website"
+  showAuthorBio = true
+  heroHeadline = "A BLOG ABOUT <em>WHAT MATTERS.</em>"
 
   # SEO
-  metaTitle = "IDEA LABS - Tech Insights by Nischal Skanda"
-  metaDescription = "Discover innovative perspectives on AI, technology, and design from Nischal Skanda. Expert insights on cognitive science, brain health, and human-computer interaction."
-
-  # Social Media
-  twitter = "@nischalskanda"  # Add your Twitter handle
-  linkedin = "nischalskanda"  # Add your LinkedIn username
-  github = "RexO77"          # Your GitHub username
-
-  # Open Graph / Social Media
-  ogImage = "/apple-touch-icon.png"  # Existing fallback social image
+  metaTitle = "My Blog"
+  metaDescription = "A personal blog about ideas worth sharing."
+  ogImage = "/favicon.svg"
   twitterCard = "summary_large_image"
+
+  # Social profiles. Leave blank to hide them.
+  twitter = ""
+  linkedin = ""
+  github = ""
 
   # Schema.org
   schemaType = "Blog"
-  schemaAuthor = "Nischal Skanda"
-  schemaPublisher = "IDEA LABS"
+  schemaAuthor = "Your Name"
+  schemaPublisher = "My Blog"
 
-  # Analytics (add your tracking IDs)
-  googleAnalytics = ""  # Add your GA4 tracking ID
-  vercelAnalytics = true  # Enable Vercel Analytics
+  # Analytics. Set these only after connecting your own accounts.
+  googleAnalytics = ""
+  vercelAnalytics = false
 
-  # Comments System Configuration
   [params.comments]
     enabled = false
-    system = "giscus"  # Options: "giscus", "utterances", "disqus"
+    system = "giscus" # Options: giscus, utterances, disqus
 
-    # Giscus Configuration (GitHub Discussions)
-    # To set up: Visit https://giscus.app/ and follow the setup guide
-    # You'll need to enable Discussions on your GitHub repo
     [params.comments.giscus]
-      repo = "RexO77/blogs"  # Your GitHub repo
-      repoId = "R_kgDOPTHrAg"  # From giscus.app
-      category = "Ideas"  # Discussion category name
-      categoryId = "DIC_kwDOPTHrAs4CxjGf"  # From giscus.app
-      mapping = "pathname"  # How to map posts to discussions
+      repo = ""
+      repoId = ""
+      category = ""
+      categoryId = ""
+      mapping = "pathname"
       strict = "0"
       reactionsEnabled = "1"
       emitMetadata = "0"
@@ -69,46 +66,37 @@ canonifyURLs = true
       theme = "preferred_color_scheme"
       lang = "en"
 
-    # Alternative: Utterances (GitHub Issues)
     [params.comments.utterances]
-      repo = ""  # Your GitHub username/repo
+      repo = ""
       issueTerm = "pathname"
       theme = "github-light"
 
-    # Alternative: Disqus
     [params.comments.disqus]
-      shortname = ""  # Your Disqus shortname
+      shortname = ""
 
-  # Newsletter Configuration
   [params.newsletter]
     enabled = false
     title = "Stay in the Loop"
-    description = "Get weekly insights on AI, tech, and career advice. Join readers who stay ahead of the curve."
-    provider = "mailchimp"  # Options: "mailchimp", "convertkit", "substack", "custom"
+    description = "Get new posts delivered to your inbox. No spam, unsubscribe anytime."
+    provider = "mailchimp" # Options: mailchimp, convertkit, substack, custom
 
-    # Mailchimp Configuration
     [params.newsletter.mailchimp]
-      action = "https://tech.us21.list-manage.com/subscribe/post?u=YOUR_USER_ID&id=YOUR_LIST_ID"  # UPDATE THIS!
-      hiddenField = "b_YOUR_USER_ID_YOUR_LIST_ID"  # Anti-bot field name
+      action = ""
+      hiddenField = ""
 
-    # ConvertKit Configuration
     [params.newsletter.convertkit]
-      action = "https://app.convertkit.com/forms/YOUR_FORM_ID/subscriptions"  # UPDATE THIS!
-      formId = "YOUR_FORM_ID"
-      uid = "YOUR_UID"
+      action = ""
+      formId = ""
+      uid = ""
 
-    # Substack Configuration
     [params.newsletter.substack]
-      url = "https://yoursubstack.substack.com"  # UPDATE THIS!
+      url = ""
 
-    # Custom Configuration (for your own backend)
     [params.newsletter.custom]
-      action = "/api/newsletter/subscribe"  # Your API endpoint
+      action = ""
 
-# Performance
   lazyLoading = true
 
-# Build performance
 [build]
   writeStats = true
 
@@ -122,18 +110,16 @@ canonifyURLs = true
 
 [caches]
   [caches.images]
-    maxAge = "8760h"  # 1 year
+    maxAge = "8760h"
   [caches.assets]
-    maxAge = "8760h"  # 1 year
+    maxAge = "8760h"
 
 [imaging]
-  # Optimized image settings for performance
   quality = 85
   resampleFilter = "Lanczos"
   hint = "photo"
   anchor = "Smart"
 
-  # Generate WebP versions for better performance
   [imaging.webp]
     quality = 85
 
@@ -146,7 +132,6 @@ canonifyURLs = true
     lineNos = true
     codeFences = true
 
-# Menu configuration for better navigation
 [menu]
   [[menu.main]]
     name = "Home"
@@ -156,20 +141,12 @@ canonifyURLs = true
     name = "Posts"
     url = "/posts/"
     weight = 20
-  [[menu.main]]
-    name = "Portfolio"
-    url = "https://www.nischalskanda.tech/"
-    weight = 30
-    [menu.main.params]
-      external = true
 
-# Taxonomies for better content organization
 [taxonomies]
   category = "categories"
   tag = "tags"
   series = "series"
 
-# Related content configuration
 [related]
   threshold = 80
   includeNewer = true
