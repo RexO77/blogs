@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 # Production build script
 
 echo "🏗️  Building site for production..."

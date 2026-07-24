@@ -5,7 +5,7 @@
     <div class="related-posts-grid">
         {{- range $related -}}
         <article class="related-post-card">
-            <a href="{{ .Permalink }}" class="related-post-link">
+            <a href="{{ .RelPermalink }}" class="related-post-link">
                 {{- $thumbnail := "" }}
                 {{- if .Params.thumbnail }}
                     {{- if or (hasPrefix .Params.thumbnail "http://") (hasPrefix .Params.thumbnail "https://") (hasPrefix .Params.thumbnail "/") -}}

@@ -74,7 +74,7 @@
                 </button>
 
                 <!-- Centered logo -->
-                <a class="logo" href="{{ .Site.Home.Permalink }}">{{ .Site.Title }}</a>
+                <a class="logo" href="{{ .Site.Home.RelPermalink }}">{{ .Site.Title }}</a>
 
                 {{ with .Site.Params.mainSiteURL }}
                 <a class="main-site-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ $.Site.Params.mainSiteLabel | default "Website" }}</a>

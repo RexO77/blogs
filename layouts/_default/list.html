@@ -12,7 +12,7 @@
         {{ range $p.Pages }}
         {{- $hideThumbnail := .Params.hide_thumbnail | default false }}
         <article class="post-card{{ if $hideThumbnail }} post-card--text-only{{ end }}">
-            <a href="{{ .Permalink }}" class="post-card-link" aria-label="Open article: {{ .Title }}">
+            <a href="{{ .RelPermalink }}" class="post-card-link" aria-label="Open article: {{ .Title }}">
                 {{- $thumbnailSrc := "" }}
                 {{- $thumbnailResource := "" }}
 

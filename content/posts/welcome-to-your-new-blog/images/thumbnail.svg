@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Your Ideas Live Here</title>
+  <desc id="desc">An editorial illustration with bold blue, yellow, and black geometric shapes.</desc>
+  <rect width="1200" height="630" fill="#f8f7f3"/>
+  <circle cx="1068" cy="94" r="180" fill="#ffd700"/>
+  <rect x="-96" y="438" width="560" height="280" rx="72" fill="#0099ff" transform="rotate(-8 -96 438)"/>
+  <path d="M890 630 1200 302V630Z" fill="#1a1a1a"/>
+  <path d="M0 0h436L236 194 0 282Z" fill="#1a1a1a"/>
+  <rect x="150" y="190" width="900" height="250" rx="28" fill="#f8f7f3" stroke="#1a1a1a" stroke-width="8"/>
+  <text x="600" y="283" fill="#1a1a1a" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" text-anchor="middle" letter-spacing="8">YOUR IDEAS</text>
+  <text x="600" y="378" fill="#1a1a1a" font-family="Arial, Helvetica, sans-serif" font-size="82" font-weight="900" text-anchor="middle">LIVE HERE.</text>
+</svg>

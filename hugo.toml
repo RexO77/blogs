@@ -3,7 +3,9 @@ languageCode = "en-us"
 title = "My Blog"
 enableRobotsTXT = true
 enableGitInfo = true
-canonifyURLs = true
+# Keep assets and internal navigation on the current host so a fresh template
+# deployment works before the new owner sets their production baseURL.
+canonifyURLs = false
 
 # Output formats (Pagefind builds the search index after Hugo renders the site.)
 [outputs]
