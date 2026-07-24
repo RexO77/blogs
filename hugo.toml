@@ -119,7 +119,7 @@ canonifyURLs = false
     [markup.goldmark.renderer]
       unsafe = false
   [markup.highlight]
-    style = "github"
+    noClasses = false
     lineNos = true
     codeFences = true
 
