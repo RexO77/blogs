@@ -17,7 +17,7 @@
   {{- $description = .Site.Params.description | default .Site.Title -}}
 {{- end -}}
 
-{{- $ogImage := .Site.Params.ogImage | default "/og-default.png" -}}
+{{- $ogImage := .Site.Params.ogImage | default "og-default.png" -}}
 {{- if .IsPage -}}
   {{- $thumb := .Resources.GetMatch "*thumbnail*" -}}
   {{- if not $thumb -}}

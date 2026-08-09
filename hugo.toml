@@ -30,7 +30,7 @@ canonifyURLs = false
   # SEO
   metaTitle = "My Blog"
   metaDescription = "A personal blog about ideas worth sharing."
-  ogImage = "/og-default.png"
+  ogImage = "og-default.png"
   twitterCard = "summary_large_image"
 
   # Social profiles. Leave blank to hide them.

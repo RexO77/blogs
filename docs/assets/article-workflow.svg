@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" role="img" aria-labelledby="title description">
+  <title id="title">Article workflow</title>
+  <desc id="description">Create an article folder, write Markdown, preview locally, then publish.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 8 4 0 8Z" fill="#1a1a1a"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="340" fill="#F8F7F3"/>
+  <rect x="0" y="0" width="12" height="340" fill="#FFD700"/>
+
+  <g font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif">
+    <text x="52" y="58" fill="#1a1a1a" font-size="25" font-weight="700">Publish an article</text>
+    <text x="1148" y="57" text-anchor="end" fill="#666666" font-size="13">MARKDOWN → HUGO → STATIC HTML</text>
+    <path d="M52 84H1148" stroke="#1a1a1a"/>
+
+    <g transform="translate(52 122)">
+      <rect width="28" height="28" fill="#FFD700"/>
+      <text x="14" y="20" text-anchor="middle" fill="#1a1a1a" font-size="13" font-weight="700">1</text>
+      <text y="62" fill="#1a1a1a" font-size="19" font-weight="700">Create</text>
+      <text y="93" fill="#006EBA" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">./new-post.sh</text>
+      <text y="128" fill="#666666" font-size="14">A draft folder is created.</text>
+    </g>
+
+    <g transform="translate(330 122)">
+      <rect width="28" height="28" fill="#FFD700"/>
+      <text x="14" y="20" text-anchor="middle" fill="#1a1a1a" font-size="13" font-weight="700">2</text>
+      <text y="62" fill="#1a1a1a" font-size="19" font-weight="700">Write</text>
+      <text y="93" fill="#006EBA" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">index.md + images/</text>
+      <text y="128" fill="#666666" font-size="14">Text and media stay together.</text>
+    </g>
+
+    <g transform="translate(622 122)">
+      <rect width="28" height="28" fill="#FFD700"/>
+      <text x="14" y="20" text-anchor="middle" fill="#1a1a1a" font-size="13" font-weight="700">3</text>
+      <text y="62" fill="#1a1a1a" font-size="19" font-weight="700">Preview</text>
+      <text y="93" fill="#006EBA" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">./dev.sh</text>
+      <text y="128" fill="#666666" font-size="14">Drafts appear at localhost:1313.</text>
+    </g>
+
+    <g transform="translate(908 122)">
+      <rect width="28" height="28" fill="#FFD700"/>
+      <text x="14" y="20" text-anchor="middle" fill="#1a1a1a" font-size="13" font-weight="700">4</text>
+      <text y="62" fill="#1a1a1a" font-size="19" font-weight="700">Publish</text>
+      <text y="93" fill="#006EBA" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">draft: false</text>
+      <text y="128" fill="#666666" font-size="14">Check, commit, and push.</text>
+    </g>
+
+    <path d="M52 292H1140" stroke="#1a1a1a" marker-end="url(#arrow)"/>
+    <circle cx="52" cy="292" r="4" fill="#1a1a1a"/>
+  </g>
+</svg>

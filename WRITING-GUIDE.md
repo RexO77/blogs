@@ -1,49 +1,112 @@
 # Writing Guide
 
-## Create a post
+Each article is a Markdown file with its own image folder.
+
+![Create, write, preview, and publish an article.](docs/assets/article-workflow.svg)
+
+## Create
+
+Use the guided command:
+
+```bash
+./new-post.sh
+```
+
+Or pass the title directly:
 
 ```bash
 ./new-post.sh "Your Article Title"
 ```
 
-The command creates `content/posts/your-article-title/`, an `images/` folder, and an `index.md` draft. Run `./dev.sh` to preview it at `http://localhost:1313`.
+The result:
 
-## Front matter
+```text
+content/posts/your-article-title/
+├── index.md
+└── images/
+```
+
+## Write
+
+Article metadata lives at the top of `index.md`:
 
 ```yaml
 ---
 title: "Your Article Title"
-date: 2026-01-01T08:30:00+00:00
+date: 2026-01-01T08:30:00Z
 draft: true
-description: "A concise, reader-focused summary of the post."
-tags: ["Topic"]
-categories: ["Category"]
-author: "" # Optional: leave blank to use the site author in hugo.toml
+description: "A short, useful summary."
+tags: ["Design", "Engineering"]
+categories: ["Notes"]
+author: ""
 slug: "your-article-title"
 ---
 ```
 
-Set `draft: false` when the post is ready to publish.
+| Field | Purpose |
+| --- | --- |
+| `title` | Article and browser title |
+| `date` | Publication date and ordering |
+| `draft` | `true` hides the article from production |
+| `description` | Cards, search, and social preview copy |
+| `tags` | Topic pages and related articles |
+| `categories` | Broader grouping |
+| `author` | Optional override; blank uses the site author |
+| `slug` | Public URL segment |
 
-The `description` is used on listing cards, in search, and in social metadata, so keep it specific and useful.
+Write normal Markdown below the front matter.
 
-## Images
+## Add images
 
-Optionally put a card image at `content/posts/your-slug/images/thumbnail.jpg` (or `.png`/`.webp`). Without one, the listing uses a neutral placeholder. A good thumbnail size is 1200 × 630 px.
-
-Use the image shortcode inside a post:
+Place images in the article bundle:
 
 ```text
-{{< img src="images/your-image.jpg" alt="Describe the image" caption="Optional caption" >}}
+images/
+├── thumbnail.webp
+└── diagram.png
 ```
 
-## Before publishing
+`thumbnail.jpg`, `.png`, or `.webp` becomes the article-card image. A useful source size is 1200 × 630.
 
-- Use a descriptive title and summary.
-- Add useful alt text to every image.
-- Use headings to make longer posts scannable.
-- Link to relevant internal or authoritative external sources.
-- Set `draft: false`.
-- Run `npm ci` after pulling dependency changes.
-- Run `./scripts/check.sh`.
-- Open the production build and test home → article → home, search, theme switching, and a mobile viewport.
+Use the image shortcode when you need a caption:
+
+```text
+{{< img src="images/diagram.png" alt="Describe the image" caption="Optional caption" >}}
+```
+
+Standard Markdown images also work:
+
+```markdown
+![Describe the image](images/diagram.png)
+```
+
+Always include useful alt text.
+
+## Preview and publish
+
+```bash
+./dev.sh
+```
+
+Drafts and future-dated articles appear at `http://localhost:1313`.
+
+When ready:
+
+1. Set `draft: false`.
+2. Run `npm run check`.
+3. Review the article locally.
+4. Commit and push the article folder.
+
+Changing `slug` changes the public URL. Deleting an article means deleting its entire folder.
+
+## Final check
+
+- Clear title and description
+- Useful headings
+- Compressed images with alt text
+- Relevant tags and categories
+- Working links
+- `draft: false`
+- `npm run check` passes
+
+[Documentation](docs/README.md) · [Hugo Reference](docs/hugo-guide.md)

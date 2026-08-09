@@ -1,77 +1,88 @@
 # Hugo Blog Template
 
-A clean, deployable Hugo blog starter with responsive post cards, light and dark themes, local fonts, Pagefind search, SEO metadata, RSS, related posts, image helpers, and optional comments and newsletter support.
+A self-hosted blog built with Hugo and Markdown. Includes local search, dark mode, SEO, RSS, image helpers, and optional comments and newsletters.
 
-The repository ships with one clearly labeled sample article so the homepage, search, article layout, tags, and sharing controls can be evaluated before real content is added. It contains no personal author details or analytics identifiers.
+[Live demo](https://blog.nischal.fyi) · [Use this template](https://github.com/new?template_name=blogs&template_owner=RexO77) · [Documentation](docs/README.md)
+
+![Create, write, preview, and publish an article.](docs/assets/article-workflow.svg)
 
 ## Quick start
 
+Create a repository with **Use this template**, then clone your copy:
+
 ```bash
-git clone https://github.com/your-account/your-blog.git
-cd your-blog
+git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git
+cd YOUR-REPOSITORY
 npm ci
 ./dev.sh
 ```
 
-Open `http://localhost:1313`. The development script uses a local URL automatically and includes draft posts.
+Open `http://localhost:1313`.
 
-### Requirements
+Requires Node.js 20+ and [Hugo Extended](docs/getting-started.md#install-hugo) 0.156.0+.
 
-- [Hugo extended](https://gohugo.io/installation/) (version 0.156 or newer)
-- Node.js 20 or newer
-- Optional: `cwebp` from `brew install webp` for automatic WebP image optimization
+## Configure
 
-## Personalize in five minutes
+Edit `hugo.toml`:
 
-Open [`hugo.toml`](hugo.toml) and replace the values under **“Change these first”**:
+```toml
+baseURL = "https://blog.example.com/"
+title = "My Blog"
 
-1. Set `baseURL` to your production domain (the demo uses `https://blog.nischal.fyi/`).
-2. Change `title`, `author`, `description`, and social metadata.
-3. Set `heroHeadline` and `authorBio`.
-4. Add your website and social-profile URLs only if you want to show them.
-5. Add `assets/profile.png` or `assets/profile.webp` if you want an author photo. It is optional.
-
-The default settings deliberately disable analytics, comments, and newsletters. Configure and enable them only after adding your own provider IDs and URLs.
-
-When your first real article is ready, delete `content/posts/welcome-to-your-new-blog/`.
-
-## Write and preview a post
-
-```bash
-./new-post.sh "My First Post"
-./dev.sh
+[params]
+  author = "Your Name"
+  description = "What this blog is about."
+  heroHeadline = "A BLOG ABOUT <em>WHAT MATTERS.</em>"
 ```
 
-This creates a draft at `content/posts/my-first-post/index.md` with a dedicated `images/` directory. See [WRITING-GUIDE.md](WRITING-GUIDE.md) for front matter, images, and publishing checks.
+See [Getting Started](docs/getting-started.md) for profile, social, SEO, comments, and newsletter settings.
 
-## Build and deploy
+## Write
+
+```bash
+./new-post.sh
+```
+
+Or skip the prompts:
+
+```bash
+./new-post.sh "My First Article"
+```
+
+```text
+content/posts/my-first-article/
+├── index.md
+└── images/
+```
+
+Write in `index.md`, preview with `./dev.sh`, and set `draft: false` when the article is ready. The [Writing Guide](WRITING-GUIDE.md) covers front matter and images.
+
+## Deploy
+
+![Build the repository once and deploy the public directory to a static host.](docs/assets/deployment-map.svg)
+
+| Setting | Value |
+| --- | --- |
+| Install | `npm ci` |
+| Build | `./build.sh` |
+| Output | `public` |
+| Runtime | Node 20 · Hugo 0.156.0+ |
+
+Vercel and Netlify configuration is included. Cloudflare Pages, GitHub Pages, and other static hosts are covered in the [Deployment Guide](docs/deployment.md).
+
+Before publishing:
 
 ```bash
 npm run check
 ```
 
-`build.sh` creates the optimized Hugo site and pinned Pagefind search index in `public/`, then rejects localhost and placeholder production URLs. `scripts/check.sh` also validates shell and JavaScript syntax plus essential SEO output.
+## Documentation
 
-The included [`vercel.json`](vercel.json) runs the same locked build on Vercel and adds conservative security and caching headers. The generated `public/` directory can also be deployed to any static host.
-
-Before deploying, make sure `baseURL` in `hugo.toml` is your real production URL.
-
-## Project structure
-
-```text
-assets/                 CSS, JavaScript, and optional author photo
-content/posts/          Markdown post bundles and the removable sample article
-archetypes/             New-post front-matter defaults
-layouts/                Hugo templates, partials, and shortcodes
-scripts/                Image optimization and SEO checks
-static/                 Local fonts and generic social/favicon assets
-package.json            Locked Pagefind dependency and repeatable npm scripts
-```
-
-## Quality gates
-
-Pull requests and pushes to `main` run the same production checks in GitHub Actions. A deployment fails when Hugo cannot render content, an image shortcode points to a missing resource, an enabled integration is incomplete, or the generated site contains local/placeholder URLs.
+- [Getting Started](docs/getting-started.md) — install and configure
+- [Writing Guide](WRITING-GUIDE.md) — create and publish articles
+- [Hugo Reference](docs/hugo-guide.md) — understand this template
+- [Deployment Guide](docs/deployment.md) — put it online
 
 ## License
 
-See [LICENSE](LICENSE). Confirm you have the rights to every post, image, font, and brand asset you add before publishing.
+[Apache 2.0](LICENSE). You are responsible for the rights to content and assets you publish.
